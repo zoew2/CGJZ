@@ -75,7 +75,13 @@ class Document():
             sens_c.append(newsen)
         return sens_c
 
-
+    def get_sen_bypos(self, sen_pos):
+        """
+        get a Sen obj by its sentence position
+        :param sen_pos:
+        :return:
+        """
+        return self.sens[sen_pos]
 
 def main():
 
