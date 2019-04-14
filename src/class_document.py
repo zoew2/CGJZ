@@ -1,11 +1,19 @@
 from nltk import tokenize
 from class_sentence import Sentence
 
+"""
+This is a module file of Document class.
+Input document id, it grabs document from hard-coded path and store the information of document in the class, including
+source, language, date, year, article id, path, headline, text, sentences(list of Sentence objects).
+
+e.g., newdoc = Document("XIN_ENG_20041113.0001")
+
+"""
 
 class Document():
     def __init__(self, docid):
         """
-
+        initialize Document class
         :param docid: e.g. "XIN_ENG_20041113.0001"
         """
         self.src = docid.split(".")[0].split("_")[0]  # source
@@ -25,7 +33,7 @@ class Document():
             self.docid_inxml = self.src + self.date + "." + self.art_id  # APW19980613.0001
 
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
-        self.sens = self.tok_toSens(self.text)  # sen objects
+        self.sens = self.tok_toSens(self.text)  # list of sen objects
 
     def get_doc(self, path, id_xml):
         """
