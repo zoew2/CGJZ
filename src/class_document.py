@@ -19,14 +19,13 @@ class Document():
                         self.src.lower() + "_" + self.lang.lower() + "_" + self.date[:-2]+".xml"
             self.docid_inxml = docid
 
-
         else:
             self.path = "/corpora/LDC/LDC02T31/" + self.src.lower() + "/" + self.year + "/" + \
                         self.date + "_" + self.src+ "_" + self.lang
-            self.docid_inxml=self.src+self.date+"."+self.art_id  # APW19980613.0001
+            self.docid_inxml = self.src + self.date + "." + self.art_id  # APW19980613.0001
 
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
-        self.sens=self.tok_toSens(self.text)  # sen objects
+        self.sens = self.tok_toSens(self.text)  # sen objects
 
     def get_doc(self, path, id_xml):
         """
@@ -35,29 +34,29 @@ class Document():
         :param id_xml:
         :return: headline, text
         """
-        headline=''
-        text=''
+        headline = ''
+        text = ''
         with open(path) as f:
-            line=f.readline()
+            line = f.readline()
             while id_xml not in line:
                 line = f.readline()
             while "<HEADLINE>" not in line:
                 line = f.readline()
             line = f.readline()
             while "</HEADLINE>" not in line:
-                headline+=line
+                headline += line
                 line = f.readline()
             while "<TEXT>" not in line:
                 line = f.readline()
             line = f.readline().strip('\n').replace("\t", "\n")
             while "</TEXT>" not in line:
                 if "<P>" not in line and "</P>" not in line:
-                    text+=line+ ' '
+                    text += line + ' '
                 line = f.readline().strip('\n').replace("\t", "\n")
 
         return headline, text
 
-    def tok_toSens(self,text):
+    def tok_toSens(self, text):
         """
         create Sentence class for each sen from text
         :param text:
@@ -66,7 +65,7 @@ class Document():
         sens=tokenize.sent_tokenize(text)  # plain sens
         sens_c=[]  # sens in class structure
         for sen_pos in range(len(sens)):
-            newsen=Sentence(sens[sen_pos],sen_pos)
+            newsen = Sentence(sens[sen_pos], sen_pos)
 
             sens_c.append(newsen)
         return sens_c
