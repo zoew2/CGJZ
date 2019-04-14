@@ -29,7 +29,7 @@ class SummaryGenerator:
 
         selector = ContentSelector()
 
-        return selector.get_salient_content(self.documents)
+        return selector.select_content(self.documents)
 
     def order_information(self, salient_info):
         """
