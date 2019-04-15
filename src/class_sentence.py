@@ -64,6 +64,13 @@ class Sentence():
         """
         return self.doc_id
 
+    def plain(self):
+        """
+       return plain text sentence without tokenization or punctuation stripping
+       :return:
+       """
+        return self.curr_sentence
+
     def __tokenize_sentence(self):
         """
         tokenize sentence and remove sentence-level punctiation,
