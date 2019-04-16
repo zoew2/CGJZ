@@ -4,7 +4,7 @@ from class_sentence import Sentence
 """
 This is a module file of Document class.
 Input: document id. It grabs document from hard-coded path and stores the information of document in the class, including
-source, language, date, year, article id, path, headline, text, sentences(list of Sentence objects).
+docid, source, language, date, year, article id, path, headline, text, sentences(list of Sentence objects).
 
 e.g., newdoc = Document("XIN_ENG_20041113.0001")
 
