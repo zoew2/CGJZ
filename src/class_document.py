@@ -3,29 +3,31 @@ from class_sentence import Sentence
 
 """
 This is a module file of Document class.
-Input document id, it grabs document from hard-coded path and store the information of document in the class, including
+Input: document id. It grabs document from hard-coded path and stores the information of document in the class, including
 source, language, date, year, article id, path, headline, text, sentences(list of Sentence objects).
 
 e.g., newdoc = Document("XIN_ENG_20041113.0001")
 
 """
 
+
 class Document():
-    def __init__(self, docid):
+    def __init__(self, input_docid):
         """
         initialize Document class
         :param docid: e.g. "XIN_ENG_20041113.0001"
         """
-        self.src = docid.split(".")[0].split("_")[0]  # source
-        self.lang = docid.split(".")[0].split("_")[1]  # language
-        self.date = docid.split(".")[0].split("_")[2]  # date - 20041113
+        self.docid=input_docid  # docid
+        self.src = self.docid.split(".")[0].split("_")[0]  # source
+        self.lang = self.docid.split(".")[0].split("_")[1]  # language
+        self.date = self.docid.split(".")[0].split("_")[2]  # date - 20041113
         self.year = self.date[:4]  # year - 2004
-        self.art_id = docid.split(".")[1]  # .0001
+        self.art_id = self.docid.split(".")[1]  # .0001
 
         if int(self.year) > 2000:  # get path, if date belongs to 2004+
             self.path = "/corpora/LDC/LDC08T25/data/" + self.src.lower() + "_" + self.lang.lower() + "/" + \
                         self.src.lower() + "_" + self.lang.lower() + "_" + self.date[:-2]+".xml"
-            self.docid_inxml = docid
+            self.docid_inxml = self.docid
 
         else:
             self.path = "/corpora/LDC/LDC02T31/" + self.src.lower() + "/" + self.year + "/" + \
@@ -60,6 +62,8 @@ class Document():
             while "</TEXT>" not in line:
                 if "<P>" not in line and "</P>" not in line:
                     text += line + ' '
+                else:
+                    text += '\n'  # separate paragraphs
                 line = f.readline().strip('\n').replace("\t", "\n")
 
         return headline, text
@@ -84,5 +88,6 @@ class Document():
         :param sen_pos:
         :return: self.sens[sen_pos]
         """
+        if sen_pos >= len(self.sens):
+            raise Exception("Sentence position exceeds length of document! Document id: " + self.docid)
         return self.sens[sen_pos]
-
