@@ -1,5 +1,5 @@
 import sys
-from .summary_generator import SummaryGenerator
+from .base_summary_generator import BaseSummaryGenerator
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
     input_file = open(input_filename, "r")
     input = input_file.readlines()
 
-    summarizer = SummaryGenerator(input)
+    summarizer = BaseSummaryGenerator(input)
 
     # read in output filename
     output_file = sys.argv[2]
