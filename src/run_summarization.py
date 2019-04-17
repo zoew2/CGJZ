@@ -1,7 +1,10 @@
 import sys
 from bs4 import BeautifulSoup
-from .document import Document
-from .summary_generator import SummaryGenerator
+from .class_document import Document
+from .base_summary_generator import BaseSummaryGenerator
+from .base_content_selector import BaseContentSelector
+from .lead_summary_generator import LeadSummaryGenerator
+from .lead_sentence_selector import LeadSentenceSelector
 
 
 def make_soup(topic_filename):
@@ -50,17 +53,23 @@ def main():
     topic_filename = sys.argv[1]
     topic_soup = make_soup(topic_filename)
 
+    # read in version
+    version = sys.argv[2]
+
     topics = load_documents_for_topics(topic_soup)
 
     # for each topic, load the documents and generate the summary
     for topic_id, documents in topics.items():
-            summarizer = SummaryGenerator(documents)
-            output_file = topic_id + "_out"
+        if version == '1':
+            summarizer = LeadSummaryGenerator(documents, LeadSentenceSelector())
+        else:
+            summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
+        output_file = topic_id + "_out"
 
-            with open(output_file, "a") as f:
+        with open(output_file, "a") as f:
 
-                # print summary
-                print(summarizer.generate_summary(), file=f)
+            # print summary
+            print(summarizer.generate_summary(), file=f)
 
 
 if __name__ == "__main__":

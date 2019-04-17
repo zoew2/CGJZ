@@ -44,6 +44,7 @@ class BaseSummaryGenerator:
     def realize_content(self, ordered_info):
         """
         Determine the surface realization for the content
+        default behavior is to just take the first n sentences while the total word count < 100
         :param ordered_info: list of Sentence objects
         :return: new line separated string of sentences
         """

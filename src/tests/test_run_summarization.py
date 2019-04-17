@@ -1,6 +1,6 @@
 import unittest
 from src.run_summarization import make_soup, load_documents_for_topics
-from src.document import Document
+from src.class_document import Document
 
 
 class IOTests(unittest.TestCase):

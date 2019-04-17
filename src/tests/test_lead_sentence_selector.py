@@ -10,11 +10,11 @@ class LeadSentenceSelectorTests(unittest.TestCase):
     """
 
     def test_select_content(self):
-        sentence_1 = "\nMarkets are overcrowded, traffic jam is heavy and the shops are jostling " \
+        sentence_1 = "Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
                      "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
                      "as the holy Moslem festival of Eid approaches here."
         doc_id_1 = 'XIN_ENG_20041113.0001'
-        sentence_2 = "\nToday is Friday, October 8, the 281st day of 2004."
+        sentence_2 = "Today is Friday, October 8, the 281st day of 2004."
         doc_id_2 = 'APW_ENG_20041001.0001'
 
         selector = LeadSentenceSelector()
