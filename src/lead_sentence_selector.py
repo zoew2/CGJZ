@@ -1,6 +1,7 @@
+from .base_content_selector import BaseContentSelector
 
 
-class ContentSelector:
+class LeadSentenceSelector(BaseContentSelector):
     """
     Functions to summarize documents
     """
@@ -10,9 +11,9 @@ class ContentSelector:
         Select the salient content for the summary
         (lead sentence of each document, ordered by date - least to most recent)
         :param: list of Document objects
-        :return: list of Sentence objects
+        :return: dictionary of Date, Sentence object pairs
         """
-        chron_docs = sorted(documents, key=Document.date)  # most recent last
-        selected_content = [doc.get_sen_bypos(0) for doc in chron_docs]
+
+        selected_content = {doc.date: doc.get_sen_bypos(0) for doc in documents}
 
         return selected_content

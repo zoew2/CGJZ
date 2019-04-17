@@ -1,24 +1,21 @@
-from .content_selector import ContentSelector
+from .base_content_selector import BaseContentSelector
 from .class_document import Document
 
-class SummaryGenerator:
+
+class BaseSummaryGenerator:
     """
     Functions to summarize documents
     Current implementation produces a summary consisting of the first sentence of each input document ordered by date
     (reverse chron)
     """
 
-    def __init__(self, documents):
+    def __init__(self, documents, content_selector):
         """
         Initialize this class by saving input documents
         :param documents: list of Document objects
         """
-
-        self.documents = documents
-
-        # self.documents = self.pre_process(documents) I think this will need to change but not sure how until we
-        # figure out what preprocessing we're actually doing and how we'll store the processed text separate from the
-        # original text
+        self.documents = self.pre_process(documents)
+        self.content_selector = content_selector or BaseContentSelector()
 
     def pre_process(self, documents):
         """
@@ -34,9 +31,7 @@ class SummaryGenerator:
         :return: list of Sentence objects
         """
 
-        selector = ContentSelector()
-
-        return selector.get_salient_content(self.documents)
+        return self.content_selector.select_content(self.documents)
 
     def order_information(self, salient_info):
         """
@@ -50,7 +45,7 @@ class SummaryGenerator:
         """
         Determine the surface realization for the content
         :param ordered_info: list of Sentence objects
-        :return:
+        :return: new line separated string of sentences
         """
 
         output_content = []
@@ -59,12 +54,12 @@ class SummaryGenerator:
             next_sent = ordered_info.pop().curr_sentence
             next_sent_len = len(next_sent.split(' '))
             if token_total + next_sent_len < 100:
-                output.append(next_sent)
+                output_content.append(next_sent)
                 token_total += next_sent_len
             else:
                 break
-        output = '\n'.join(output_content)  # one sentence per line
-        return output
+        output_content = '\n'.join(output_content)  # one sentence per line
+        return output_content
 
     def generate_summary(self):
         """
