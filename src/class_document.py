@@ -1,5 +1,5 @@
 from nltk import tokenize
-from class_sentence import Sentence
+from .class_sentence import Sentence
 
 """
 This is a module file of Document class.
@@ -11,7 +11,7 @@ e.g., newdoc = Document("XIN_ENG_20041113.0001")
 """
 
 
-class Document():
+class Document:
     def __init__(self, input_docid):
         """
         initialize Document class
@@ -91,3 +91,6 @@ class Document():
         if sen_pos >= len(self.sens):
             raise Exception("Sentence position exceeds length of document! Document id: " + self.docid)
         return self.sens[sen_pos]
+
+    def __eq__(self, other):
+        return self.docid == other.docid

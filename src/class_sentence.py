@@ -10,7 +10,7 @@ from nltk import tokenize
 import string
 
 
-class Sentence():
+class Sentence:
 
     def __init__(self, raw_sentence, sent_pos, doc_id=None):
         """
@@ -80,3 +80,6 @@ class Sentence():
         print sentence as readable string
         """
         return self.raw_sentence
+
+    def __eq__(self, other):
+        return self.raw_sentence == other.raw_sentence

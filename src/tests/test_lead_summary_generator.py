@@ -1,6 +1,7 @@
 import unittest
 from src.lead_sentence_selector import LeadSentenceSelector
 from src.lead_summary_generator import LeadSummaryGenerator
+from src.class_sentence import Sentence
 from src.class_document import Document
 
 
@@ -10,36 +11,41 @@ class LeadSummaryGeneratorTests(unittest.TestCase):
     """
 
     def test_order_information(self):
+        sentence_1 = "\nMarkets are overcrowded, traffic jam is heavy and the shops are jostling " \
+                     "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
+                     "as the holy Moslem festival of Eid approaches here."
+        doc_id_1 = 'XIN_ENG_20041113.0001'
+        sentence_2 = "\nThe race to claim the five World Cup finals berths from Africa " \
+                     "is no clearer after this weekend\'s qualifying matches, " \
+                     "but Mexico and Trinidad and Tobago closed in on the final group " \
+                     "stage in the CONCACAF region Sunday."
+        doc_id_2 = 'APW_ENG_20041001.0001'
+        expected_info = [Sentence(sentence_2, 2, doc_id_2), Sentence(sentence_1, 1, doc_id_1)]
+
         documents = [Document('XIN_ENG_20041113.0001'), Document('APW_ENG_20041011.0001')]
-        expected_content = "Today is Friday, October 8, the 281st day of 2004.\n" \
-                           "Describe the debate over use of emergency contraceptives, " \
-                           "also called the morning-after pill, " \
-                           "and whether or not it should be available without a prescription."
-
         generator = LeadSummaryGenerator(documents, LeadSentenceSelector())
-        ordered_info = generator.select_content()
-        realized_content = generator.order_information(ordered_info)
+        selected_content = generator.select_content()
+        ordered_info = generator.order_information(selected_content)
 
-        self.assertEqual(expected_content, realized_content)
+        self.assertListEqual(expected_info, ordered_info)
 
     def test_realize_content(self):
         documents = [Document('XIN_ENG_20041113.0001'),
                      Document('APW_ENG_20041011.0001'),
                      Document('APW_ENG_20041011.0002'),
                      Document('APW_ENG_20041011.0003')]
-        expected_content = "Describe the debate over use of emergency contraceptives, " \
-                           "also called the morning-after pill, " \
-                           "and whether or not it should be available without a prescription.\n" \
-                           "Today is Friday, October 8, the 281st day of 2004.\n" \
-                           "In communist Cuba, milk rations for children stop at age 7, " \
-                           "blackouts stop the fans in sweltering homes, " \
-                           "and it's anyone's guess whether there'll be cooking gas this month.\n" \
-                           "The U.S. House emphatically rejected a constitutional amendment banning gay marriage " \
-                           "Thursday, the latest in a string of conservative pet causes advanced by Republican " \
-                           "leaders in the run-up to Election Day."
+        expected_content = "\nMarkets are overcrowded, traffic jam is heavy and the shops are jostling " \
+                           "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
+                           "as the holy Moslem festival of Eid approaches here.\n\n" \
+                           "Today is Monday, October 18, the 291st day of 2004.\n\n" \
+                           "The race to claim the five World Cup finals berths from Africa " \
+                           "is no clearer after this weekend's qualifying matches, " \
+                           "but Mexico and Trinidad and Tobago closed in on the final " \
+                           "group stage in the CONCACAF region Sunday."
 
         generator = LeadSummaryGenerator(documents, LeadSentenceSelector())
-        ordered_info = generator.select_content()
+        selected_content = generator.select_content()
+        ordered_info = generator.order_information(selected_content)
         realized_content = generator.realize_content(ordered_info)
 
         self.assertEqual(expected_content, realized_content)

@@ -14,6 +14,6 @@ class LeadSentenceSelector(BaseContentSelector):
         :return: dictionary of Date, Sentence object pairs
         """
 
-        selected_content = {doc.date: doc.get_sen_bypos(0) for doc in documents}
+        selected_content = {doc.date+doc.art_id: doc.get_sen_bypos(0) for doc in documents}
 
         return selected_content

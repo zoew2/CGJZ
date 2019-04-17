@@ -2,7 +2,7 @@ import unittest
 from src.class_sentence import Sentence
 
 
-class sentClassTests(unittest.TestCase):
+class SentenceClassTests(unittest.TestCase):
     """
     Tests for Sentence class functionality
     """
