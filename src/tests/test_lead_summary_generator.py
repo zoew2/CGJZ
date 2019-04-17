@@ -11,11 +11,11 @@ class LeadSummaryGeneratorTests(unittest.TestCase):
     """
 
     def test_order_information(self):
-        sentence_1 = "\nMarkets are overcrowded, traffic jam is heavy and the shops are jostling " \
+        sentence_1 = "Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
                      "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
                      "as the holy Moslem festival of Eid approaches here."
         doc_id_1 = 'XIN_ENG_20041113.0001'
-        sentence_2 = "\nThe race to claim the five World Cup finals berths from Africa " \
+        sentence_2 = "The race to claim the five World Cup finals berths from Africa " \
                      "is no clearer after this weekend\'s qualifying matches, " \
                      "but Mexico and Trinidad and Tobago closed in on the final group " \
                      "stage in the CONCACAF region Sunday."
@@ -34,10 +34,10 @@ class LeadSummaryGeneratorTests(unittest.TestCase):
                      Document('APW_ENG_20041011.0001'),
                      Document('APW_ENG_20041011.0002'),
                      Document('APW_ENG_20041011.0003')]
-        expected_content = "\nMarkets are overcrowded, traffic jam is heavy and the shops are jostling " \
+        expected_content = "Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
                            "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
-                           "as the holy Moslem festival of Eid approaches here.\n\n" \
-                           "Today is Monday, October 18, the 291st day of 2004.\n\n" \
+                           "as the holy Moslem festival of Eid approaches here.\n" \
+                           "Today is Monday, October 18, the 291st day of 2004.\n" \
                            "The race to claim the five World Cup finals berths from Africa " \
                            "is no clearer after this weekend's qualifying matches, " \
                            "but Mexico and Trinidad and Tobago closed in on the final " \

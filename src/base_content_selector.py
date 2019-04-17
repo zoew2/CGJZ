@@ -8,8 +8,9 @@ class BaseContentSelector:
     def select_content(self, documents):
         """
         Select the salient content for the summary
-        (lead sentence of each document, ordered by date - least to most recent)
+        default functionality is just to return all sentences
         :param: list of Document objects
         :return: list of Sentence objects
         """
-        pass
+        sentences = [doc.sens for doc in documents]
+        return [val for sublist in sentences for val in sublist]

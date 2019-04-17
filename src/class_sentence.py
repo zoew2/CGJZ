@@ -19,7 +19,7 @@ class Sentence:
         :param raw_sentence:
         :param sent_pos:
         """
-        self.raw_sentence = raw_sentence  # raw input form of current sentence
+        self.raw_sentence = raw_sentence.strip('\n')  # raw input form of current sentence
         self.sent_pos = int(sent_pos)    # position of sentence in document
         self.doc_id = doc_id
         self.tokens = []

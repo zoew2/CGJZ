@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE TACtaskdata [
+
+<!-- ======================================================================
+      Test Data
+     ====================================================================== -->
+]>
+
+<TACtaskdata year="2009" track="SUMMARIZATION" task="UPDATE"  dataset="TEST">
+
+<topic id = "D0901A">
+
+	<title> Indian Pakistan conflict </title>
+
+	<narrative>
+		Describe efforts made toward peace in the India-Pakistan conflict over Kashmir.
+	</narrative>
+
+	<docsetA id = "D0901A-A">
+		<doc id = "XIN_ENG_20041113.0001" />
+		<doc id = "APW_ENG_20041118.0081" />
+	</docsetA>
+
+</topic>
+
+	<topic id = "D0902A">
+
+	<title> morning-after pill </title>
+
+	<narrative>
+		Describe the debate over use of emergency contraceptives, also called the morning-after pill, and whether or not it should be available without a prescription.
+	</narrative>
+
+	<docsetA id = "D0902A-A">
+		<doc id = "APW_ENG_20041011.0452" />
+		<doc id = "APW_ENG_20041017.0142" />
+	</docsetA>
+
+</topic>
+
+</TACtaskdata>
