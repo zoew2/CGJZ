@@ -1,5 +1,5 @@
 import unittest
-from class_sentence import Sentence
+from src.class_sentence import Sentence
 
 
 class sentClassTests(unittest.TestCase):
@@ -12,7 +12,7 @@ class sentClassTests(unittest.TestCase):
                "also called the morning-after pill, and whether or not it should " \
                "be available without a prescription."
         doc_id = "XIN_ENG_20041113.0001"
-        s = Sentence(test_sentence, 1, doc_id)
+        s = Sentence(test_sentence, 0, doc_id)
         a = s.tokenized()
         b = s.word_count()
         c = s.is_first_sentence()
@@ -24,7 +24,7 @@ class sentClassTests(unittest.TestCase):
                               'emergency', 'contraceptives', 'also', 'called', 'the',
                               'morning-after', 'pill', 'and', 'whether', 'or', 'not', 'it',
                               'should', 'be', 'available', 'without', 'a', 'prescription'],
-                             24, True, 1, 'XIN_ENG_20041113.0001']
+                             24, True, 0, 'XIN_ENG_20041113.0001']
 
         self.assertCountEqual(features, expected_features)
 

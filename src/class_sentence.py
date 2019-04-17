@@ -12,15 +12,16 @@ import string
 
 class Sentence():
 
-    def __init__(self, curr_sentence, sent_pos, doc_id=None):
+    def __init__(self, raw_sentence, sent_pos, doc_id=None):
         """
-        initialize Sentence class
-        :param curr_sentence:
+        initialize Sentence class with methods for plain/raw and tokenized sentence
+        options, word count, position of sentence in document and document id
+        :param raw_sentence:
         :param sent_pos:
         """
-        self.curr_sentence = curr_sentence  # raw input form of current sentence
+        self.raw_sentence = raw_sentence  # raw input form of current sentence
         self.sent_pos = int(sent_pos)    # position of sentence in document
-        self.doc_id = doc_id    # TODO: do we need to be able to access the doc id for sentences?
+        self.doc_id = doc_id
         self.tokens = []
 
         if not self.tokens:
@@ -29,9 +30,9 @@ class Sentence():
     def is_first_sentence(self):
         """
         grab headline and content(text) of the document
-        :return Boolean:
+        :return: Boolean
         """
-        if self.sent_pos == 1:
+        if self.sent_pos == 0:
             return True
         else:
             return False
@@ -39,37 +40,30 @@ class Sentence():
     def position(self):
         """
         returns position of sentence in document as a number
-        :return:
+        :return: integer
         """
         return self.sent_pos
 
     def tokenized(self):
         """
         returns words in sentence excluding punctuation
-        :return:
+        :return: list of words in sentence
         """
         return self.tokens
 
     def word_count(self):
         """
         count number of words in sentence excluding punctuation
-        :return:
+        :return: integer
         """
         return len(self.tokens)
 
-    def document_id(self):  # TODO: check and see if we need this
+    def document_id(self):
         """
         return document id associated with sentence
-        :return:
+        :return: String of document id or None if not provided
         """
         return self.doc_id
-
-    def plain(self):
-        """
-       return plain text sentence without tokenization or punctuation stripping
-       :return:
-       """
-        return self.curr_sentence
 
     def __tokenize_sentence(self):
         """
@@ -77,7 +71,7 @@ class Sentence():
         such as comma (,) but not dash (-) in, e.g. 'morning-after'
         function only for internal usage
         """
-        words = tokenize.word_tokenize(self.curr_sentence)
+        words = tokenize.word_tokenize(self.raw_sentence)
         # Strip punctuation from sentence tokens
         self.tokens = [w for w in words if w not in string.punctuation]
 
@@ -85,4 +79,4 @@ class Sentence():
         """
         print sentence as readable string
         """
-        return self.curr_sentence
+        return self.raw_sentence
