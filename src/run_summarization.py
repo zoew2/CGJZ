@@ -43,6 +43,13 @@ def load_documents(topic):
     return documents
 
 
+def get_output_filename(topic_id):
+    topic_id1 = topic_id[:-1]
+    topic_id2 = topic_id[-1]
+    output_file = './outputs/D2/' + topic_id1 + '-A.M.100.' + topic_id2 + '.test'
+    return output_file
+
+
 def main():
     """
     Read in the input files and output summaries
@@ -64,7 +71,7 @@ def main():
             summarizer = LeadSummaryGenerator(documents, LeadSentenceSelector())
         else:
             summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
-        output_file = topic_id + "_out"
+        output_file = get_output_filename(topic_id)
 
         with open(output_file, "a") as f:
 
