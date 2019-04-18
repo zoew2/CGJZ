@@ -1,10 +1,10 @@
 import sys
 from bs4 import BeautifulSoup
-from src.class_document import Document
-from src.base_summary_generator import BaseSummaryGenerator
-from src.base_content_selector import BaseContentSelector
-from src.lead_summary_generator import LeadSummaryGenerator
-from src.lead_sentence_selector import LeadSentenceSelector
+from class_document import Document
+from base_summary_generator import BaseSummaryGenerator
+from base_content_selector import BaseContentSelector
+from lead_summary_generator import LeadSummaryGenerator
+from lead_sentence_selector import LeadSentenceSelector
 
 
 def make_soup(topic_filename):
