@@ -1,6 +1,6 @@
 import unittest
 from src.run_summarization import make_soup, load_documents_for_topics, get_output_filename
-from src.class_document import Document
+from src.helpers.class_document import Document
 
 
 class IOTests(unittest.TestCase):
@@ -17,9 +17,9 @@ class IOTests(unittest.TestCase):
 
     def test_get_output_filename(self):
         topic_id = 'D0901A'
-        output_file = get_output_filename(topic_id)
+        output_file = get_output_filename(topic_id, 'test')
 
-        self.assertEqual(output_file, './outputs/D2/D0901-A.M.100.A.test')
+        self.assertEqual(output_file, '../outputs/D2/D0901-A.M.100.A.test')
 
 
 if __name__ == '__main__':

@@ -1,8 +1,8 @@
 import unittest
-from src.lead_sentence_selector import LeadSentenceSelector
-from src.lead_summary_generator import LeadSummaryGenerator
-from src.class_sentence import Sentence
-from src.class_document import Document
+from src.lead_sentence.lead_sentence_selector import LeadSentenceSelector
+from src.lead_sentence.lead_summary_generator import LeadSummaryGenerator
+from src.helpers.class_sentence import Sentence
+from src.helpers.class_document import Document
 
 
 class LeadSummaryGeneratorTests(unittest.TestCase):

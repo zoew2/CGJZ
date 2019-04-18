@@ -1,9 +1,9 @@
-from src.base_content_selector import BaseContentSelector
+from src.base_files.base_content_selector import BaseContentSelector
 
 
 class MeadContentSelector(BaseContentSelector):
     """
-    Functions to summarize documents
+    Select content using MEAD scores
     """
 
     def get_sentence_position(self, sentence):
@@ -29,7 +29,6 @@ class MeadContentSelector(BaseContentSelector):
     def select_content(self, documents):
         """
         Select the salient content for the summary
-        (lead sentence of each document, ordered by date - least to most recent)
         :param: list of Document objects
         :return: dictionary of Date, Sentence object pairs
         """

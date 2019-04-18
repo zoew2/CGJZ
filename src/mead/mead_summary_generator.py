@@ -1,11 +1,9 @@
-from src.base_content_selector import BaseContentSelector
+from src.base_files.base_content_selector import BaseContentSelector
 
 
-class MeadSummaryGenerator:
+class MeadSummaryGenerator(BaseContentSelector):
     """
-    Functions to summarize documents
-    Current implementation produces a summary consisting of the first sentence of each input document ordered by date
-    (reverse chron)
+    Summarize documents using MEAD
     """
 
     def pre_process(self, documents):
