@@ -1,5 +1,5 @@
 from nltk import tokenize
-from class_sentence import Sentence
+from src.class_sentence import Sentence
 
 """
 This is a module file of Document class.
