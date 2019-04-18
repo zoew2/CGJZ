@@ -1,10 +1,10 @@
 import sys
 from bs4 import BeautifulSoup
-from .class_document import Document
-from .base_summary_generator import BaseSummaryGenerator
-from .base_content_selector import BaseContentSelector
-from .lead_summary_generator import LeadSummaryGenerator
-from .lead_sentence_selector import LeadSentenceSelector
+from class_document import Document
+from base_summary_generator import BaseSummaryGenerator
+from base_content_selector import BaseContentSelector
+from lead_summary_generator import LeadSummaryGenerator
+from lead_sentence_selector import LeadSentenceSelector
 
 
 def make_soup(topic_filename):
@@ -43,10 +43,10 @@ def load_documents(topic):
     return documents
 
 
-def get_output_filename(topic_id):
+def get_output_filename(topic_id, version):
     topic_id1 = topic_id[:-1]
     topic_id2 = topic_id[-1]
-    output_file = './outputs/D2/' + topic_id1 + '-A.M.100.' + topic_id2 + '.test'
+    output_file = '../outputs/D2/' + topic_id1 + '-A.M.100.' + topic_id2 + '.' + version
     return output_file
 
 
@@ -71,7 +71,7 @@ def main():
             summarizer = LeadSummaryGenerator(documents, LeadSentenceSelector())
         else:
             summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
-        output_file = get_output_filename(topic_id)
+        output_file = get_output_filename(topic_id, version)
 
         with open(output_file, "a") as f:
 

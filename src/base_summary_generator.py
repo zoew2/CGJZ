@@ -1,5 +1,4 @@
-from .base_content_selector import BaseContentSelector
-from .class_document import Document
+from base_content_selector import BaseContentSelector
 
 
 class BaseSummaryGenerator:

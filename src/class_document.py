@@ -1,5 +1,5 @@
 from nltk import tokenize
-from .class_sentence import Sentence
+from class_sentence import Sentence
 
 """
 This is a module file of Document class.
@@ -18,20 +18,29 @@ class Document:
         :param docid: e.g. "XIN_ENG_20041113.0001"
         """
         self.docid=input_docid  # docid
-        self.src = self.docid.split(".")[0].split("_")[0]  # source
-        self.lang = self.docid.split(".")[0].split("_")[1]  # language
-        self.date = self.docid.split(".")[0].split("_")[2]  # date - 20041113
+        ids = self.docid.split(".")
+        info = ids[0].split("_")
+        if len(info) < 2:
+            self.src = ids[0][:3]
+            self.src2 = "XIN" if self.src == "XIE" else self.src
+            self.lang = "" if self.src == "NYT" else "_ENG"
+            self.date = ids[0][3:]
+        else:
+            self.src = info[0]  # source
+            self.src2 = "XIN" if self.src == "XIE" else self.src
+            self.lang = "_" + info[1]  # language
+            self.date = info[2]  # date - 20041113
         self.year = self.date[:4]  # year - 2004
-        self.art_id = self.docid.split(".")[1]  # .0001
+        self.art_id = ids[1]  # .0001
 
         if int(self.year) > 2000:  # get path, if date belongs to 2004+
-            self.path = "/corpora/LDC/LDC08T25/data/" + self.src.lower() + "_" + self.lang.lower() + "/" + \
-                        self.src.lower() + "_" + self.lang.lower() + "_" + self.date[:-2]+".xml"
+            self.path = "/corpora/LDC/LDC08T25/data/" + self.src.lower() + self.lang.lower() + "/" + \
+                        self.src.lower() + self.lang.lower() + "_" + self.date[:-2]+".xml"
             self.docid_inxml = self.docid
 
         else:
             self.path = "/corpora/LDC/LDC02T31/" + self.src.lower() + "/" + self.year + "/" + \
-                        self.date + "_" + self.src+ "_" + self.lang
+                        self.date + "_" + self.src2 + self.lang
             self.docid_inxml = self.src + self.date + "." + self.art_id  # APW19980613.0001
 
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
