@@ -8,6 +8,7 @@ document and position/order of sentence within document as integer
 
 from nltk import tokenize
 import string
+from class_wordmap import WordMap
 
 
 class Sentence:
@@ -26,6 +27,10 @@ class Sentence:
 
         if not self.tokens:
             self.__tokenize_sentence()
+
+        # update global mapping of words to indices
+        map = WordMap()
+        map.add_words(self.tokens)  # may want to change this later to take post-processing tokens
 
     def is_first_sentence(self):
         """
