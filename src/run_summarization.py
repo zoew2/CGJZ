@@ -1,10 +1,12 @@
 import sys
+import os.path
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from bs4 import BeautifulSoup
-from class_document import Document
-from base_summary_generator import BaseSummaryGenerator
-from base_content_selector import BaseContentSelector
-from lead_summary_generator import LeadSummaryGenerator
-from lead_sentence_selector import LeadSentenceSelector
+from src.helpers.class_document import Document
+from src.base_files.base_summary_generator import BaseSummaryGenerator
+from src.base_files.base_content_selector import BaseContentSelector
+from src.lead_sentence.lead_summary_generator import LeadSummaryGenerator
+from src.lead_sentence.lead_sentence_selector import LeadSentenceSelector
 
 
 def make_soup(topic_filename):

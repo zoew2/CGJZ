@@ -1,5 +1,5 @@
 import unittest
-from src.class_sentence import Sentence
+from src.helpers.class_sentence import Sentence
 
 
 class SentenceClassTests(unittest.TestCase):

@@ -1,7 +1,7 @@
 import unittest
-from src.lead_sentence_selector import LeadSentenceSelector
-from src.class_document import Document
-from src.class_sentence import Sentence
+from src.lead_sentence.lead_sentence_selector import LeadSentenceSelector
+from src.helpers.class_document import Document
+from src.helpers.class_sentence import Sentence
 
 
 class LeadSentenceSelectorTests(unittest.TestCase):

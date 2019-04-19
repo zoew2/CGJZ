@@ -1,5 +1,5 @@
 import unittest
-from src.class_document import Document
+from src.helpers.class_document import Document
 
 
 class DocumentTests(unittest.TestCase):
@@ -10,7 +10,7 @@ class DocumentTests(unittest.TestCase):
     def test_parse_doc_id(self):
         newdoc = Document("APW_ENG_19980613.0001")
         self.assertEqual(newdoc.src, 'APW')
-        self.assertEqual(newdoc.lang, 'ENG')
+        self.assertEqual(newdoc.lang, '_ENG')
         self.assertEqual(newdoc.date, '19980613')
         self.assertEqual(newdoc.art_id, '0001')
         self.assertEqual(newdoc.docid, 'APW_ENG_19980613.0001')

@@ -1,4 +1,4 @@
-from base_summary_generator import BaseSummaryGenerator
+from src.base_files.base_summary_generator import BaseSummaryGenerator
 
 
 class LeadSummaryGenerator(BaseSummaryGenerator):
