@@ -86,7 +86,7 @@ class Document:
         """
         sens = tokenize.sent_tokenize(text)  # plain sens
         if not len(sens):
-            warnings.warn('No sentence in the document!', Warning)
+            warnings.warn('No sentence in the document! Document id: ' + self.docid, Warning)
 
         sens_c=[]  # sens in class structure
         for sen_pos in range(len(sens)):
