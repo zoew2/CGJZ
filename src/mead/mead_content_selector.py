@@ -1,5 +1,5 @@
 from src.base_files.base_content_selector import BaseContentSelector
-
+from scipy.spatial.distance import cosine
 
 class MeadContentSelector(BaseContentSelector):
     """
@@ -9,8 +9,14 @@ class MeadContentSelector(BaseContentSelector):
     def get_sentence_position(self, sentence):
         pass
 
-    def get_first_sentence_overlap(self, sentence):
-        pass
+    def get_first_sentence_overlap(self, sentence, first_sentence):
+        """
+        get cosine similarity between first sen and current sen
+        :param sentence: curr sentence object
+        :param first_sentence: first sentence object
+        :return:
+        """
+        return 1 - cosine(first_sentence.vector, sentence.vector)
 
     def get_centroid_score(self, sentence):
         pass
@@ -35,5 +41,7 @@ class MeadContentSelector(BaseContentSelector):
 
         # documents sorted by score
         selected_content = documents
+
+
 
         return selected_content
