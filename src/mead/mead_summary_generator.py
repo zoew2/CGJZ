@@ -14,6 +14,19 @@ class MeadSummaryGenerator(BaseContentSelector):
 
         return documents
 
+    def select_content(self):
+        """
+        Select the salient content for the summary
+        :return:
+        """
+
+        # TODO: create vectors
+
+        # TODO: get topics_per_word
+
+        # put this inside a loop over all the topics
+        return self.content_selector.select_content(self.documents)
+
     def realize_content(self, ordered_info):
         """
         Determine the surface realization for the content

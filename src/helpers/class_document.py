@@ -45,6 +45,7 @@ class Document:
 
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
         self.sens = self.tok_toSens(self.text)  # list of sen objects
+        self.vectors
 
     def get_doc(self, path, id_xml):
         """
@@ -100,6 +101,14 @@ class Document:
         if sen_pos >= len(self.sens):
             raise Exception("Sentence position exceeds length of document! Document id: " + self.docid)
         return self.sens[sen_pos]
+
+    def set_vectors(self, matrix):
+        """
+        assigns a matrix representing all the sentences in this document to self.vectors
+        :param matrix: sparse matrix (dok_matrix????)
+        :return:
+        """
+        self.vectors = matrix
 
     def __eq__(self, other):
         return self.docid == other.docid

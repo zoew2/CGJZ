@@ -8,8 +8,8 @@ document and position/order of sentence within document as integer
 
 from nltk import tokenize
 import string
-from class_wordmap import WordMap
-
+from src.helpers.class_wordmap import WordMap
+from src.helpers.class_vectors import Vectors
 
 class Sentence:
 
@@ -24,6 +24,7 @@ class Sentence:
         self.sent_pos = int(sent_pos)    # position of sentence in document
         self.doc_id = doc_id
         self.tokens = []
+        self.vector
 
         if not self.tokens:
             self.__tokenize_sentence()
@@ -79,6 +80,14 @@ class Sentence:
         words = tokenize.word_tokenize(self.raw_sentence)
         # Strip punctuation from sentence tokens
         self.tokens = [w for w in words if w not in string.punctuation]
+
+    def set_vector(self, vector):
+        """
+        assign a vector representing the sentence to self.vector
+        :param vector: one-dimensional scipy sparse matrix
+        :return:
+        """
+        self.vector = vector
 
     def __str__(self):
         """

@@ -7,6 +7,7 @@ class WordMap:
     word_list = []
 
     @classmethod
+    # may not ever be needed
     def add_word(cls, word):
         """
         :param word: String
@@ -34,7 +35,7 @@ class WordMap:
         """
         # sorted list from set
         global word_list
-        word_list = sorted(list(word_set))
+        word_list = sorted(list(word_set))  # is this super time expensive??
 
     @classmethod
     def get_mapping(cls):
