@@ -5,7 +5,7 @@ word count for sentence, whether sentence is first or initial sentence of
 document and position/order of sentence within document as integer
 """
 
-# from nltk import tokenize
+from nltk import tokenize
 import string
 from nltk.corpus import stopwords
 import spacy
@@ -116,9 +116,9 @@ class Sentence:
         stop_words = stopwords.words('english')
         stop_words.extend(['edu'])  # if we want to add any new words to stopwords
 
-        # words = tokenize.word_tokenize(self.raw_sentence)
+        words = tokenize.word_tokenize(self.raw_sentence)  # No NER or Stemming
+        # words = self.stemming_n_linking_name_entity()  # NER and Stemming
 
-        words = self.stemming_n_linking_name_entity()
         self.tokens = [w for w in words if (w not in string.punctuation and w not in stop_words)]
         # Strip punctuation and stopwords from sentence tokens
 
