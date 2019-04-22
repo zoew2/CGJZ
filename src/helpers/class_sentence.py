@@ -72,23 +72,39 @@ class Sentence:
 
     def stemming_n_linking_name_entity(self):
         """
-        first lemmatize all the words, then join them back to a sen string,
-        then check name entity, retokenize the sen string
-        (potential problem: words got lemmatized and not get recoginzed as a name entity;
-        go through the sen string 2 times)
-        :return: word tokens
+        first find all name entities
+        then lemmatize all the words that are not in an name entity
+
+        :return: new_toks, type: string, e.g, ['New York', 'is', 'looking', 'at', 'buying', 'U.K.', 'startup', 'for', '$1 billion']
+
         """
         nlp = spacy.load("en")
-        sen = nlp(self.raw_sentence)
-        tempsen = ' '.join([token.lemma_ for token in sen])  # stemmed and joined again to test for name entity
+        sen = nlp(self.raw_sentence)  # process sen
 
-        newsen = nlp(tempsen)
-        with newsen.retokenize() as retokenizer:
-            for ent in newsen.ents:
-                retokenizer.merge(newsen[ent.start:ent.end])
-        return [token.text for token in newsen]
+        entity_ind = [-1] * len(sen)
+        ind = 0
 
+        for ent in sen.ents:
+            for i in range(ent.start, ent.end):
+                entity_ind[i] = ind
+            ind += 1
+        # [0, 0, -1, -1, -1, -1, 1, -1, -1, 2, 2, 2]
 
+        new_toks = []
+        ent_ind = 0  # pointer to entities
+        for i in range(len(entity_ind)):
+            if_ent = entity_ind[i]
+            if if_ent >= 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
+                if i == 0:
+                    new_toks.append(sen.ents[0].text)
+                    ent_ind += 1
+                elif entity_ind[i - 1] < 0:
+                    new_toks.append(sen.ents[ent_ind].text)
+                    ent_ind += 1
+            else:
+                new_toks.append(sen[i].text)
+
+        return new_toks
 
     def __tokenize_sentence(self):
         """
