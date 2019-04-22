@@ -24,10 +24,10 @@ class LeadSummaryGeneratorTests(unittest.TestCase):
 
         documents = [Document('XIN_ENG_20041113.0001'), Document('APW_ENG_20041011.0001')]
         generator = LeadSummaryGenerator(documents, LeadSentenceSelector())
-        selected_content = generator.select_content()
-        ordered_info = generator.order_information(selected_content)
+        generator.select_content()
+        generator.order_information()
 
-        self.assertListEqual(expected_info, ordered_info)
+        self.assertListEqual(expected_info, generator.content_selector.selected_content)
 
     def test_realize_content(self):
         documents = [Document('XIN_ENG_20041113.0001'),
@@ -44,9 +44,9 @@ class LeadSummaryGeneratorTests(unittest.TestCase):
                            "group stage in the CONCACAF region Sunday."
 
         generator = LeadSummaryGenerator(documents, LeadSentenceSelector())
-        selected_content = generator.select_content()
-        ordered_info = generator.order_information(selected_content)
-        realized_content = generator.realize_content(ordered_info)
+        generator.select_content()
+        generator.order_information()
+        realized_content = generator.realize_content()
 
         self.assertEqual(expected_content, realized_content)
 

@@ -1,8 +1,9 @@
-
 from src.base_files.base_content_selector import BaseContentSelector
 from src.helpers.class_document import Document
 from src.helpers.class_sentence import Sentence
 from scipy.spatial.distance import cosine
+import numpy as np
+
 
 class MeadContentSelector(BaseContentSelector):
     """
@@ -24,8 +25,18 @@ class MeadContentSelector(BaseContentSelector):
     def get_centroid_score(self, sentence):
         pass
 
-    def apply_redundancy_score(self):
-        pass
+    def apply_redundancy_penalty(self, selected_sentence):
+        """
+        Apply a redundancy penalty to all sentences based on the given selected sentence
+        :param selected_sentence: the selected sentence
+        :return: void
+        """
+        selected_vector = selected_sentence.vector
+
+        for sentence in self.selected_content:
+            overlap = np.sum((selected_vector != 0) & (sentence.vector != 0))
+            counts = np.sum(selected_vector) + np.sum(sentence.vector)
+            sentence.mead_score = sentence.mead_score - (overlap/counts)
 
     def get_score(self, sentence):
         """
@@ -45,7 +56,4 @@ class MeadContentSelector(BaseContentSelector):
         # documents sorted by score
         selected_content = documents
 
-
-
         return selected_content
-

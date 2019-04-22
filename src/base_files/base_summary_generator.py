@@ -28,17 +28,18 @@ class BaseSummaryGenerator:
         :return: list of Sentence objects
         """
 
-        return self.content_selector.select_content(self.documents)
+        self.content_selector.select_content(self.documents)
+        return self.content_selector.selected_content
 
-    def order_information(self, salient_info):
+    def order_information(self):
         """
         Order the salient information for the summary
         :return:
         """
 
-        return salient_info
+        return self.content_selector.selected_content
 
-    def realize_content(self, ordered_info):
+    def realize_content(self):
         """
         Determine the surface realization for the content
         default behavior is to just take the first n sentences while the total word count < 100
@@ -48,15 +49,21 @@ class BaseSummaryGenerator:
 
         output_content = []
         token_total = 0
-        while ordered_info:
-            next_sent_len = ordered_info.pop().word_count()
+        done = False
+        while not done:
+            next_sent = self.get_next_sentence(output_content)
+            next_sent_len = next_sent.word_count
             if token_total + next_sent_len < 100:
-                output_content.append(next_sent)
+                output_content.append(next_sent.raw_sentence)
                 token_total += next_sent_len
             else:
-                break
+                done = True
         output_content = '\n'.join(output_content)  # one sentence per line
         return output_content
+
+    def get_next_sentence(self, summary):
+        content = self.content_selector.selected_content
+        return content.pop()
 
     def generate_summary(self):
         """
@@ -64,8 +71,6 @@ class BaseSummaryGenerator:
         :return:
         """
 
-        salient_info = self.select_content()
-        ordered_info = self.order_information(salient_info)
-        surface_content = self.realize_content(ordered_info)
-
-        return surface_content
+        self.select_content()
+        self.order_information()
+        return self.realize_content()

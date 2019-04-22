@@ -16,6 +16,8 @@ from src.helpers.class_wordmap import WordMap
 
 class Sentence:
 
+    mead_score = None
+
     def __init__(self, raw_sentence, sent_pos, doc_id=None):
         """
         initialize Sentence class with methods for plain/raw and tokenized sentence
@@ -144,4 +146,27 @@ class Sentence:
         return self.raw_sentence
 
     def __eq__(self, other):
+        """
+        One Sentence is equal to another if the raw sentences match
+        :param other:
+        :return:
+        """
         return self.raw_sentence == other.raw_sentence
+
+
+    def __cmp__(self, other):
+        """
+        Sentences are ordered by their sentence positions by default
+        if a Sentence has a mead score, that is used
+        :param other:
+        :return:
+        """
+        score = self.sent_pos
+        other_score = self.sent_pos
+        if self.mead_score:
+            score = self.mead_score
+            other_score = other.mead_score
+
+        if score == other_score:
+            return 0
+        return 1 if score > other_score else -1

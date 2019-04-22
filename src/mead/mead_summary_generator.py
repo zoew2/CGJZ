@@ -14,9 +14,11 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
 
         return documents
 
-    def select_content(self):
-        """
-        Select the salient content for the summary
-        :return:
-        """
-        return self.content_selector.select_content(self.documents)
+    def order_information(self):
+        return self.content_selector.selected_content.sort()
+
+    def get_next_sentence(self, summary):
+        self.content_selector.apply_redundancy_penalty(summary[-1])
+        self.order_information()
+        content = self.content_selector.selected_content
+        return content.pop()
