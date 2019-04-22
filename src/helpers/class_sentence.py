@@ -5,9 +5,10 @@ word count for sentence, whether sentence is first or initial sentence of
 document and position/order of sentence within document as integer
 """
 
-
-from nltk import tokenize
+# from nltk import tokenize
 import string
+from nltk.corpus import stopwords
+import spacy
 
 
 class Sentence:
@@ -20,7 +21,7 @@ class Sentence:
         :param sent_pos:
         """
         self.raw_sentence = raw_sentence.strip('\n')  # raw input form of current sentence
-        self.sent_pos = int(sent_pos)    # position of sentence in document
+        self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
         self.tokens = []
 
@@ -56,7 +57,11 @@ class Sentence:
         count number of words in sentence excluding punctuation
         :return: integer
         """
-        return len(self.tokens)
+        ct = 0
+        for w in self.raw_sentence.split(" "):
+            if w not in string.punctuation:
+                ct += 1
+        return ct
 
     def document_id(self):
         """
@@ -65,15 +70,41 @@ class Sentence:
         """
         return self.doc_id
 
+    def stemming_n_linking_name_entity(self):
+        """
+        first lemmatize all the words, then join them back to a sen string,
+        then check name entity, retokenize the sen string
+        (potential problem: words got lemmatized and not get recoginzed as a name entity;
+        go through the sen string 2 times)
+        :return: word tokens
+        """
+        nlp = spacy.load("en")
+        sen = nlp(self.raw_sentence)
+        tempsen = ' '.join([token.lemma_ for token in sen])  # stemmed and joined again to test for name entity
+
+        newsen = nlp(tempsen)
+        with newsen.retokenize() as retokenizer:
+            for ent in newsen.ents:
+                retokenizer.merge(newsen[ent.start:ent.end])
+        return [token.text for token in newsen]
+
+
+
     def __tokenize_sentence(self):
         """
         tokenize sentence and remove sentence-level punctiation,
         such as comma (,) but not dash (-) in, e.g. 'morning-after'
         function only for internal usage
         """
-        words = tokenize.word_tokenize(self.raw_sentence)
-        # Strip punctuation from sentence tokens
-        self.tokens = [w for w in words if w not in string.punctuation]
+
+        stop_words = stopwords.words('english')
+        stop_words.extend(['edu'])  # if we want to add any new words to stopwords
+
+        # words = tokenize.word_tokenize(self.raw_sentence)
+
+        words = self.stemming_n_linking_name_entity()
+        self.tokens = [w for w in words if (w not in string.punctuation and w not in stop_words)]
+        # Strip punctuation and stopwords from sentence tokens
 
     def __str__(self):
         """
