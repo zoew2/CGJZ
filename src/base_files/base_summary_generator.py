@@ -4,8 +4,6 @@ from .base_content_selector import BaseContentSelector
 class BaseSummaryGenerator:
     """
     Functions to summarize documents
-    Current implementation produces a summary consisting of the first sentence of each input document ordered by date
-    (reverse chron)
     """
 
     def __init__(self, documents, content_selector):
@@ -51,8 +49,7 @@ class BaseSummaryGenerator:
         output_content = []
         token_total = 0
         while ordered_info:
-            next_sent = ordered_info.pop().curr_sentence
-            next_sent_len = len(next_sent.split(' '))
+            next_sent_len = ordered_info.pop().word_count()
             if token_total + next_sent_len < 100:
                 output_content.append(next_sent)
                 token_total += next_sent_len

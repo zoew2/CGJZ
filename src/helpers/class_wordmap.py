@@ -3,19 +3,8 @@ class WordMap:
     class representing a mapping of each unique word in all documents in all topics to an integer identifier
     """
 
-    word_set = {}
-    word_list = []
-
-    @classmethod
-    # may not ever be needed
-    def add_word(cls, word):
-        """
-        :param word: String
-        :return:
-        """
-        if not word in word_set:
-            word_set.add(word)
-
+    word_set = set()
+    word_to_id = {}
 
     @classmethod
     def add_words(cls, words):
@@ -23,27 +12,27 @@ class WordMap:
         :param words: list of Strings
         :return:
         """
-        unique_input_words = set(words)
-        for word in unique_input_words:
-            add_word(word)
+        word_set.union(words)
 
     @classmethod
     def create_mapping(cls):
         """
         creates a sorted list of words for lookups by word or id (index in list)
-        *intended to be called only after all documents have been loaded and all tokens added to word_set*
+        pre: all documents loaded and all tokens added to word_set
         """
-        # sorted list from set
-        global word_list
-        word_list = sorted(list(word_set))  # is this super time expensive??
+        global word_set
+        id = 0
+        for word in word_set:
+            word_to_id[word] = id
+            id += 1
 
     @classmethod
     def get_mapping(cls):
         """
         :return: sorted list of unique words; raises ValueError if called before create_mapping has been called
         """
-        if len(word_list) > 0:
-            return word_list
+        if len(word_set) > 0:
+            return word_to_id
         else:
             raise ValueError('Mapping has not been created')
 
@@ -54,13 +43,4 @@ class WordMap:
         :param word: String
         :return: int
         """
-        return word_list.index(word)
-
-    @classmethod
-    def word_at(cls, id):
-        """
-        returns the word that corresponds to the given id
-        :param id: int
-        :return: String
-        """
-        return word_list[id]
+        return word_to_id[word]
