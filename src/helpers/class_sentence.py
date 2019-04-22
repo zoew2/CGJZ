@@ -12,7 +12,7 @@ import string
 
 class Sentence:
 
-    def __init__(self, raw_sentence, sent_pos, doc_id=None):
+    def __init__(self, raw_sentence, sent_pos, doc_id=None, mead_score=None):
         """
         initialize Sentence class with methods for plain/raw and tokenized sentence
         options, word count, position of sentence in document and document id
@@ -23,6 +23,7 @@ class Sentence:
         self.sent_pos = int(sent_pos)    # position of sentence in document
         self.doc_id = doc_id
         self.tokens = []
+        self.mead_score = mead_score
 
         if not self.tokens:
             self.__tokenize_sentence()
@@ -64,6 +65,13 @@ class Sentence:
         :return: String of document id or None if not provided
         """
         return self.doc_id
+
+    def get_score(self):
+        """
+        assign sentence score
+        :return: float
+        """
+        return self.mead_score
 
     def __tokenize_sentence(self):
         """
