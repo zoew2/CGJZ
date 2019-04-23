@@ -12,6 +12,7 @@ class WordMap:
         :param words: list of Strings
         :return:
         """
+        global word_set
         word_set.union(words)
 
     @classmethod
@@ -21,6 +22,7 @@ class WordMap:
         pre: all documents loaded and all tokens added to word_set
         """
         global word_set
+        global word_to_id
         id = 0
         for word in word_set:
             word_to_id[word] = id
@@ -31,6 +33,8 @@ class WordMap:
         """
         :return: sorted list of unique words; raises ValueError if called before create_mapping has been called
         """
+        global word_set
+        global word_to_id
         if len(word_set) > 0:
             return word_to_id
         else:
@@ -43,4 +47,5 @@ class WordMap:
         :param word: String
         :return: int
         """
-        return word_to_id[word]
+        global word_to_id
+        return word_to_id.get(word, default=None)

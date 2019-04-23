@@ -1,8 +1,7 @@
-import numpy as np
-from numpy import zeros
-from scipy.sparse import dok_matrix, hstack, csc_matrix
+from scipy.sparse import dok_matrix, hstack
 from scr.helpers.class_wordmap import WordMap
-
+from scr.helpers.class_sentence import Sentence
+from scr.helpers.class_document import Document
 
 class Vectors:
     """
@@ -10,11 +9,11 @@ class Vectors:
     """
 
     map = WordMap()
-    num_unique_words = len(map.get_mapping)
+    num_unique_words = len(map.get_mapping())
 
     def get_topic_matrix(self, topic_docs):
         """
-        returns a matrix of vectors representing all the sentences from all the documents with a topic
+        returns a matrix of vectors representing all the sentences from all the documents within a topic
         :param topic_docs: list of Documents
         :return: dok_matrix (num sentences in topic X num words in corpus)
         pre: create_freq vectors has been called
@@ -36,16 +35,17 @@ class Vectors:
         :return: None
         """
         global num_unique_words
+        global map
         for cluster in topics.values():
             for document in cluster:
                 doc_vectors = dok_matrix((len(document.sens), num_unique_words))
                 for sentence in document.sens:
                     sentence_vector = dok_matrix((1, num_unique_words))
-                    for word in sentence.tokens:
-                        word_id = mapping.id_of(word)
+                    for word in sentence.tokenized():  # maybe check that sentence.tokenized() is the right thing here
+                        word_id = map.id_of(word)
                         sentence_vector[0, word_id] += 1
                     # assign vector to sentence object
-                    sentence.set_vector(sent_vector)
+                    sentence.set_vector(sentence_vector)
                     # add sentence vector to document matrix
                     hstack(doc_vectors, sentence_vector)
                 # assign matrix to document
