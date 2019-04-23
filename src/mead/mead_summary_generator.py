@@ -1,4 +1,4 @@
-from src.base_files.base_content_selector import BaseSummaryGenerator
+from src.base_files.base_summary_generator import BaseSummaryGenerator
 
 
 class MeadSummaryGenerator(BaseSummaryGenerator):

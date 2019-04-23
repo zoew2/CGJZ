@@ -45,7 +45,7 @@ class Document:
 
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
         self.sens = self.tok_toSens(self.text)  # list of sen objects
-        self.vectors
+        self.vectors = []  # placeholder
 
     def get_doc(self, path, id_xml):
         """

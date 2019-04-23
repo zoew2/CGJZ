@@ -8,8 +8,6 @@ document and position/order of sentence within document as integer
 
 from nltk import tokenize
 import string
-from src.helpers.class_wordmap import WordMap
-from src.helpers.class_vectors import Vectors
 
 class Sentence:
 
@@ -24,7 +22,7 @@ class Sentence:
         self.sent_pos = int(sent_pos)    # position of sentence in document
         self.doc_id = doc_id
         self.tokens = []
-        self.vector
+        self.vector = []  # placeholder
 
         if not self.tokens:
             self.__tokenize_sentence()
