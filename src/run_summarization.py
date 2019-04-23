@@ -36,7 +36,8 @@ def load_documents_for_topics(topic_soup):
     # At this point, all docs have been loaded and all unique words are stored in WordMap set
     # Need to trigger creation of mapping and of vectors
     WordMap.create_mapping()
-    Vectors.create_freq_vectors(topics)
+    vec = Vectors()
+    vec.create_freq_vectors(topics)
 
     return topics
 

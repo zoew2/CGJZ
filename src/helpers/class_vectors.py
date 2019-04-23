@@ -21,7 +21,7 @@ class Vectors:
         index = 1
         # stack remaining document matrices
         while index < len(topic_docs):
-            hstack(topic_matrix, topic_docs[index].vectors)
+            vstack(topic_matrix, topic_docs[index].vectors)
         return topic_matrix
 
     def create_freq_vectors(self, topics):
