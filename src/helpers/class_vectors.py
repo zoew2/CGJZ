@@ -32,6 +32,7 @@ class Vectors:
         relevant Sentence objects and per-document matrices in relevant Document objects
         :param topics: Dictionary {topic -> list of Documents}
         :return: None
+        pre: WordMap.create_mapping has been called (should happen in run_summarization document loading)
         """
         global num_unique_words
         for cluster in topics.values():
