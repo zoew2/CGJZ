@@ -154,7 +154,7 @@ class Sentence:
         return self.raw_sentence == other.raw_sentence
 
 
-    def __cmp__(self, other):
+    def __lt__(self, other):
         """
         Sentences are ordered by their sentence positions by default
         if a Sentence has a mead score, that is used
@@ -167,6 +167,4 @@ class Sentence:
             score = self.mead_score
             other_score = other.mead_score
 
-        if score == other_score:
-            return 0
-        return 1 if score > other_score else -1
+        return score < other_score

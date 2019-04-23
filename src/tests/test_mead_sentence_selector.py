@@ -1,6 +1,9 @@
 import unittest
 from src.mead.mead_content_selector import MeadContentSelector
 from src.helpers.class_sentence import Sentence
+from src.helpers.class_document import Document
+from src.helpers.class_wordmap import WordMap
+from src.helpers.class_vectors import Vectors
 
 
 class MeadSentenceSelectorTests(unittest.TestCase):
@@ -10,18 +13,16 @@ class MeadSentenceSelectorTests(unittest.TestCase):
 
     def test_apply_redundancy_penalty(self):
         selector = MeadContentSelector()
-        sentence1 = Sentence('This is a test', 1)
-        sentence1.mead_score = 1.0
-        sentence2 = Sentence('This is also a test', 2)
-        sentence2.mead_score = 1.0
-        sentence3 = Sentence('Wow what a difference sentence', 3)
-        sentence3.mead_score = 1.0
+        document = Document("APW_ENG_19980613.0001")
 
-        selector.selected_content = [sentence1, sentence2, sentence3]
+        vec = Vectors()
+        WordMap.create_mapping()
+        vec.create_freq_vectors({"TestTopic": [document]})
 
-        selector.apply_redundancy_penalty(sentence1)
-        scores = [s.mead_score for s in selector.selected_content]
-        expected_scores = [1.0, 1.0, 1.0]
+        selector.select_content([document])
+        selector.apply_redundancy_penalty(selector.selected_content[0])
+        scores = [s.mead_score for s in selector.selected_content[:3]]
+        expected_scores = [0.5, 0.97222222222222221, 1.0]
 
         self.assertEqual(scores, expected_scores)
 

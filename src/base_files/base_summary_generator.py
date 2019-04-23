@@ -43,25 +43,24 @@ class BaseSummaryGenerator:
         """
         Determine the surface realization for the content
         default behavior is to just take the first n sentences while the total word count < 100
-        :param ordered_info: list of Sentence objects
         :return: new line separated string of sentences
         """
 
         output_content = []
         token_total = 0
-        done = False
-        while not done:
-            next_sent = self.get_next_sentence(output_content)
-            next_sent_len = next_sent.word_count
+        next_sent = None
+        while True:
+            next_sent = self.get_next_sentence(next_sent)
+            next_sent_len = next_sent.word_count()
             if token_total + next_sent_len < 100:
                 output_content.append(next_sent.raw_sentence)
                 token_total += next_sent_len
             else:
-                done = True
+                break
         output_content = '\n'.join(output_content)  # one sentence per line
         return output_content
 
-    def get_next_sentence(self, summary):
+    def get_next_sentence(self, last_sentence):
         content = self.content_selector.selected_content
         return content.pop()
 

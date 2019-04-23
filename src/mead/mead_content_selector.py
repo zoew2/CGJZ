@@ -2,7 +2,7 @@ from src.base_files.base_content_selector import BaseContentSelector
 from src.helpers.class_document import Document
 from src.helpers.class_sentence import Sentence
 from scipy.spatial.distance import cosine
-import numpy as np
+from scipy.sparse import csr_matrix
 
 
 class MeadContentSelector(BaseContentSelector):
@@ -34,8 +34,9 @@ class MeadContentSelector(BaseContentSelector):
         selected_vector = selected_sentence.vector
 
         for sentence in self.selected_content:
-            overlap = np.sum((selected_vector != 0) & (sentence.vector != 0))
-            counts = np.sum(selected_vector) + np.sum(sentence.vector)
+            vector_ = (selected_vector != 0)
+            overlap = csr_matrix.sum(vector_.multiply(sentence.vector != 0))
+            counts = selected_vector.sum() + sentence.vector.sum()
             sentence.mead_score = sentence.mead_score - (overlap/counts)
 
     def get_score(self, sentence):
@@ -45,15 +46,3 @@ class MeadContentSelector(BaseContentSelector):
         :return:
         """
         pass
-
-    def select_content(self, documents):
-        """
-        Select the salient content for the summary
-        :param: list of Document objects
-        :return: dictionary of Date, Sentence object pairs
-        """
-
-        # documents sorted by score
-        selected_content = documents
-
-        return selected_content
