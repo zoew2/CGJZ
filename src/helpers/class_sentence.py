@@ -16,8 +16,6 @@ from src.helpers.class_wordmap import WordMap
 
 class Sentence:
 
-    mead_score = None
-
     def __init__(self, raw_sentence, sent_pos, doc_id=None):
         """
         initialize Sentence class with methods for plain/raw and tokenized sentence
