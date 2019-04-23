@@ -1,4 +1,6 @@
 from src.base_files.base_content_selector import BaseContentSelector
+from src.helpers.class_document import Document
+from src.helpers.class_sentence import Sentence
 
 
 class MeadContentSelector(BaseContentSelector):
