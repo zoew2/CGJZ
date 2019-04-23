@@ -8,6 +8,8 @@ document and position/order of sentence within document as integer
 
 from nltk import tokenize
 import string
+from src.helpers.class_wordmap import WordMap
+
 
 class Sentence:
 

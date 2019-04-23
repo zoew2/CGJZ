@@ -1,5 +1,5 @@
 from scipy.sparse import dok_matrix, vstack
-from scr.helpers.class_wordmap import WordMap
+from src.helpers.class_wordmap import WordMap
 
 class Vectors:
     """
@@ -21,7 +21,7 @@ class Vectors:
         index = 1
         # stack remaining document matrices
         while index < len(topic_docs):
-            vstack(topic_matrix, topic_docs[index].vectors)
+            vstack([topic_matrix, topic_docs[index].vectors])
         return topic_matrix
 
     def create_freq_vectors(self, topics):
@@ -43,7 +43,7 @@ class Vectors:
                     # assign vector to sentence object
                     sentence.set_vector(sentence_vector)
                     # add sentence vector to document matrix
-                    vstack(doc_vectors, sentence_vector)
+                    vstack([doc_vectors, sentence_vector])
                 # assign matrix to document
                 document.set_vectors(doc_vectors)
 
