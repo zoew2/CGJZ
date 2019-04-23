@@ -40,7 +40,9 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         generator.select_content()
         generator.order_information()
 
-        self.assertListEqual(expected_info, generator.content_selector.selected_content)
+        first_sentences = generator.content_selector.selected_content[:2]
+
+        self.assertListEqual(expected_info, first_sentences)
 
     def test_realize_content(self):
         """
