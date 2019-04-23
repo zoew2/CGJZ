@@ -61,6 +61,11 @@ class BaseSummaryGenerator:
         return output_content
 
     def get_next_sentence(self, last_sentence):
+        """
+        Get the next sentence from the selected content
+        :param last_sentence: the last sentence picked for the summary
+        :return: the next Sentence object
+        """
         content = self.content_selector.selected_content
         return content.pop()
 

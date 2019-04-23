@@ -116,4 +116,9 @@ class Document:
         self.vectors = matrix
 
     def __eq__(self, other):
+        """
+        A document is equal to another if they have the same doc id
+        :param other:
+        :return:
+        """
         return self.docid == other.docid

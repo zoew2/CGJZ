@@ -15,9 +15,18 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         return documents
 
     def order_information(self):
+        """
+        Order the Sentences in selected content by MEAD score
+        :return:
+        """
         return self.content_selector.selected_content.sort()
 
     def get_next_sentence(self, last_sentence):
+        """
+        Get the next Sentence from the selected content
+        :param last_sentence: the last sentence selected for the summary
+        :return: next Sentence
+        """
         if last_sentence:
             self.content_selector.apply_redundancy_penalty(last_sentence)
             self.order_information()

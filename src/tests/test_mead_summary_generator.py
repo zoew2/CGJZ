@@ -13,6 +13,10 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
     """
 
     def test_order_information(self):
+        """
+        Test ordering Sentences by MEAD score
+        :return:
+        """
         sentence_1 = "Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
                      "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
                      "as the holy Moslem festival of Eid approaches here."
@@ -32,6 +36,10 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         self.assertListEqual(expected_info, first_sentences)
 
     def test_realize_content(self):
+        """
+        Test applying redundancy penalty during realize_content
+        :return:
+        """
         documents = [Document('XIN_ENG_20041113.0001'),
                      Document('APW_ENG_20041011.0001')]
         expected_content = "This measure has obviously been taken to take care of the building tensions between the " \

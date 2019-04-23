@@ -1,6 +1,5 @@
 import unittest
 from src.mead.mead_content_selector import MeadContentSelector
-from src.helpers.class_sentence import Sentence
 from src.helpers.class_document import Document
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
@@ -12,6 +11,10 @@ class MeadSentenceSelectorTests(unittest.TestCase):
     """
 
     def test_apply_redundancy_penalty(self):
+        """
+        Test the function to apply the redundancy penalty
+        :return:
+        """
         selector = MeadContentSelector()
         document = Document("APW_ENG_19980613.0001")
 
