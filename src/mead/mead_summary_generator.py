@@ -1,4 +1,6 @@
 from src.base_files.base_content_selector import BaseContentSelector
+from src.helpers.class_vectors import Vectors
+from src.helpers.class_wordmap import WordMap
 from nltk.corpus import reuters
 import numpy as np
 
@@ -8,6 +10,14 @@ class MeadSummaryGenerator(BaseContentSelector):
     Summarize documents using MEAD
     """
 
+    def __init__(self):
+        """
+        Initialize this class by saving input documents
+        :param documents: list of Document objects
+        """
+        BaseContentSelector.__init__()
+        self.idf_array = None
+
     def pre_process(self, documents):
         """
         Preprocess the documents by tokenizing, removing stop words etc
@@ -16,13 +26,14 @@ class MeadSummaryGenerator(BaseContentSelector):
 
         return documents
 
-    def get_idf_array(self):
+    def get_idf_array(self):    # todo: call me from run_summarization!
         """
         Use external corpus -- NLTK Reuters corpus -- to get IDF scores
         for cluster centroid calculations
         :return: numpy array of idf values
         """
-        num_words = Vectors.num_unique_words  # TODO: check that this is the correct way to reference global variable num_unique_words
+        # TODO: check that this is the correct way to reference global variable num_unique_words
+        num_words = Vectors.num_unique_words
         n = len(reuters.fileids())  # number of documents in Reuters corpus
         docs_word_matrix = np.zeros([n, num_words])
 
@@ -35,9 +46,7 @@ class MeadSummaryGenerator(BaseContentSelector):
                     docs_word_matrix[doc_idx, word_idx] = 1
 
         docs_per_word = np.sum(docs_word_matrix, axis=0)
-        idf_array = np.log10(np.divide(n, docs_per_word + 1))  # add one to avoid divide by zero error
-
-        return idf_array
+        self.idf_array = np.log10(np.divide(n, docs_per_word + 1))  # add one to avoid divide by zero error
 
     def realize_content(self, ordered_info):
         """
