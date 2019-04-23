@@ -34,7 +34,7 @@ def load_documents_for_topics(topic_soup):
 
     # At this point, all docs have been loaded and all unique words are stored in WordMap set
     # Need to trigger creation of mapping
-    WordMap().create_mapping()
+    WordMap.create_mapping()
 
     return topics
 

@@ -30,8 +30,7 @@ class Sentence:
             self.__tokenize_sentence()
 
         # update global mapping of words to indices
-        map = WordMap()
-        map.add_words(self.tokens)  # may want to change this later to take post-processing tokens
+        WordMap.add_words(self.tokens)  # make sure self.tokens is the right thing here
 
     def is_first_sentence(self):
         """

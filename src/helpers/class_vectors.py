@@ -8,8 +8,7 @@ class Vectors:
     functions for making vector representations of sentences
     """
 
-    map = WordMap()
-    num_unique_words = len(map.get_mapping())
+    num_unique_words = len(map)
 
     def get_topic_matrix(self, topic_docs):
         """
@@ -35,14 +34,13 @@ class Vectors:
         :return: None
         """
         global num_unique_words
-        global map
         for cluster in topics.values():
             for document in cluster:
                 doc_vectors = dok_matrix((len(document.sens), num_unique_words))
                 for sentence in document.sens:
                     sentence_vector = dok_matrix((1, num_unique_words))
                     for word in sentence.tokenized():  # maybe check that sentence.tokenized() is the right thing here
-                        word_id = map.id_of(word)
+                        word_id = WordMap.id_of(word)
                         sentence_vector[0, word_id] += 1
                     # assign vector to sentence object
                     sentence.set_vector(sentence_vector)
