@@ -33,7 +33,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         :return: numpy array of idf values
         """
         # TODO: check that this is the correct way to reference global variable num_unique_words
-        num_words = Vectors.num_unique_words
+        num_words = Vectors().num_unique_words
         n = len(reuters.fileids())  # number of documents in Reuters corpus
         docs_word_matrix = np.zeros([n, num_words])
 
