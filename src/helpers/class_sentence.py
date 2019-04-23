@@ -165,4 +165,4 @@ class Sentence:
             score = self.mead_score
             other_score = other.mead_score
 
-        return score < other_score
+        return score > other_score
