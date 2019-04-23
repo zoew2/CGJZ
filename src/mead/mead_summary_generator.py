@@ -1,4 +1,4 @@
-from src.base_files.base_content_selector import BaseContentSelector
+from src.base_files.base_content_selector import BaseSummaryGenerator
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 from nltk.corpus import reuters
@@ -15,7 +15,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         Initialize this class by saving input documents
         :param documents: list of Document objects
         """
-        BaseContentSelector.__init__()
+        BaseSummaryGenerator.__init__()
         self.idf_array = None
 
     def pre_process(self, documents):

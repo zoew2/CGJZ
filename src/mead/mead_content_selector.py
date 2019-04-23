@@ -6,6 +6,7 @@ from scipy.sparse import csr_matrix
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 import numpy as np
+from scipy.sparse import dok_matrix
 
 class MeadContentSelector(BaseContentSelector):
     """
@@ -34,16 +35,15 @@ class MeadContentSelector(BaseContentSelector):
         """
         return 1 - cosine(first_sentence.vector, sentence.vector)
 
-    def get_cluster_centroid(self, documents, threshold=-1):
+    def get_cluster_centroid(self, documents, idf_array, threshold=-1):
         """
         The centroid for the cluster is the vector for
         the pseudo-document for the cluster, cf. MEAD paper
         :param: documents, idf_array, threshold (optional)
         :return: numpy array
         """
-        word_sentence_matrix = Vectors.get_topic_matrix(documents).toarray()
+        word_sentence_matrix = Vectors().get_topic_matrix(documents).toarray()
         total_words_in_cluster = word_sentence_matrix.sum(0)
-        idf_array = MeadSummaryGenerator.idf_array
 
         # The original MEAD implementation used: matrix for num DOCUMENTS in topic X num words in corpus
         # But "document" is a flexible term -- see Gina's response in Canvas discussion...
@@ -116,14 +116,14 @@ class MeadContentSelector(BaseContentSelector):
 
         sentence.set_mead_score(score)  # assign score value to Sentence object
 
-    def select_content(self, documents):
+    def select_content(self, documents, idf_array): # todo: pass the idf_array into select content in run_summarization
         """
         Select the salient content for the summary
         :param: list of Document objects
         :return: dictionary of Date, Sentence object pairs
         """
         selected_content = []
-        centroid = self.get_cluster_centroid(documents)
+        centroid = self.get_cluster_centroid(documents, idf_array)
         for doc in documents:
             n = len(documents)
             for s in doc.sens:
