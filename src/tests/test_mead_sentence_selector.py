@@ -16,16 +16,16 @@ class MeadSentenceSelectorTests(unittest.TestCase):
         :return:
         """
         selector = MeadContentSelector()
-        document = Document("APW_ENG_19980613.0001")
+        document = Document("TST_ENG_20190101.0001")
 
-        vec = Vectors()
         WordMap.create_mapping()
-        vec.create_freq_vectors({"TestTopic": [document]})
+        vec = Vectors()
+        vec.create_freq_vectors({"PUP1A": [document]})
 
         selector.select_content([document])
         selector.apply_redundancy_penalty(selector.selected_content[0])
         scores = [s.mead_score for s in selector.selected_content[:3]]
-        expected_scores = [0.5, 0.97222222222222221, 1.0]
+        expected_scores = [-0.4642857142857143, -0.088235294117647065, -0.055555555555555552]
 
         self.assertEqual(scores, expected_scores)
 

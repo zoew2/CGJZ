@@ -28,6 +28,8 @@ class Sentence:
         self.doc_id = doc_id
         self.tokens = []
         self.vector = []  # placeholder
+        self.order_by = self.sent_pos
+        self.mead_score = 0.0
 
         if not self.tokens:
             self.__tokenize_sentence()
@@ -149,7 +151,7 @@ class Sentence:
         :param other:
         :return:
         """
-        return self.raw_sentence == other.raw_sentence
+        return isinstance(other, Sentence) and self.raw_sentence == other.raw_sentence
 
 
     def __lt__(self, other):
@@ -159,10 +161,5 @@ class Sentence:
         :param other:
         :return:
         """
-        score = self.sent_pos
-        other_score = self.sent_pos
-        if self.mead_score:
-            score = self.mead_score
-            other_score = other.mead_score
 
-        return score > other_score
+        return self.order_by < other.order_by

@@ -13,6 +13,5 @@ class LeadSummaryGenerator(BaseSummaryGenerator):
         Order the salient information for the summary
         :return: list of Sentence objects
         """
-        salient_info = self.content_selector.selected_content
 
-        self.content_selector.selected_content = [salient_info[date] for date in sorted(salient_info.keys())]
+        return self.content_selector.selected_content.sort()

@@ -11,18 +11,13 @@ class LeadSummaryGeneratorTests(unittest.TestCase):
     """
 
     def test_order_information(self):
-        sentence_1 = "Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
-                     "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
-                     "as the holy Moslem festival of Eid approaches here."
-        doc_id_1 = 'XIN_ENG_20041113.0001'
-        sentence_2 = "The race to claim the five World Cup finals berths from Africa " \
-                     "is no clearer after this weekend\'s qualifying matches, " \
-                     "but Mexico and Trinidad and Tobago closed in on the final group " \
-                     "stage in the CONCACAF region Sunday."
-        doc_id_2 = 'APW_ENG_20041001.0001'
-        expected_info = [Sentence(sentence_2, 2, doc_id_2), Sentence(sentence_1, 1, doc_id_1)]
+        sentence_1 = 'Puppies are cute because many of them are small.'
+        doc_id_1 = 'TST20190201.0001'
+        sentence_2 = 'In a park somewhere, a bunch of puppies played fetch with their owners today.'
+        doc_id_2 = 'TST_ENG_20190101.0001'
+        expected_info = [Sentence(sentence_2, 1, doc_id_2), Sentence(sentence_1, 1, doc_id_1)]
 
-        documents = [Document('XIN_ENG_20041113.0001'), Document('APW_ENG_20041011.0001')]
+        documents = [Document('TST_ENG_20190101.0001'), Document('TST20190201.0001')]
         generator = LeadSummaryGenerator(documents, LeadSentenceSelector())
         generator.select_content()
         generator.order_information()
@@ -30,18 +25,14 @@ class LeadSummaryGeneratorTests(unittest.TestCase):
         self.assertListEqual(expected_info, generator.content_selector.selected_content)
 
     def test_realize_content(self):
-        documents = [Document('XIN_ENG_20041113.0001'),
-                     Document('APW_ENG_20041011.0001'),
-                     Document('APW_ENG_20041011.0002'),
-                     Document('APW_ENG_20041011.0003')]
-        expected_content = "Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
-                           "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
-                           "as the holy Moslem festival of Eid approaches here.\n" \
-                           "Today is Monday, October 18, the 291st day of 2004.\n" \
-                           "The race to claim the five World Cup finals berths from Africa " \
-                           "is no clearer after this weekend's qualifying matches, " \
-                           "but Mexico and Trinidad and Tobago closed in on the final " \
-                           "group stage in the CONCACAF region Sunday."
+        documents = [Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002')]
+        expected_content = "In a park somewhere, a bunch of puppies played fetch with their owners today.\n" \
+                           "I took my small puppy to the dog park today.\n" \
+                           "Puppies are cute because many of them are small.\n" \
+                           "Puppies love to play with toys."
 
         generator = LeadSummaryGenerator(documents, LeadSentenceSelector())
         generator.select_content()

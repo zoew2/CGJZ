@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE DOCSTREAM SYSTEM 'a2_newswire_xml.dtd'>
+<DOCSTREAM>
+<DOC id="TST20190401.0001" type="story" >
+<HEADLINE>
+Soldiers are killed in war
+</HEADLINE>
+<DATELINE>
+Seattle, Jan 1
+</DATELINE>
+<TEXT>
+<P>
+When soldiers go to war sometimes they get killed. When we fight a war, we send many soldiers to fight and they often
+    die. Many soldiers are young so it is sad when they die. Also they kill a lot of enemy soldiers who are also young.
+</P>
+</TEXT>
+</DOC>
+<DOC id="TST20190401.0002" type="story" >
+<HEADLINE>
+War is political
+</HEADLINE>
+<DATELINE>
+Seattle, Jan 1
+</DATELINE>
+<TEXT>
+<P>
+Going to war is often a political decision. Sometimes we have to fight wars because of politics. Political relations
+    between countries can end in war when they decide they need to fight another country.
+</P>
+</TEXT>
+</DOC>
+</DOCSTREAM>

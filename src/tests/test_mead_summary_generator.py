@@ -17,41 +17,59 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         Test ordering Sentences by MEAD score
         :return:
         """
-        sentence_1 = "Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
-                     "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
-                     "as the holy Moslem festival of Eid approaches here."
-        sentence_2 = "Kashmiris are known as incorrigible festive shoppers and because of that reputation, " \
-                     "unscrupulous shopkeepers have been minting money by over-charging the locals for everything " \
-                     "from a chop of mutton to the chickens and hosiery items that the locals must buy to protect " \
-                     "themselves from the biting cold of the winter."
-        expected_info = [Sentence(sentence_1, 1), Sentence(sentence_2, 2)]
+        doc_id_1 = 'TST_ENG_20190101.0001'
+        sentence_1 = 'In a park somewhere, a bunch of puppies played fetch with their owners today.'
+        sentence_2 = 'They all ran around with their tails wagging ' \
+                     'and their tongues hanging out having loads of fun in the sun.'
+        sentence_3 = 'Puppies love playing fetch.'
+        expected_info = [Sentence(sentence_1, 1, doc_id_1),
+                         Sentence(sentence_3, 3, doc_id_1),
+                         Sentence(sentence_2, 2, doc_id_1)]
 
-        documents = [Document('XIN_ENG_20041113.0001'), Document('APW_ENG_20041011.0001')]
+        documents = [Document('TST_ENG_20190101.0001')]
+
+        ## This is hardcoded until Julia's code is merged
+        documents[0].sens[0].mead_score = 0.8
+        documents[0].sens[0].order_by = -0.8
+        documents[0].sens[1].mead_score = 0.2
+        documents[0].sens[1].order_by = -0.2
+        documents[0].sens[2].mead_score = 0.5
+        documents[0].sens[2].order_by = -0.5
+
         generator = MeadSummaryGenerator(documents, MeadContentSelector())
         generator.select_content()
         generator.order_information()
 
-        first_sentences = generator.content_selector.selected_content[:2]
-
-        self.assertListEqual(expected_info, first_sentences)
+        self.assertListEqual(expected_info, generator.content_selector.selected_content)
 
     def test_realize_content(self):
         """
         Test applying redundancy penalty during realize_content
         :return:
         """
-        documents = [Document('XIN_ENG_20041113.0001'),
-                     Document('APW_ENG_20041011.0001')]
-        expected_content = "This measure has obviously been taken to take care of the building tensions between the " \
-                           "Indian army and local people who often come into unpleasant contact during encounters, " \
-                           "crackdown operations and search and cordon exercises that have become so routine in " \
-                           "Kashmir ever since the present armed struggle against the Indian rule started here 18 " \
-                           "years back.\nBut, around this Eid festival, there is more to the happy public mood than " \
-                           "just the urge to over spend during the festival."
+        expected_content = "Puppies are cute because many of them are small.\n" \
+                           "I took my small puppy to the dog park today.\n" \
+                           "They all ran around with their tails wagging and their tongues hanging out having loads " \
+                           "of fun in the sun.\n" \
+                           "Puppies love playing fetch.\n"\
+                           "In a park somewhere, a bunch of puppies played fetch with their owners today."
 
-        vec = Vectors()
+        documents = [Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002')]
+
+        ## This is hardcoded until Julia's code is merged
+        documents[0].sens[0].mead_score = 0.8
+        documents[0].sens[0].order_by = -0.8
+        documents[0].sens[1].mead_score = 0.2
+        documents[0].sens[1].order_by = -0.2
+        documents[0].sens[2].mead_score = 0.5
+        documents[0].sens[2].order_by = -0.5
+
         WordMap.create_mapping()
-        vec.create_freq_vectors({"TestTopic": documents})
+        vec = Vectors()
+        vec.create_freq_vectors({"PUP1A": documents})
 
         generator = MeadSummaryGenerator(documents, MeadContentSelector())
         generator.select_content()

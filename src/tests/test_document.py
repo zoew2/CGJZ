@@ -8,21 +8,20 @@ class DocumentTests(unittest.TestCase):
     """
 
     def test_parse_doc_id(self):
-        newdoc = Document("APW_ENG_19980613.0001")
-        self.assertEqual(newdoc.src, 'APW')
-        self.assertEqual(newdoc.lang, '_ENG')
-        self.assertEqual(newdoc.date, '19980613')
-        self.assertEqual(newdoc.art_id, '0001')
-        self.assertEqual(newdoc.docid, 'APW_ENG_19980613.0001')
-        self.assertEqual(newdoc.docid_inxml, 'APW19980613.0001')
+        doc = Document("TST_ENG_20190101.0001")
+        self.assertEqual(doc.src, 'TST')
+        self.assertEqual(doc.lang, '_ENG')
+        self.assertEqual(doc.date, '20190101')
+        self.assertEqual(doc.art_id, '0001')
+        self.assertEqual(doc.docid, 'TST_ENG_20190101.0001')
 
     def test_parse_doc_id2(self):
-        newdoc = Document("APW19990421.0284")
-        self.assertEqual(newdoc.src, 'APW')
-        self.assertEqual(newdoc.date, '19990421')
-        self.assertEqual(newdoc.art_id, '0284')
-        self.assertEqual(newdoc.docid, 'APW19990421.0284')
-        self.assertEqual(newdoc.docid_inxml, 'APW19990421.0284')
+        doc = Document("TST20190201.0001")
+        self.assertEqual(doc.src, 'TST')
+        self.assertEqual(doc.lang, '_ENG')
+        self.assertEqual(doc.date, '20190201')
+        self.assertEqual(doc.art_id, '0001')
+        self.assertEqual(doc.docid, 'TST20190201.0001')
 
 
 if __name__ == '__main__':

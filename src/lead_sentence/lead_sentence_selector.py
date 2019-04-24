@@ -13,5 +13,10 @@ class LeadSentenceSelector(BaseContentSelector):
         :param: list of Document objects
         :return: dictionary of Date, Sentence object pairs
         """
+        selected_content = []
+        for doc in documents:
+            lead_sentence = doc.get_sen_bypos(0)
+            lead_sentence.order_by = int(doc.date + doc.art_id)
+            selected_content.append(lead_sentence)
 
-        self.selected_content = {doc.date+doc.art_id: doc.get_sen_bypos(0) for doc in documents}
+        self.selected_content = selected_content

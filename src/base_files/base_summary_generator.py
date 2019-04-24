@@ -37,7 +37,7 @@ class BaseSummaryGenerator:
         :return:
         """
 
-        return self.content_selector.selected_content
+        return self.content_selector.selected_content.sort()
 
     def realize_content(self):
         """
@@ -48,26 +48,26 @@ class BaseSummaryGenerator:
 
         output_content = []
         token_total = 0
-        next_sent = None
-        while True:
-            next_sent = self.get_next_sentence(next_sent)
+        next_sent = self.get_next_sentence()
+        while next_sent:
             next_sent_len = next_sent.word_count()
             if token_total + next_sent_len < 100:
                 output_content.append(next_sent.raw_sentence)
                 token_total += next_sent_len
             else:
                 break
+            next_sent = self.get_next_sentence(next_sent)
         output_content = '\n'.join(output_content)  # one sentence per line
         return output_content
 
-    def get_next_sentence(self, last_sentence):
+    def get_next_sentence(self, last_sentence=""):
         """
         Get the next sentence from the selected content
         :param last_sentence: the last sentence picked for the summary
         :return: the next Sentence object
         """
         content = self.content_selector.selected_content
-        return content.pop()
+        return content.pop(0) if content else False
 
     def generate_summary(self):
         """
