@@ -1,5 +1,5 @@
 import unittest
-from ..helpers.class_sentence import Sentence
+from src.helpers.class_sentence import Sentence
 
 
 class SentenceClassTests(unittest.TestCase):
@@ -27,6 +27,9 @@ class SentenceClassTests(unittest.TestCase):
 
         self.assertCountEqual(features, expected_features)
 
+        # Todo: test the stemming (need the spacy package), spacy will take care of the tokenization
+        # too, but seems to behave not as good as expected? it tokenized morining-after to morning - after
+        # then said 'morning' is a name entity, sigh* will looking into that
 
 if __name__ == '__main__':
     unittest.main()
