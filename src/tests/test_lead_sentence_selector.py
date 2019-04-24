@@ -10,18 +10,16 @@ class LeadSentenceSelectorTests(unittest.TestCase):
     """
 
     def test_select_content(self):
-        sentence_1 = "Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
-                     "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
-                     "as the holy Moslem festival of Eid approaches here."
-        doc_id_1 = 'XIN_ENG_20041113.0001'
-        sentence_2 = "Today is Friday, October 8, the 281st day of 2004."
-        doc_id_2 = 'APW_ENG_20041001.0001'
+        sentence_1 = 'In a park somewhere, a bunch of puppies played fetch with their owners today.'
+        doc_id_1 = 'TST_ENG_20190101.0001'
+        sentence_2 = 'I took my small puppy to the dog park today.'
+        doc_id_2 = 'TST_ENG_20190101.0002'
 
         selector = LeadSentenceSelector()
         documents = [Document(doc_id_1), Document(doc_id_2)]
-        expected_sentences = {'200410010001': Sentence(sentence_1, 1, doc_id_1),
-                              '200411130001': Sentence(sentence_2, 2, doc_id_2)}
-        selected_sentences = selector.select_content(documents)
+        expected_sentences = [Sentence(sentence_1, 1, doc_id_1), Sentence(sentence_2, 1, doc_id_2)]
+        selector.select_content(documents)
+        selected_sentences = selector.selected_content
 
         self.assertCountEqual(expected_sentences, selected_sentences)
 

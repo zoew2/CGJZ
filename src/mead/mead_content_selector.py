@@ -1,8 +1,7 @@
-
 from src.base_files.base_content_selector import BaseContentSelector
-from src.helpers.class_document import Document
-from src.helpers.class_sentence import Sentence
+from scipy.sparse import csr_matrix
 from scipy.spatial.distance import cosine
+
 
 class MeadContentSelector(BaseContentSelector):
     """
@@ -24,8 +23,19 @@ class MeadContentSelector(BaseContentSelector):
     def get_centroid_score(self, sentence):
         pass
 
-    def apply_redundancy_score(self):
-        pass
+    def apply_redundancy_penalty(self, selected_sentence):
+        """
+        Apply a redundancy penalty to all sentences based on the given selected sentence
+        :param selected_sentence: the selected sentence
+        :return: void
+        """
+        selected_vector = selected_sentence.vector
+
+        for sentence in self.selected_content:
+            vector_ = (selected_vector != 0)
+            overlap = csr_matrix.sum(vector_.multiply(sentence.vector != 0))
+            counts = selected_vector.sum() + sentence.vector.sum()
+            sentence.mead_score = sentence.mead_score - (overlap/counts)
 
     def get_score(self, sentence):
         """
@@ -34,18 +44,3 @@ class MeadContentSelector(BaseContentSelector):
         :return:
         """
         pass
-
-    def select_content(self, documents):
-        """
-        Select the salient content for the summary
-        :param: list of Document objects
-        :return: dictionary of Date, Sentence object pairs
-        """
-
-        # documents sorted by score
-        selected_content = documents
-
-
-
-        return selected_content
-

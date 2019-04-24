@@ -34,7 +34,10 @@ class Document:
         self.year = self.date[:4]  # year - 2004
         self.art_id = ids[1]  # .0001
 
-        if int(self.year) > 2000:  # get path, if date belongs to 2004+
+        if self.src == 'TST':
+            self.path = '../tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
+            self.docid_inxml = self.docid
+        elif int(self.year) > 2000:  # get path, if date belongs to 2004+
             self.path = "/corpora/LDC/LDC08T25/data/" + self.src.lower() + self.lang.lower() + "/" + \
                         self.src.lower() + self.lang.lower() + "_" + self.date[:-2]+".xml"
             self.docid_inxml = self.docid
@@ -116,4 +119,9 @@ class Document:
         self.vectors = matrix
 
     def __eq__(self, other):
+        """
+        A document is equal to another if they have the same doc id
+        :param other:
+        :return:
+        """
         return self.docid == other.docid

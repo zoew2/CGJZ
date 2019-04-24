@@ -9,9 +9,7 @@ from nltk import tokenize
 import string
 from nltk.corpus import stopwords
 import spacy
-
 from src.helpers.class_wordmap import WordMap
-
 
 
 class Sentence:
@@ -28,6 +26,8 @@ class Sentence:
         self.doc_id = doc_id
         self.tokens = []
         self.vector = []  # placeholder
+        self.order_by = self.sent_pos
+        self.mead_score = 0.0
 
         if not self.tokens:
             self.__tokenize_sentence()
@@ -144,4 +144,20 @@ class Sentence:
         return self.raw_sentence
 
     def __eq__(self, other):
-        return self.raw_sentence == other.raw_sentence
+        """
+        One Sentence is equal to another if the raw sentences match
+        :param other:
+        :return:
+        """
+        return isinstance(other, Sentence) and self.raw_sentence == other.raw_sentence
+
+
+    def __lt__(self, other):
+        """
+        Sentences are ordered by their sentence positions by default
+        if a Sentence has a mead score, that is used
+        :param other:
+        :return:
+        """
+
+        return self.order_by < other.order_by
