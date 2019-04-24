@@ -25,7 +25,7 @@ class MeadSentenceSelectorTests(unittest.TestCase):
         selector.select_content([document])
         selector.apply_redundancy_penalty(selector.selected_content[0])
         scores = [s.mead_score for s in selector.selected_content[:3]]
-        expected_scores = [-0.4642857142857143, -0.088235294117647065, -0.055555555555555552]
+        expected_scores = [-0.5, 0.0, -0.07692307692307693]
 
         self.assertEqual(scores, expected_scores)
 

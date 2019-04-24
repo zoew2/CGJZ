@@ -21,7 +21,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         """
         return self.content_selector.selected_content.sort()
 
-    def get_next_sentence(self, last_sentence):
+    def get_next_sentence(self, last_sentence=""):
         """
         Get the next Sentence from the selected content
         :param last_sentence: the last sentence selected for the summary
