@@ -20,14 +20,16 @@ class SentenceClassTests(unittest.TestCase):
         e = s.document_id()
 
         features = [a, b, c, d, e]
-        expected_features = [['Describe', 'the', 'debate', 'over', 'use', 'of',
-                              'emergency', 'contraceptives', 'also', 'called', 'the',
-                              'morning-after', 'pill', 'and', 'whether', 'or', 'not', 'it',
-                              'should', 'be', 'available', 'without', 'a', 'prescription'],
+        expected_features = [['Describe', 'debate', 'use', 'emergency', 'contraceptives',
+                              'also', 'called', 'morning-after', 'pill', 'whether', 'available',
+                              'without', 'prescription'],
                              24, True, 0, 'XIN_ENG_20041113.0001']
 
         self.assertCountEqual(features, expected_features)
 
+        # Todo: test the stemming (need the spacy package), spacy will take care of the tokenization
+        # too, but seems to behave not as good as expected? it tokenized morining-after to morning - after
+        # then said 'morning' is a name entity, sigh* will looking into that
 
 if __name__ == '__main__':
     unittest.main()

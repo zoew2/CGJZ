@@ -1,5 +1,6 @@
 from nltk import tokenize
 from .class_sentence import Sentence
+import warnings
 
 """
 This is a module file of Document class.
@@ -17,7 +18,7 @@ class Document:
         initialize Document class
         :param docid: e.g. "XIN_ENG_20041113.0001"
         """
-        self.docid=input_docid  # docid
+        self.docid = input_docid  # docid
         ids = self.docid.split(".")
         info = ids[0].split("_")
         if len(info) < 2:
@@ -84,12 +85,16 @@ class Document:
         :param text:
         :return: sens_c
         """
-        sens=tokenize.sent_tokenize(text)  # plain sens
+        sens = tokenize.sent_tokenize(text)  # plain sens
+        if not len(sens):
+            warnings.warn('No sentence in the document! Document id: ' + self.docid, Warning)
+
         sens_c=[]  # sens in class structure
         for sen_pos in range(len(sens)):
             newsen = Sentence(sens[sen_pos], sen_pos)
 
             sens_c.append(newsen)
+
         return sens_c
 
     def get_sen_bypos(self, sen_pos):
