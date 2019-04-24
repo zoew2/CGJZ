@@ -7,6 +7,8 @@ from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.base_files.base_content_selector import BaseContentSelector
 from src.lead_sentence.lead_summary_generator import LeadSummaryGenerator
 from src.lead_sentence.lead_sentence_selector import LeadSentenceSelector
+from src.mead.mead_summary_generator import MeadSummaryGenerator
+from src.mead.mead_content_selector import MeadContentSelector
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
 
@@ -81,6 +83,8 @@ def main():
     for topic_id, documents in topics.items():
         if version == '1':
             summarizer = LeadSummaryGenerator(documents, LeadSentenceSelector())
+        elif version == '2':
+            summarizer = MeadSummaryGenerator(documents, MeadContentSelector())
         else:
             summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
         output_file = get_output_filename(topic_id, version)
