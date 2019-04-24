@@ -7,6 +7,8 @@ from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.base_files.base_content_selector import BaseContentSelector
 from src.lead_sentence.lead_summary_generator import LeadSummaryGenerator
 from src.lead_sentence.lead_sentence_selector import LeadSentenceSelector
+from src.helpers.class_wordmap import WordMap
+from src.helpers.class_vectors import Vectors
 
 
 def make_soup(topic_filename):
@@ -30,6 +32,13 @@ def load_documents_for_topics(topic_soup):
     for topic in topic_soup.find_all('topic'):
         documents = load_documents(topic)
         topics[topic['id']] = documents
+
+    # At this point, all docs have been loaded and all unique words are stored in WordMap set
+    # Need to trigger creation of mapping and of vectors
+    WordMap.create_mapping()
+    vec = Vectors()
+    vec.create_freq_vectors(topics)
+
     return topics
 
 
@@ -42,6 +51,7 @@ def load_documents(topic):
     documents = []
     for doc in topic.find_all('doc'):
         documents.append(Document(doc['id']))
+
     return documents
 
 
