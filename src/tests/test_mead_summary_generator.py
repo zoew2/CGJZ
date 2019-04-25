@@ -37,7 +37,8 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         documents[0].sens[2].order_by = -0.5
 
         generator = MeadSummaryGenerator(documents, MeadContentSelector())
-        generator.select_content()
+        idf = generator.get_idf_array()
+        generator.select_content(idf)
         generator.order_information()
 
         first_sentences = generator.content_selector.selected_content
@@ -74,7 +75,8 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         vec.create_freq_vectors({"PUP1A": documents})
 
         generator = MeadSummaryGenerator(documents, MeadContentSelector())
-        generator.select_content()
+        idf = generator.get_idf_array()
+        generator.select_content(idf)
         generator.order_information()
         generator.content_selector.selected_content = generator.content_selector.selected_content[:5]
         realized_content = generator.realize_content()
@@ -84,41 +86,25 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
     def test_get_idf_array(self):
         words = ["i", "eat", "cake", "is", "delicious",
                            "puppies", "are", "cute", "cats", "furry"]
-        WordMap.add_words(words)
-        WordMap.create_mapping()
-        idf = MeadSummaryGenerator().get_idf_array()
+        doc_list = [Document("TST_ENG_20190101.0001"), Document("TST_ENG_20190101.0002")]
+        # Must override WordMap dictionary for test
+        WordMap.word_to_id = {'delicious': 0, 'eat': 1, 'furry': 2,
+                              'puppies': 3, 'i': 4, 'cats': 5,
+                              'are': 6, 'is': 7, 'cute': 8, 'cake': 9}
 
-        puppies_idf_score = idf[WordMap.id_of('puppies')]
-        cake_idf_score = idf[WordMap.id_of('cake')]
-        i_idf_score = idf[WordMap.id_of('i')]
-        eat_idf_score = idf[WordMap.id_of('eat')]
-        is_idf_score = idf[WordMap.id_of('is')]
-        are_idf_score = idf[WordMap.id_of('are')]
-        delicious_idf_score = idf[WordMap.id_of('delicious')]
-        cute_idf_score = idf[WordMap.id_of('cute')]
-        cats_idf_score = idf[WordMap.id_of('cats')]
-        furry_idf_score = idf[WordMap.id_of('furry')]
+        idf = MeadSummaryGenerator(doc_list, MeadContentSelector()).get_idf_array()
 
-        print(puppies_idf_score, cake_idf_score, i_idf_score, eat_idf_score, is_idf_score)
+        scores = []
+        for word in words:
+            curr_score = idf[WordMap.id_of(word)]
+            scores.append("{:.5f}".format(curr_score))
 
-        puppies_expected = 3.5558196830611912
-        cake_expected = 2.918997585474017
-        i_expected = 1.3730247377110034
-        eat_expected = 3.25478968739721
-        is_expected = 0.48039438982519317
-        are_expected = 0.763661548008955
-        zero_expected = 4.032940937780854
+        expected_scores = ['1.37302', '3.25479', '2.91900',
+                           '0.48039', '4.03294', '3.55582',
+                           '0.76366', '4.03294', '4.03294',
+                           '4.03294']
 
-        self.assertAlmostEqual(puppies_idf_score, puppies_expected, 5)
-        self.assertAlmostEqual(cake_idf_score, cake_expected, 5)
-        self.assertAlmostEqual(i_idf_score, i_expected, 5)
-        self.assertAlmostEqual(eat_idf_score, eat_expected, 5)
-        self.assertAlmostEqual(is_idf_score, is_expected, 5)
-        self.assertAlmostEqual(are_idf_score, are_expected, 5)
-        self.assertAlmostEqual(delicious_idf_score, zero_expected, 5)
-        self.assertAlmostEqual(cute_idf_score, zero_expected, 5)
-        self.assertAlmostEqual(cats_idf_score, zero_expected, 5)
-        self.assertAlmostEqual(furry_idf_score, zero_expected, 5)
+        self.assertListEqual(scores, expected_scores, 5)
 
 
 if __name__ == '__main__':

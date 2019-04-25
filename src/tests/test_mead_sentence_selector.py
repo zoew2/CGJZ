@@ -1,5 +1,6 @@
 import unittest
 from src.mead.mead_content_selector import MeadContentSelector
+from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.helpers.class_document import Document
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
@@ -21,9 +22,10 @@ class MeadSentenceSelectorTests(unittest.TestCase):
         WordMap.create_mapping()
         vec = Vectors()
         vec.create_freq_vectors({"PUP1A": [document]})
+        idf = MeadSummaryGenerator([document], selector).get_idf_array()
 
-        selector.select_content([document])
-        selector.apply_redundancy_penalty(selector.selected_content[0])
+        selected = selector.select_content([document], idf)
+        selector.apply_redundancy_penalty(selected[0])
         scores = [s.mead_score for s in selector.selected_content[:3]]
         expected_scores = [-0.5, 0.0, -0.07692307692307693]
 

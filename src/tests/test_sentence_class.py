@@ -18,7 +18,7 @@ class SentenceClassTests(unittest.TestCase):
         e = s.document_id()
 
         features = [a, b, c, d, e]
-        expected_features = [['In', 'park', 'somewhere', 'bunch', 'puppies', 'played', 'fetch', 'owners', 'today'],
+        expected_features = [['in', 'park', 'somewhere', 'bunch', 'puppies', 'played', 'fetch', 'owners', 'today'],
                              14, True, 0, 'TST_ENG_20190101.0001']
 
         self.assertCountEqual(features, expected_features)

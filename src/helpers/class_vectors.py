@@ -20,7 +20,6 @@ class Vectors:
         topic_matrix = dok_matrix((0,0))  # initialize topic_matrix
         # stack remaining document matrices
         for index in range(len(topic_docs)):
-            # print(index, topic_docs[index].vectors)
             topic_matrix = vstack([topic_matrix, topic_docs[index].vectors])
         return topic_matrix
 
@@ -35,7 +34,6 @@ class Vectors:
         for cluster in topics.values():
             for document in cluster:
                 doc_vectors = dok_matrix((0,0))
-                # print(len(document.sens))
                 for sentence in document.sens:
                     sentence_vector = dok_matrix((1, self.num_unique_words))
                     for word in sentence.tokenized():  # maybe check that sentence.tokenized() is the right thing here
@@ -45,10 +43,6 @@ class Vectors:
                     sentence.set_vector(sentence_vector)
                     # add sentence vector to document matrix
                     doc_vectors = vstack([doc_vectors, sentence_vector])
-                    # print("sentence", sentence, sentence_vector.toarray())
-                    # print("doc", doc_vectors)
                 # assign matrix to document
                 document.set_vectors(doc_vectors)
-                # print(document.vectors.toarray())
-                print(len(doc_vectors.toarray()))
 

@@ -2,10 +2,8 @@ import unittest
 from src.helpers.class_sentence import Sentence
 from src.helpers.class_document import Document
 from src.mead.mead_content_selector import MeadContentSelector
-from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.helpers.class_sentence import WordMap
 from src.helpers.class_vectors import Vectors
-# from scipy.sparse import dok_matrix
 import numpy as np
 np.seterr(divide='ignore', invalid='ignore')
 
@@ -14,14 +12,23 @@ class MeadContentSelectorTests(unittest.TestCase):
     Tests for MeadContentSelector
     """
 
+    # variables used in multiple tests
+    doc_1 = Document("TST_ENG_20190101.0001")
+    doc_2 = Document("TST_ENG_20190101.0002")
+    doc_list = [doc_1, doc_2]
+    topics = {'PUP1A': [doc_1, doc_2]}
+    w_map = {'he': 0, 'owners': 1, 'i': 2, 'played': 3, 'bigger': 4, 'chased': 5, 'fetch': 6, 'park': 7, 'dog': 8, 'fun': 9, 'toys': 10, 'tongues': 11, 'took': 12, 'ran': 13, 'in': 14, 'sun': 15, 'loves': 16, 'somewhere': 17, 'many': 18, 'together': 19, 'around': 20, 'puppy': 21, 'today': 22, 'loads': 23, 'fight': 24, 'small': 25, "n't": 26, 'love': 27, 'wagging': 28, 'hanging': 29, 'puppies': 30, 'bunch': 31, 'dogs': 32, 'get': 33, 'playing': 34, 'they': 35, 'liked': 36, 'tails': 37, 'run': 38, 'there': 39}
+    idf = [4.032940937780854, 2.420157081061118, 1.3730247377110034, 2.8868129021026157, 2.7776684326775474, 3.7319109421168726, 3.25478968739721, 2.7107216430469343, 3.7319109421168726, 4.032940937780854, 3.3339709334448346, 4.032940937780854, 1.9257309681329853, 2.5705429398818973, 0.21458305982249878, 2.3608430798451363, 3.5558196830611912, 3.3339709334448346, 1.5660733174267443, 2.024340766018936, 1.2476111027700865, 4.032940937780854, 0.9959130580250786, 3.7319109421168726, 2.5415792439465807, 1.7107216430469343, 4.032940937780854, 3.4308809464528913, 4.032940937780854, 3.4308809464528913, 3.5558196830611912, 3.5558196830611912, 4.032940937780854, 1.734087861371147, 3.0786984283415286, 0.9055121599292547, 3.5558196830611912, 3.5558196830611912, 1.9876179589941962, 1.077734400238912]
+
     def test_get_sentence_position(self):
+        selector = MeadContentSelector()
         sentence_1 = Sentence("Today is Friday, October 8, the 281st day of 2004.", 0)
         sentence_2 = Sentence("Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
                      "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
                      "as the holy Moslem festival of Eid approaches here.", 50)
 
-        pos_score_1 = MeadContentSelector.get_sentence_position(MeadContentSelector, sentence_1, 100)
-        pos_score_2 = MeadContentSelector.get_sentence_position(MeadContentSelector, sentence_2, 100)
+        pos_score_1 = selector.get_sentence_position(sentence_1, 100)
+        pos_score_2 = selector.get_sentence_position(sentence_2, 100)
 
         expected_score_1 = 1
         expected_score_2 = 50/100
@@ -31,71 +38,42 @@ class MeadContentSelectorTests(unittest.TestCase):
 
 
     def test_get_cluster_centroid(self):
+        selector = MeadContentSelector()
+        Vectors().create_freq_vectors(self.topics)
+        WordMap.word_to_id = self.w_map
+        centroid = selector.get_cluster_centroid(self.doc_list, self.idf)
 
-        doc_1 = Document("TST_ENG_20190101.0001")
-        doc_2 = Document("TST_ENG_20190101.0002")
-        doc_3 = Document("TST_ENG_20190301.0001")
-        doc_4 = Document("TST_ENG_20190301.0002")
-        doc_list = [doc_1, doc_2]
+        actual_non_zero = np.count_nonzero(centroid)
+        should_be_non_zero = 40
 
-        topics = {'PUP1A': [doc_1, doc_2], 'WAR2A': [doc_3, doc_4]}
+        self.assertEqual(actual_non_zero, should_be_non_zero)
 
-        words = ['a', 'a', 'a', 'a', 'a', 'all', 'also',
-                 'and', 'and', 'and', 'and', 'and', 'and',
-                 'any', 'are', 'are', 'are', 'are', 'around',
-                 'around', 'before', 'bigger', 'bombs',
-                 'both', 'bunch', 'but', 'but', 'can',
-                 'chased', 'country', "didn't", 'dog',
-                 'dogs', 'each', 'enemies', 'enemy',
-                 'fetch', 'fetch', 'fetch', 'fight',
-                 'fight', 'fight', 'fun', 'get', 'get',
-                 'go', 'goes', 'guns', 'hanging', 'have',
-                 'have', 'have', 'having', 'he', 'he',
-                 'he', 'hurt', 'i', 'in', 'in', 'in',
-                 'in', 'is', 'just', 'kill', 'killed',
-                 'like', 'liked', 'loads', 'lots', 'lots',
-                 'love', 'loves', 'many', 'my', 'of', 'of',
-                 'of', 'of', 'of', 'other', 'other', 'our',
-                 'our', 'out', 'owners', 'park', 'park',
-                 'people', 'people', 'played', 'played',
-                 'playing', 'playing', 'playing', 'puppies',
-                 'puppies', 'puppies', 'puppy', 'ran', 'run',
-                 'shoot', 'shoot', 'small', 'so', 'so',
-                 'soldiers', 'soldiers', 'somewhere', 'sun',
-                 'tails', 'tanks', 'tanks', 'that', 'the',
-                 'the', 'the', 'the', 'the', 'their', 'their',
-                 'their', 'their', 'them', 'themselves',
-                 'there', 'there', 'there', 'they', 'they',
-                 'they', 'they', 'they', 'they', 'they',
-                 'things', 'to', 'to', 'to', 'to', 'to',
-                 'to', 'to', 'to', 'to', 'to', 'today',
-                 'today', 'together', 'tongues', 'took',
-                 'toys', 'travel', 'travel', 'try', 'used',
-                 'used', 'vehicle', 'wagging', 'war', 'war',
-                 'wars', 'weapon', 'weapons', 'were', 'when',
-                 'wherever', 'with', 'with', 'with', 'with', 'with']
+    def test_get_centroid_score(self):
+        selector = MeadContentSelector()
+        sent_1 = Sentence("Puppies love playing fetch.", 0)
 
-        WordMap.add_words(words)
-        print("1 done")
-        WordMap.create_mapping()
-        print("2 done")
-        Vectors().create_freq_vectors(topics)
-        print("3 done")
+        WordMap.word_to_id = self.w_map
+        Vectors().create_freq_vectors(self.topics)
 
-        # m = doc_1.vectors
-        #
-        # print("vectors", m, type(m))
-        idf = MeadSummaryGenerator().get_idf_array()
-        print("4 done")
+        centroid = selector.get_cluster_centroid(self.doc_list, self.idf)
 
-        # centroid = Vectors().get_topic_matrix(doc_list)
+        expected_centroid_score = 9.9
+        c_score = selector.get_centroid_score(sent_1, centroid)
 
-        centroid = MeadContentSelector().get_cluster_centroid(doc_list, idf)
+        self.assertAlmostEqual(expected_centroid_score, c_score, 1)
 
-        print(centroid)
+    def test_select_content(self):
+        selector = MeadContentSelector()
+        selected = selector.select_content(self.doc_list, self.idf)
+        top_sentence = selected[0]
+        expected_top_sentence = 'In a park somewhere, a bunch of ' \
+                                'puppies played fetch with their owners today.'
 
+        top_mead_score = float("{:.5f}".format(top_sentence.mead_score))
+        expected_top_mead_score = 16.26585
 
-
+        self.assertEqual(top_sentence.raw_sentence, expected_top_sentence)
+        self.assertEqual(top_mead_score, expected_top_mead_score)
 
 
 if __name__ == '__main__':

@@ -1,22 +1,10 @@
 from src.base_files.base_content_selector import BaseContentSelector
-from src.helpers.class_document import Document
-from src.helpers.class_sentence import Sentence
+from src.helpers.class_vectors import Vectors
+from src.helpers.class_wordmap import WordMap
 from scipy.spatial.distance import cosine
 from scipy.sparse import csr_matrix
-from src.helpers.class_vectors import Vectors
-from src.helpers.class_wordmap import WordMap
-import numpy as np
-from scipy.sparse import dok_matrix
-from mead.mead_summary_generator import MeadSummaryGenerator
-# from src.helpers.class_document import Document
-# from src.helpers.class_sentence import Sentence
-# from src.mead.mead_summary_generator import MeadSummaryGenerator
-from src.helpers.class_vectors import Vectors
-from src.helpers.class_wordmap import WordMap
 import numpy as np
 np.seterr(divide='ignore', invalid='ignore')
-from scipy.sparse import dok_matrix
-from scipy.spatial.distance import cosine
 
 
 class MeadContentSelector(BaseContentSelector):
@@ -43,7 +31,7 @@ class MeadContentSelector(BaseContentSelector):
         :param first_sentence: first sentence object
         :return:
         """
-        return 1 - cosine(first_sentence.vector, sentence.vector)
+        return 1 - cosine(first_sentence.vector.toarray(), sentence.vector.toarray())
 
     def get_cluster_centroid(self, documents, idf_array, threshold=-1):
         """
@@ -58,7 +46,7 @@ class MeadContentSelector(BaseContentSelector):
         total_words_in_cluster = word_sentence_matrix.sum(0)
         # print(total_words_in_cluster)
         sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0) # across the cluster
-        # print(sentences_per_word)
+        # print(len(sentences_per_word))
         average_count = np.divide(total_words_in_cluster, sentences_per_word + 1)
 
         if len(average_count) != len(idf_array):
@@ -80,6 +68,7 @@ class MeadContentSelector(BaseContentSelector):
         """
         cluster_max = centroid_cluster.max()
         cluster_mean = centroid_cluster.mean()
+
         return (cluster_max + cluster_mean) / 2
 
     def get_centroid_score(self, sentence, centroid):
@@ -89,10 +78,8 @@ class MeadContentSelector(BaseContentSelector):
         :return: float
         """
         centroid_score = 0
-
-        for word in sentence:
-            word_idx = WordMap.id_of(word)
-            centroid_score += centroid[word_idx]
+        for word in sentence.tokens:
+            centroid_score += centroid[WordMap.id_of(word)]
 
         return centroid_score
 
@@ -110,7 +97,7 @@ class MeadContentSelector(BaseContentSelector):
             counts = selected_vector.sum() + sentence.vector.sum()
             sentence.mead_score = sentence.mead_score - (overlap/counts)
 
-    def get_score(self, sentence, centroid, n, w_c=1, w_p=1, w_f=1):
+    def get_score(self, sentence, centroid, n, first, w_c=1, w_p=1, w_f=1):
         """
         Get the MEAD score for this sentence
         :param sentence, centroid, n, and optional weights: w_c, w_p, w_f:
@@ -118,26 +105,29 @@ class MeadContentSelector(BaseContentSelector):
         # get each parameter for the score
         c_score = self.get_centroid_score(sentence, centroid)
         p_score = self.get_sentence_position(sentence, n)
-        f_score = self.get_first_sentence_overlap(sentence)
+        f_score = self.get_first_sentence_overlap(sentence, first)
 
         # add up the scores adjusted with optional score weights (default weights of 1)
         score = (w_c * c_score) + (w_p * p_score) + (w_f * f_score)
 
         sentence.set_mead_score(score)  # assign score value to Sentence object
 
-    def select_content(self, documents, idf_array): # todo: pass the idf_array into select content in run_summarization
+    def select_content(self, documents, idf_array):
         """
         Select the salient content for the summary
         :param: list of Document objects
         :return: dictionary of Date, Sentence object pairs
         """
-        selected_content = []
+        self.selected_content = []
         centroid = self.get_cluster_centroid(documents, idf_array)
         for doc in documents:
             n = len(documents)
+            first = doc.get_sen_bypos(0)
             for s in doc.sens:
-                self.get_score(s, centroid, n)
-                selected_content.append(s)
+                # print("s", s.vector)
+                # print("first", first.vector)
+                self.get_score(s, centroid, n, first)
+                self.selected_content.append(s)
 
-        return selected_content
+        return self.selected_content
 

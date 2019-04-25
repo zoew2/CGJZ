@@ -1,9 +1,4 @@
-<<<<<<< Updated upstream
-from src.base_files.base_content_selector import BaseSummaryGenerator
-from src.base_files.base_content_selector import BaseContentSelector
-=======
 from src.base_files.base_summary_generator import BaseSummaryGenerator
->>>>>>> Stashed changes
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 from nltk.corpus import reuters
@@ -16,12 +11,12 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
     Summarize documents using MEAD
     """
 
-    def __init__(self):
+    def __init__(self, documents, content_selector):
         """
         Initialize this class by saving input documents
         :param documents: list of Document objects
         """
-        # BaseSummaryGenerator.__init__()
+        super().__init__(documents, content_selector)
         self.idf_array = None
 
     def pre_process(self, documents):
@@ -32,7 +27,16 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
 
         return documents
 
-    def get_idf_array(self):    # todo: call me from run_summarization!
+    def select_content(self, idf):
+        """
+        Select the salient content for the summary
+        :return: list of Sentence objects
+        """
+        # super(MeadSummaryGenerator, self).select_content(idf)
+        self.content_selector.select_content(self.documents, idf)
+        return self.content_selector.selected_content
+
+    def get_idf_array(self):
         """
         Use external corpus -- NLTK Reuters corpus -- to get IDF scores
         for cluster centroid calculations
@@ -59,12 +63,8 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         :param last_sentence: the last sentence selected for the summary
         :return: next Sentence
         """
-<<<<<<< Updated upstream
         if last_sentence:
             self.content_selector.apply_redundancy_penalty(last_sentence)
             self.order_information()
         content = self.content_selector.selected_content
         return content.pop() if content else False
-=======
-        return self.content_selector.select_content(self.documents)
->>>>>>> Stashed changes

@@ -2,15 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37b7f3e6-66f1-4d0c-b880-faad55a1e63a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helpers/class_document.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/class_document.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helpers/class_sentence.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/class_sentence.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/helpers/class_vectors.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/helpers/class_vectors.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mead/mead_content_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mead/mead_content_selector.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mead/mead_summary_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/mead/mead_summary_generator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tests/test_mead_content_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/test_mead_content_selector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/test_mead_sentence_selector.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/test_mead_sentence_selector.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tests/test_mead_summary_generator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/test_mead_summary_generator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tests/test_sentence_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/tests/test_sentence_class.py" afterDir="false" />
     </list>
     <ignored path=".idea/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,10 +22,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/CGJZ$Unittests_for_test_mead_sentence_selector_MeadSentenceSelectorTests_test_apply_redundancy_penalty.coverage" NAME="Unittests for test_mead_sentence_selector.MeadSentenceSelectorTests.test_apply_redundancy_penalty Coverage Results" MODIFIED="1556216185649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
+    <SUITE FILE_PATH="coverage/CGJZ$test_mead_content_selector.coverage" NAME="test_mead_content_selector Coverage Results" MODIFIED="1556215130456" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
     <SUITE FILE_PATH="coverage/CGJZ$pytest_in_test_mead_summary_generator_py.coverage" NAME="pytest in test_mead_summary_generator.py Coverage Results" MODIFIED="1556139760010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
     <SUITE FILE_PATH="coverage/CGJZ$pytest_in_test_mead_content_selector_py.coverage" NAME="pytest in test_mead_content_selector.py Coverage Results" MODIFIED="1556139496634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
-    <SUITE FILE_PATH="coverage/CGJZ$Unittests_in_tests.coverage" NAME="Unittests in tests Coverage Results" MODIFIED="1556161343075" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
+    <SUITE FILE_PATH="coverage/CGJZ$Unittests_in_tests.coverage" NAME="Unittests in tests Coverage Results" MODIFIED="1556216688647" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
+    <SUITE FILE_PATH="coverage/CGJZ$mead_content_selector.coverage" NAME="mead_content_selector Coverage Results" MODIFIED="1556163623500" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/mead" />
+    <SUITE FILE_PATH="coverage/CGJZ$Unittests_for_test_sentence_class_SentenceClassTests_test_process_sentence.coverage" NAME="Unittests for test_sentence_class.SentenceClassTests.test_process_sentence Coverage Results" MODIFIED="1556215596710" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
     <SUITE FILE_PATH="coverage/CGJZ$pytest_for_test_mead_summary_generator_MeadSummaryGeneratorTests_test_get_idf_array.coverage" NAME="pytest for test_mead_summary_generator.MeadSummaryGeneratorTests.test_get_idf_array Coverage Results" MODIFIED="1556139827263" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
+    <SUITE FILE_PATH="coverage/CGJZ$test_mead_summary_generator.coverage" NAME="test_mead_summary_generator Coverage Results" MODIFIED="1556213769831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
     <SUITE FILE_PATH="coverage/CGJZ$Unittests_in_test_mead_content_selector_py.coverage" NAME="Unittests in test_mead_content_selector.py Coverage Results" MODIFIED="1556144802266" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
     <SUITE FILE_PATH="coverage/CGJZ$Unittests_for_test_mead_summary_generator_MeadSummaryGeneratorTests.coverage" NAME="Unittests for test_mead_summary_generator.MeadSummaryGeneratorTests Coverage Results" MODIFIED="1556161699388" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/tests" />
   </component>
@@ -32,28 +39,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mead/mead_content_selector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1328">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="10" lean-forward="true" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/helpers/class_document.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="25" lean-forward="true" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+            <state relative-caret-position="302">
+              <caret line="59" column="31" lean-forward="true" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
               <folding>
-                <element signature="e#0#25#0" expanded="true" />
+                <element signature="e#0#68#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -62,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/helpers/class_sentence.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+            <state relative-caret-position="525">
+              <caret line="35" column="47" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
               <folding>
                 <element signature="e#287#312#0" expanded="true" />
               </folding>
@@ -72,10 +61,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/tests/test_mead_content_selector.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="44" lean-forward="true" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/tests/test_mead_summary_generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1815">
-              <caret line="121" selection-start-line="121" selection-end-line="121" />
+            <state relative-caret-position="705">
+              <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
               <folding>
                 <element signature="e#58#73#0" expanded="true" />
               </folding>
@@ -86,20 +87,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mead/mead_summary_generator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="61" selection-start-line="29" selection-start-column="61" selection-end-line="29" selection-end-column="61" />
+            <state relative-caret-position="191">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
               <folding>
-                <element signature="e#0#69#0" expanded="true" />
+                <element signature="e#0#70#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tests/test_mead_content_selector.py">
+        <entry file="file://$PROJECT_DIR$/src/tests/test_sentence_class.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="390">
-              <caret line="26" column="40" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
+            <state relative-caret-position="420">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -108,19 +109,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/src/tests/test_mead_sentence_selector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="16" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tests/test_sentence_class.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="19" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
+            <state relative-caret-position="465">
+              <caret line="31" column="49" lean-forward="true" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -130,6 +122,17 @@
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>s</find>
+      <find>add_words</find>
+      <find>wordmap</find>
+      <find>.format</find>
+    </findStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$/../../../Ling_572</dir>
+    </dirStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -137,17 +140,20 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/run_summarization.py" />
-        <option value="$PROJECT_DIR$/src/helpers/class_vectors.py" />
         <option value="$PROJECT_DIR$/doc/.gitignore" />
         <option value="$PROJECT_DIR$/doc/test" />
         <option value="$PROJECT_DIR$/outputs/test" />
-        <option value="$PROJECT_DIR$/src/tests/test_mead_content_selector.py" />
-        <option value="$PROJECT_DIR$/src/helpers/class_sentence.py" />
-        <option value="$PROJECT_DIR$/src/mead/mead_summary_generator.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/tests/test_mead_summary_generator.py" />
-        <option value="$PROJECT_DIR$/src/mead/mead_content_selector.py" />
         <option value="$PROJECT_DIR$/src/helpers/class_document.py" />
+        <option value="$PROJECT_DIR$/src/mead/mead_summary_generator.py" />
+        <option value="$PROJECT_DIR$/src/helpers/class_wordmap.py" />
+        <option value="$PROJECT_DIR$/src/helpers/class_sentence.py" />
+        <option value="$PROJECT_DIR$/src/helpers/class_vectors.py" />
+        <option value="$PROJECT_DIR$/src/tests/test_mead_summary_generator.py" />
+        <option value="$PROJECT_DIR$/src/tests/test_mead_content_selector.py" />
+        <option value="$PROJECT_DIR$/src/tests/test_sentence_class.py" />
+        <option value="$PROJECT_DIR$/src/tests/test_mead_sentence_selector.py" />
+        <option value="$PROJECT_DIR$/src/mead/mead_content_selector.py" />
       </list>
     </option>
   </component>
@@ -164,11 +170,6 @@
             <path>
               <item name="CGJZ" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-            <path>
-              <item name="CGJZ" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name=".idea" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
               <item name="CGJZ" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
@@ -193,6 +194,10 @@
       </pane>
     </panes>
   </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../Ling_572" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.deploy.options" />
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -204,6 +209,106 @@
         </RuleState>
       </list>
     </option>
+  </component>
+  <component name="RunManager" selected="Python tests.Unittests in tests">
+    <configuration name="test_mead_content_selector" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="CGJZ" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/tests" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/tests/test_mead_content_selector.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_mead_summary_generator" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="CGJZ" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/tests" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/tests/test_mead_summary_generator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_mead_sentence_selector.MeadSentenceSelectorTests.test_apply_redundancy_penalty" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="CGJZ" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_mead_sentence_selector.MeadSentenceSelectorTests.test_apply_redundancy_penalty&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_sentence_class.SentenceClassTests.test_process_sentence" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="CGJZ" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_sentence_class.SentenceClassTests.test_process_sentence&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests in tests" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="CGJZ" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/src/tests&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python tests.Unittests in tests" />
+        <item itemvalue="Python tests.Unittests for test_mead_sentence_selector.MeadSentenceSelectorTests.test_apply_redundancy_penalty" />
+        <item itemvalue="Python tests.Unittests for test_sentence_class.SentenceClassTests.test_process_sentence" />
+        <item itemvalue="Python.test_mead_content_selector" />
+        <item itemvalue="Python.test_mead_summary_generator" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -218,25 +323,57 @@
       <workItem from="1556139170004" duration="2331000" />
       <workItem from="1556154003764" duration="3095000" />
       <workItem from="1556157570450" duration="3070000" />
-      <workItem from="1556161311493" duration="1156000" />
+      <workItem from="1556161311493" duration="27498000" />
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="Unittests_in_tests - 2019.04.25 at 11h 05m 26s.xml">
+      <configuration name="Unittests in tests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_sentence_class_SentenceClassTests_test_process_sentence - 2019.04.25 at 11h 05m 37s.xml">
+      <configuration name="Unittests for test_sentence_class.SentenceClassTests.test_process_sentence" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_sentence_class_SentenceClassTests_test_process_sentence - 2019.04.25 at 11h 06m 21s.xml">
+      <configuration name="Unittests for test_sentence_class.SentenceClassTests.test_process_sentence" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_sentence_class_SentenceClassTests_test_process_sentence - 2019.04.25 at 11h 06m 41s.xml">
+      <configuration name="Unittests for test_sentence_class.SentenceClassTests.test_process_sentence" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_tests - 2019.04.25 at 11h 08m 54s.xml">
+      <configuration name="Unittests in tests" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_mead_sentence_selector_MeadSentenceSelectorTests_test_apply_redundancy_penalty - 2019.04.25 at 11h 11m 09s.xml">
+      <configuration name="Unittests for test_mead_sentence_selector.MeadSentenceSelectorTests.test_apply_redundancy_penalty" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_mead_sentence_selector_MeadSentenceSelectorTests_test_apply_redundancy_penalty - 2019.04.25 at 11h 14m 04s.xml">
+      <configuration name="Unittests for test_mead_sentence_selector.MeadSentenceSelectorTests.test_apply_redundancy_penalty" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_mead_sentence_selector_MeadSentenceSelectorTests_test_apply_redundancy_penalty - 2019.04.25 at 11h 15m 36s.xml">
+      <configuration name="Unittests for test_mead_sentence_selector.MeadSentenceSelectorTests.test_apply_redundancy_penalty" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_for_test_mead_sentence_selector_MeadSentenceSelectorTests_test_apply_redundancy_penalty - 2019.04.25 at 11h 16m 53s.xml">
+      <configuration name="Unittests for test_mead_sentence_selector.MeadSentenceSelectorTests.test_apply_redundancy_penalty" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_tests - 2019.04.25 at 11h 26m 08s.xml">
+      <configuration name="Unittests in tests" configurationId="tests" />
+    </history-entry>
+  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="398000" />
+    <option name="totallyTimeSpent" value="26740000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12374821" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13948497" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="1" side_tool="true" weight="0.32939634" />
       <window_info anchor="bottom" id="Message" order="2" />
       <window_info anchor="bottom" id="Find" order="3" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="Debug" order="4" weight="0.39895013" />
       <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
       <window_info anchor="bottom" id="File Transfer" order="7" weight="0.328084" />
@@ -245,45 +382,160 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
-      <window_info anchor="right" id="Python Console" order="5" sideWeight="0.4831169" weight="0.44702467" />
-      <window_info anchor="right" id="Terminal" order="6" sideWeight="0.4974026" visible="true" weight="0.35121602" />
+      <window_info anchor="right" id="Python Console" order="5" sideWeight="0.4831169" weight="0.34191704" />
+      <window_info anchor="right" id="Terminal" order="6" sideWeight="0.4974026" weight="0.35121602" />
       <window_info anchor="right" id="TODO" order="7" weight="0.32946298" />
-      <window_info anchor="right" id="Run" order="8" sideWeight="0.4974026" weight="0.37768242" />
+      <window_info active="true" anchor="right" id="Run" order="8" sideWeight="0.4974026" visible="true" weight="0.34263232" />
       <window_info anchor="right" x="0" y="0" width="305" height="662" id="Documentation" order="9" sideWeight="0.51688313" side_tool="true" weight="0.44702467" />
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/tests/test_mead_summary_generator.py">
+    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1815">
-          <caret line="121" selection-start-line="121" selection-end-line="121" />
+        <state relative-caret-position="90">
+          <caret line="6" column="10" lean-forward="true" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/base_files/base_summary_generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/remote_sources/1101325223/-180110209/scipy/sparse/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="438" selection-start-line="438" selection-end-line="438" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="33" column="16" selection-start-line="33" selection-start-column="16" selection-end-line="33" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/run_summarization.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="35" lean-forward="true" selection-start-line="41" selection-start-column="35" selection-end-line="41" selection-end-column="35" />
           <folding>
-            <element signature="e#58#73#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/remote_sources/1101325223/-180110209/scipy/sparse/dok.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="211" selection-start-line="211" selection-end-line="211" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mead/mead_summary_generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#0#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/helpers/class_wordmap.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.3/remote_sources/1101325223/-180110209/nltk/corpus/reader/wordlist.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/helpers/class_vectors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="43" lean-forward="true" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/helpers/class_document.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="25" lean-forward="true" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+        <state relative-caret-position="354">
+          <caret line="95" column="40" lean-forward="true" selection-start-line="95" selection-start-column="40" selection-end-line="95" selection-end-column="40" />
           <folding>
             <element signature="e#0#25#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mead/mead_content_selector.py">
+    <entry file="file://$PROJECT_DIR$/src/tests/test_sentence_class.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1328">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="420">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
+    <entry file="file://$PROJECT_DIR$/src/tests/test_mead_sentence_selector.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="10" lean-forward="true" selection-start-line="6" selection-start-column="10" selection-end-line="6" selection-end-column="10" />
+        <state relative-caret-position="465">
+          <caret line="31" column="49" lean-forward="true" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/helpers/class_sentence.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="47" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
+          <folding>
+            <element signature="e#287#312#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tests/test_mead_content_selector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="44" lean-forward="true" selection-start-line="7" selection-start-column="44" selection-end-line="7" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mead/mead_content_selector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="59" column="31" lean-forward="true" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tests/test_mead_summary_generator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="705">
+          <caret line="47" column="8" selection-start-line="47" selection-start-column="8" selection-end-line="47" selection-end-column="8" />
+          <folding>
+            <element signature="e#58#73#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
