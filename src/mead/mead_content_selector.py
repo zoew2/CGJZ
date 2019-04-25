@@ -8,10 +8,16 @@ from src.helpers.class_wordmap import WordMap
 import numpy as np
 from scipy.sparse import dok_matrix
 from mead.mead_summary_generator import MeadSummaryGenerator
+# from src.helpers.class_document import Document
+# from src.helpers.class_sentence import Sentence
+# from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 import numpy as np
+np.seterr(divide='ignore', invalid='ignore')
 from scipy.sparse import dok_matrix
+from scipy.spatial.distance import cosine
+
 
 class MeadContentSelector(BaseContentSelector):
     """
@@ -21,10 +27,10 @@ class MeadContentSelector(BaseContentSelector):
     def get_sentence_position(self, sentence, n, c_max=1):
         """
         Get the position score for this sentence
-        :param: sentence, c_max (optional)
+        :param: sentence, n (number of sentences in document), c_max (optional)
         :return: float
         """
-        i = sentence.position
+        i = sentence.position()
         # original equation adds 1 to the numerator but our sentence numbering
         # is zero-based so +1 isn't necessary
         p_score = ((n - i) / n) * c_max
@@ -47,13 +53,13 @@ class MeadContentSelector(BaseContentSelector):
         :return: numpy array
         """
         word_sentence_matrix = Vectors().get_topic_matrix(documents).toarray()
+        # print(len(word_sentence_matrix))
+        # print(word_sentence_matrix)
         total_words_in_cluster = word_sentence_matrix.sum(0)
-
-        # The original MEAD implementation used: matrix for num DOCUMENTS in topic X num words in corpus
-        # But "document" is a flexible term -- see Gina's response in Canvas discussion...
-        # so using sentences as a proxy for documents for now
-        sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0)
-        average_count = np.divide(total_words_in_cluster, sentences_per_word)
+        # print(total_words_in_cluster)
+        sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0) # across the cluster
+        # print(sentences_per_word)
+        average_count = np.divide(total_words_in_cluster, sentences_per_word + 1)
 
         if len(average_count) != len(idf_array):
             raise Exception("Cluster centroid arrays must be the same length")
@@ -107,7 +113,7 @@ class MeadContentSelector(BaseContentSelector):
     def get_score(self, sentence, centroid, n, w_c=1, w_p=1, w_f=1):
         """
         Get the MEAD score for this sentence
-        :param sentence:
+        :param sentence, centroid, n, and optional weights: w_c, w_p, w_f:
         """
         # get each parameter for the score
         c_score = self.get_centroid_score(sentence, centroid)
@@ -134,3 +140,4 @@ class MeadContentSelector(BaseContentSelector):
                 selected_content.append(s)
 
         return selected_content
+

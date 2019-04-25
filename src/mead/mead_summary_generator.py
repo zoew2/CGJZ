@@ -1,9 +1,14 @@
+<<<<<<< Updated upstream
 from src.base_files.base_content_selector import BaseSummaryGenerator
 from src.base_files.base_content_selector import BaseContentSelector
+=======
+from src.base_files.base_summary_generator import BaseSummaryGenerator
+>>>>>>> Stashed changes
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 from nltk.corpus import reuters
 import numpy as np
+# np.set_printoptions(threshold=np.nan)
 
 
 class MeadSummaryGenerator(BaseSummaryGenerator):
@@ -16,7 +21,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         Initialize this class by saving input documents
         :param documents: list of Document objects
         """
-        BaseSummaryGenerator.__init__()
+        # BaseSummaryGenerator.__init__()
         self.idf_array = None
 
     def pre_process(self, documents):
@@ -33,11 +38,9 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         for cluster centroid calculations
         :return: numpy array of idf values
         """
-        # TODO: check that this is the correct way to reference global variable num_unique_words
         num_words = Vectors().num_unique_words
         n = len(reuters.fileids())  # number of documents in Reuters corpus
         docs_word_matrix = np.zeros([n, num_words])
-
         for doc_idx, doc_id in enumerate(reuters.fileids()):
             word_set = set(reuters.words(doc_id))
             words_in_doc = [w.lower() for w in word_set]
@@ -56,8 +59,12 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         :param last_sentence: the last sentence selected for the summary
         :return: next Sentence
         """
+<<<<<<< Updated upstream
         if last_sentence:
             self.content_selector.apply_redundancy_penalty(last_sentence)
             self.order_information()
         content = self.content_selector.selected_content
         return content.pop() if content else False
+=======
+        return self.content_selector.select_content(self.documents)
+>>>>>>> Stashed changes
