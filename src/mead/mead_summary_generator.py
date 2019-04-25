@@ -1,4 +1,5 @@
 from src.base_files.base_content_selector import BaseSummaryGenerator
+from src.base_files.base_content_selector import BaseContentSelector
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 from nltk.corpus import reuters
