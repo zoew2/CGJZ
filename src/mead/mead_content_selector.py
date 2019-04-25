@@ -11,6 +11,7 @@ from mead.mead_summary_generator import MeadSummaryGenerator
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 import numpy as np
+from scipy.sparse import dok_matrix
 
 class MeadContentSelector(BaseContentSelector):
     """
