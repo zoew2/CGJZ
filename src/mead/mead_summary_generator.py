@@ -3,7 +3,6 @@ from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 from nltk.corpus import reuters
 import numpy as np
-# np.set_printoptions(threshold=np.nan)
 
 
 class MeadSummaryGenerator(BaseSummaryGenerator):
@@ -32,7 +31,6 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         Select the salient content for the summary
         :return: list of Sentence objects
         """
-        # super(MeadSummaryGenerator, self).select_content(idf)
         self.content_selector.select_content(self.documents, idf)
         return self.content_selector.selected_content
 

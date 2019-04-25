@@ -41,12 +41,8 @@ class MeadContentSelector(BaseContentSelector):
         :return: numpy array
         """
         word_sentence_matrix = Vectors().get_topic_matrix(documents).toarray()
-        # print(len(word_sentence_matrix))
-        # print(word_sentence_matrix)
         total_words_in_cluster = word_sentence_matrix.sum(0)
-        # print(total_words_in_cluster)
         sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0) # across the cluster
-        # print(len(sentences_per_word))
         average_count = np.divide(total_words_in_cluster, sentences_per_word + 1)
 
         if len(average_count) != len(idf_array):
@@ -124,8 +120,6 @@ class MeadContentSelector(BaseContentSelector):
             n = len(documents)
             first = doc.get_sen_bypos(0)
             for s in doc.sens:
-                # print("s", s.vector)
-                # print("first", first.vector)
                 self.get_score(s, centroid, n, first)
                 self.selected_content.append(s)
 
