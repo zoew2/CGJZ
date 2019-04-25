@@ -14,7 +14,7 @@ from src.helpers.class_wordmap import WordMap
 
 class Sentence:
 
-    def __init__(self, raw_sentence, sent_pos, doc_id=None):
+    def __init__(self, raw_sentence, sent_pos, doc_id=None, mead_score=None):
         """
         initialize Sentence class with methods for plain/raw and tokenized sentence
         options, word count, position of sentence in document and document id
@@ -28,7 +28,6 @@ class Sentence:
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
         self.mead_score = mead_score
-        self.mead_score = None
 
         if not self.tokens:
             self.__tokenize_sentence()

@@ -47,6 +47,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
 
         docs_per_word = np.sum(docs_word_matrix, axis=0)
         self.idf_array = np.log10(np.divide(n, docs_per_word + 1))  # add one to avoid divide by zero error
+        return self.idf_array
 
     def get_next_sentence(self, last_sentence=""):
         """
