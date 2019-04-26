@@ -37,7 +37,8 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         documents[0].sens[2].order_by = -0.5
 
         generator = MeadSummaryGenerator(documents, MeadContentSelector())
-        generator.select_content()
+        idf = generator.get_idf_array()
+        generator.select_content(idf)
         generator.order_information()
 
         first_sentences = generator.content_selector.selected_content
@@ -74,12 +75,36 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         vec.create_freq_vectors({"PUP1A": documents})
 
         generator = MeadSummaryGenerator(documents, MeadContentSelector())
-        generator.select_content()
+        idf = generator.get_idf_array()
+        generator.select_content(idf)
         generator.order_information()
         generator.content_selector.selected_content = generator.content_selector.selected_content[:5]
         realized_content = generator.realize_content()
 
         self.assertEqual(expected_content, realized_content)
+
+    def test_get_idf_array(self):
+        words = ["i", "eat", "cake", "is", "delicious",
+                           "puppies", "are", "cute", "cats", "furry"]
+        doc_list = [Document("TST_ENG_20190101.0001"), Document("TST_ENG_20190101.0002")]
+        # Must override WordMap dictionary for test
+        WordMap.word_to_id = {'delicious': 0, 'eat': 1, 'furry': 2,
+                              'puppies': 3, 'i': 4, 'cats': 5,
+                              'are': 6, 'is': 7, 'cute': 8, 'cake': 9}
+
+        idf = MeadSummaryGenerator(doc_list, MeadContentSelector()).get_idf_array()
+
+        scores = []
+        for word in words:
+            curr_score = idf[WordMap.id_of(word)]
+            scores.append("{:.5f}".format(curr_score))
+
+        expected_scores = ['1.37302', '3.25479', '2.91900',
+                           '0.48039', '4.03294', '3.55582',
+                           '0.76366', '4.03294', '4.03294',
+                           '4.03294']
+
+        self.assertListEqual(scores, expected_scores, 5)
 
 
 if __name__ == '__main__':

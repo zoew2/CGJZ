@@ -17,11 +17,10 @@ class Vectors:
         pre: create_freq vectors has been called
         """
 
-        topic_matrix = topic_docs[0].vectors  # initialize with vectors of first document in list
-        index = 1
+        topic_matrix = dok_matrix((0,0))  # initialize topic_matrix
         # stack remaining document matrices
-        while index < len(topic_docs):
-            vstack([topic_matrix, topic_docs[index].vectors])
+        for index in range(len(topic_docs)):
+            topic_matrix = vstack([topic_matrix, topic_docs[index].vectors])
         return topic_matrix
 
     def create_freq_vectors(self, topics):
@@ -34,7 +33,7 @@ class Vectors:
         """
         for cluster in topics.values():
             for document in cluster:
-                doc_vectors = dok_matrix((len(document.sens), self.num_unique_words))
+                doc_vectors = dok_matrix((0,0))
                 for sentence in document.sens:
                     sentence_vector = dok_matrix((1, self.num_unique_words))
                     for word in sentence.tokenized():  # maybe check that sentence.tokenized() is the right thing here
@@ -43,7 +42,7 @@ class Vectors:
                     # assign vector to sentence object
                     sentence.set_vector(sentence_vector)
                     # add sentence vector to document matrix
-                    vstack([doc_vectors, sentence_vector])
+                    doc_vectors = vstack([doc_vectors, sentence_vector])
                 # assign matrix to document
                 document.set_vectors(doc_vectors)
 

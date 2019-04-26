@@ -27,7 +27,7 @@ class Sentence:
         self.tokens = []
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
-        self.mead_score = 0.0
+        self.mead_score = None
 
         if not self.tokens:
             self.__tokenize_sentence()
@@ -113,9 +113,23 @@ class Sentence:
 
         return new_toks
 
+    def set_mead_score(self, score):
+        """
+        assign sentence score
+        :return: float
+        """
+        self.mead_score = score
+
+    def get_score(self):
+        """
+        return sentence score
+        :return: float
+        """
+        return self.mead_score
+
     def __tokenize_sentence(self):
         """
-        tokenize sentence and remove sentence-level punctiation,
+        tokenize sentence and remove sentence-level punctuation,
         such as comma (,) but not dash (-) in, e.g. 'morning-after'
         function only for internal usage
         """
@@ -126,8 +140,9 @@ class Sentence:
         words = tokenize.word_tokenize(self.raw_sentence)  # No NER or Stemming
         # words = self.stemming_n_linking_name_entity()  # NER and Stemming
 
-        self.tokens = [w for w in words if (w not in string.punctuation and w not in stop_words)]
+        self.tokens = [w.lower() for w in words if (w not in string.punctuation and w not in stop_words)]
         # Strip punctuation and stopwords from sentence tokens
+        # todo: check - we want lowercased right?
 
     def set_vector(self, vector):
         """
