@@ -13,7 +13,6 @@ class VectorsTests(unittest.TestCase):
 
     def test_create_freq_vectors(self):
         Vectors().create_freq_vectors(self.topics)
-        expected_vec_length = len(self.mapping)
         for doc_list in self.topics.values():
             for doc in doc_list:
                 # check that there's a vector for each sentence
