@@ -8,19 +8,14 @@ class WordMapTests(unittest.TestCase):
     tests for WordMap
     """
 
+    word_set = {'in', 'a', 'park', 'puppies', 'bone', 'tails', 'with', 'fetch', 'wagging', 'their',
+                'hanging', 'loads'}
+
     def test_create_mapping(self):
-        doc1 = Document("TST_ENG_20190101.0001")
-        doc2 = Document("TST_ENG_20190101.0002")
-
-        all_words = set()
-        for document in [doc1, doc2]:
-            for sentence in document.sens:
-                all_words = all_words.union(sentence.tokens)
-
         WordMap.create_mapping()
         mapping = WordMap.get_mapping()
 
-        self.assertEqual(all_words, mapping.keys())  # each unique word in input got added to the dictionary
+        self.assertEqual(self.word_set, mapping.keys())  # each word in word_set got added to the dictionary
         self.assertEqual(len(mapping), len(set(mapping.items())))  # each id value in the dict is unique
 
 
