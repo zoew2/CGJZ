@@ -44,7 +44,6 @@ class MeadContentSelector(BaseContentSelector):
         total_words_in_cluster = word_sentence_matrix.sum(0)
         sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0) # across the cluster
         average_count = np.divide(total_words_in_cluster, sentences_per_word + 1)
-        debug = len(average_count)
 
         if len(average_count) != len(idf_array):
             raise Exception("Cluster centroid arrays must be the same length")
