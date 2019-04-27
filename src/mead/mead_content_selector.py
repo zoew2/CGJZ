@@ -108,7 +108,7 @@ class MeadContentSelector(BaseContentSelector):
 
         sentence.set_mead_score(score)  # assign score value to Sentence object
 
-    def select_content(self, documents, idf_array):
+    def select_content(self, documents, idf_array=None):
         """
         Select the salient content for the summary
         :param: list of Document objects

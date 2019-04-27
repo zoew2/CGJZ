@@ -26,7 +26,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
 
         return documents
 
-    def select_content(self, idf):
+    def select_content(self, idf=None):
         """
         Select the salient content for the summary
         :return: list of Sentence objects
@@ -66,3 +66,13 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
             self.order_information()
         content = self.content_selector.selected_content
         return content.pop() if content else False
+
+    def generate_summary(self):
+        """
+        Generate the summary
+        :return:
+        """
+
+        self.select_content(self.get_idf_array())
+        self.order_information()
+        return self.realize_content()

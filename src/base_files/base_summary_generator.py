@@ -22,13 +22,13 @@ class BaseSummaryGenerator:
 
         return documents
 
-    def select_content(self):
+    def select_content(self, idf=None):
         """
         Select the salient content for the summary
         :return: list of Sentence objects
         """
 
-        self.content_selector.select_content(self.documents)
+        self.content_selector.select_content(self.documents, idf)
         return self.content_selector.selected_content
 
     def order_information(self):
