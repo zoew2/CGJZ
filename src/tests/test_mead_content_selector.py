@@ -44,10 +44,8 @@ class MeadContentSelectorTests(unittest.TestCase):
 
     def test_get_sentence_position(self):
         selector = MeadContentSelector()
-        sentence_1 = Sentence("Today is Friday, October 8, the 281st day of 2004.", 0)
-        sentence_2 = Sentence("Markets are overcrowded, traffic jam is heavy and the shops are jostling " \
-                     "with shoppers in the capital city of Srinagar in the Indian-administered Kashmir " \
-                     "as the holy Moslem festival of Eid approaches here.", 50)
+        sentence_1 = Sentence("Here is a test sentence.", 0)
+        sentence_2 = Sentence("Here is another one.", 50)
 
         pos_score_1 = selector.get_sentence_position(sentence_1, 100)
         pos_score_2 = selector.get_sentence_position(sentence_2, 100)
@@ -90,17 +88,15 @@ class MeadContentSelectorTests(unittest.TestCase):
         :return:
         """
         selector = MeadContentSelector()
-        document = Document("TST_ENG_20190101.0001")
 
-        WordMap.create_mapping()
-        vec = Vectors()
-        vec.create_freq_vectors({"PUP1A": [document]})
-        idf = MeadSummaryGenerator([document], selector).get_idf_array()
+        WordMap.word_to_id = self.w_map
+        Vectors().create_freq_vectors(self.topics)
 
-        selected = selector.select_content([document], idf)
+        selected = selector.select_content(self.doc_list, self.idf)
         selector.apply_redundancy_penalty(selected[0])
-        scores = [s.mead_score for s in selector.selected_content[:3]]
-        expected_scores = [-0.5, 0.0, -0.07692307692307693]
+        scores = [s.mead_score for s in selector.selected_content]
+        expected_scores = [15.765854141988374, 15.65890701749496, 10.081583108898956,
+                           10.733254415109, 18.45724390219461, 15.901560114542184]
 
         self.assertEqual(scores, expected_scores)
 
