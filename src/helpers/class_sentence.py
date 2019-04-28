@@ -142,7 +142,6 @@ class Sentence:
 
         self.tokens = [w.lower() for w in words if (w not in string.punctuation and w not in stop_words)]
         # Strip punctuation and stopwords from sentence tokens
-        # todo: check - we want lowercased right?
 
     def set_vector(self, vector):
         """
@@ -174,5 +173,6 @@ class Sentence:
         :param other:
         :return:
         """
-
+        if self.mead_score:
+            self.order_by = self.mead_score
         return self.order_by < other.order_by
