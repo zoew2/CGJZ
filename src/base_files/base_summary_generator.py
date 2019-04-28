@@ -50,10 +50,15 @@ class BaseSummaryGenerator:
         next_sent = self.get_next_sentence()
         while next_sent:
             next_sent_len = next_sent.word_count()
+            if next_sent_len > 100:
+                next_sent = self.get_next_sentence(next_sent)
+                continue
             if token_total + next_sent_len < 100:
                 output_content.append(next_sent.raw_sentence)
                 token_total += next_sent_len
             else:
+                if token_total == 0:
+                    raise Exception("Top sentence is too long!\n" + next_sent.raw_sentence)
                 break
             next_sent = self.get_next_sentence(next_sent)
         output_content = '\n'.join(output_content)  # one sentence per line

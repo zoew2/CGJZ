@@ -61,22 +61,39 @@ class MeadContentSelector(BaseContentSelector):
         :param: centroid_cluster
         :return: float
         """
-        # version 1 of threshold calculation: halfway between cluster mean & max
-        # TO USE THIS THRESHOLD UNCOMMENT BELOW
-        # cluster_max = centroid_cluster.max()
-        # cluster_mean = centroid_cluster.mean()
-        # threshold = (cluster_max + cluster_mean) / 2
+        threshold = self.mean_threshold(centroid_cluster)
 
-        # version 2 of threshold calculation: cluster mean
-        # TO USE THIS THRESHOLD UNCOMMENT BELOW
-        # threshold = centroid_cluster.mean()
+        return threshold
 
-        # version 3 of threshold calculation: halfway between cluster mean & min
-        # TO USE THIS THRESHOLD UNCOMMENT BELOW
+    def min_mean_threshold(self, centroid_cluster):
+        """
+        version 3 of threshold calculation: halfway between cluster mean & min
+        :param centroid_cluster:
+        :return:
+        """
         cluster_min = centroid_cluster.min()
         cluster_mean = centroid_cluster.mean()
         threshold = (cluster_min + cluster_mean) / 2
+        return threshold
 
+    def max_mean_threshold(self, centroid_cluster):
+        """
+        version 1 of threshold calculation: halfway between cluster mean & max
+        :param centroid_cluster:
+        :return:
+        """
+        cluster_max = centroid_cluster.max()
+        cluster_mean = centroid_cluster.mean()
+        threshold = (cluster_max + cluster_mean) / 2
+        return threshold
+
+    def mean_threshold(self, centroid_cluster):
+        """
+        version 2 of threshold calculation: cluster mean
+        :param centroid_cluster:
+        :return:
+        """
+        threshold = centroid_cluster.mean()
         return threshold
 
     def get_centroid_score(self, sentence, centroid):

@@ -92,7 +92,7 @@ def main():
             summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
         output_file = get_output_filename(topic_id, version)
 
-        with open(output_file, "a") as f:
+        with open(output_file, "w") as f:
 
             # print summary
             print(summarizer.generate_summary(idf), file=f)

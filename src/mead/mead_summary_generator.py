@@ -40,8 +40,8 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         for cluster centroid calculations
         :return: numpy array of idf values
         """
-        # corpus = reuters
-        corpus = brown
+        corpus = reuters
+        # corpus = brown
         num_words = Vectors().num_unique_words
         n = len(corpus.fileids())  # number of documents in Reuters corpus
         docs_word_matrix = np.zeros([n, num_words])
@@ -69,7 +69,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         content = self.content_selector.selected_content
         return content.pop() if content else False
 
-    def generate_summary(self, idf_array):
+    def generate_summary(self, idf_array=None):
         """
         Generate the summary
         :return:
