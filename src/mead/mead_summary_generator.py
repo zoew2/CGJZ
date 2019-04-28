@@ -1,7 +1,7 @@
 from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
-from nltk.corpus import reuters
+from nltk.corpus import reuters, brown
 import numpy as np
 
 
@@ -40,11 +40,13 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         for cluster centroid calculations
         :return: numpy array of idf values
         """
+        # corpus = reuters
+        corpus = brown
         num_words = Vectors().num_unique_words
-        n = len(reuters.fileids())  # number of documents in Reuters corpus
+        n = len(corpus.fileids())  # number of documents in Reuters corpus
         docs_word_matrix = np.zeros([n, num_words])
-        for doc_idx, doc_id in enumerate(reuters.fileids()):
-            word_set = set(reuters.words(doc_id))
+        for doc_idx, doc_id in enumerate(corpus.fileids()):
+            word_set = set(corpus.words(doc_id))
             words_in_doc = [w.lower() for w in word_set]
             for word in words_in_doc:
                 word_idx = WordMap.id_of(word)
@@ -67,12 +69,11 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         content = self.content_selector.selected_content
         return content.pop() if content else False
 
-    def generate_summary(self):
+    def generate_summary(self, idf_array):
         """
         Generate the summary
         :return:
         """
-
-        self.select_content(self.get_idf_array())
+        self.select_content(idf_array)
         self.order_information()
         return self.realize_content()

@@ -38,8 +38,49 @@ class LeadSummaryGeneratorTests(unittest.TestCase):
         generator.select_content()
         generator.order_information()
         realized_content = generator.realize_content()
-
         self.assertEqual(expected_content, realized_content)
+
+    def test_lead_summary_length(self):
+        documents = [Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002'),
+                     Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002'),
+                     Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002'),
+                     Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002'),
+                     Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002'),
+                     Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002'),
+                     Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002'),
+                     Document('TST_ENG_20190101.0001'),
+                     Document('TST_ENG_20190101.0002'),
+                     Document('TST20190201.0001'),
+                     Document('TST20190201.0002')]
+        max_length = 100
+
+        generator = LeadSummaryGenerator(documents, LeadSentenceSelector())
+        generator.select_content()
+        generator.order_information()
+        realized_content = generator.realize_content()
+        content_length = len(realized_content.split(" "))
+        self.assertLessEqual(content_length, max_length)
 
 
 if __name__ == '__main__':

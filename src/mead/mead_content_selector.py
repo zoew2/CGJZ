@@ -50,9 +50,8 @@ class MeadContentSelector(BaseContentSelector):
 
         centroid_cluster = np.multiply(average_count, idf_array)
         if threshold == -1:
-            self.__calculate_threshold(centroid_cluster)
+            threshold = self.__calculate_threshold(centroid_cluster)
         centroid_cluster[centroid_cluster < threshold] = 0 # set all centroid word values below threshold to zero
-
         return centroid_cluster
 
     def __calculate_threshold(self, centroid_cluster):
@@ -62,10 +61,23 @@ class MeadContentSelector(BaseContentSelector):
         :param: centroid_cluster
         :return: float
         """
-        cluster_max = centroid_cluster.max()
-        cluster_mean = centroid_cluster.mean()
+        # version 1 of threshold calculation: halfway between cluster mean & max
+        # TO USE THIS THRESHOLD UNCOMMENT BELOW
+        # cluster_max = centroid_cluster.max()
+        # cluster_mean = centroid_cluster.mean()
+        # threshold = (cluster_max + cluster_mean) / 2
 
-        return (cluster_max + cluster_mean) / 2
+        # version 2 of threshold calculation: cluster mean
+        # TO USE THIS THRESHOLD UNCOMMENT BELOW
+        # threshold = centroid_cluster.mean()
+
+        # version 3 of threshold calculation: halfway between cluster mean & min
+        # TO USE THIS THRESHOLD UNCOMMENT BELOW
+        cluster_min = centroid_cluster.min()
+        cluster_mean = centroid_cluster.mean()
+        threshold = (cluster_min + cluster_mean) / 2
+
+        return threshold
 
     def get_centroid_score(self, sentence, centroid):
         """
@@ -76,7 +88,6 @@ class MeadContentSelector(BaseContentSelector):
         centroid_score = 0
         for word in sentence.tokens:
             centroid_score += centroid[WordMap.id_of(word)]
-
         return centroid_score
 
     def apply_redundancy_penalty(self, selected_sentence):
