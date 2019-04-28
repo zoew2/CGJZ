@@ -78,12 +78,15 @@ def main():
     version = sys.argv[2]
 
     topics = load_documents_for_topics(topic_soup)
+    idf = None
 
     # for each topic, load the documents and generate the summary
     for topic_id, documents in topics.items():
         if version == '1':
             summarizer = LeadSummaryGenerator(documents, LeadSentenceSelector())
         elif version == '2':
+            if idf is None:
+                idf = MeadSummaryGenerator.get_idf_array(MeadSummaryGenerator(documents, MeadContentSelector()))
             summarizer = MeadSummaryGenerator(documents, MeadContentSelector())
         else:
             summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
@@ -92,7 +95,7 @@ def main():
         with open(output_file, "a") as f:
 
             # print summary
-            print(summarizer.generate_summary(), file=f)
+            print(summarizer.generate_summary(idf), file=f)
 
 
 if __name__ == "__main__":

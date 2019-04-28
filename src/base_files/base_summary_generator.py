@@ -36,7 +36,6 @@ class BaseSummaryGenerator:
         Order the salient information for the summary
         :return:
         """
-
         return self.content_selector.selected_content.sort()
 
     def realize_content(self):
@@ -69,7 +68,7 @@ class BaseSummaryGenerator:
         content = self.content_selector.selected_content
         return content.pop(0) if content else False
 
-    def generate_summary(self):
+    def generate_summary(self, idf_array=None):
         """
         Generate the summary
         :return:

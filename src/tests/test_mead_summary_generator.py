@@ -88,7 +88,6 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         generator.order_information()
         generator.content_selector.selected_content = generator.content_selector.selected_content
         realized_content = generator.realize_content()
-
         self.assertEqual(expected_content, realized_content)
 
     def test_get_idf_array(self):
@@ -114,6 +113,46 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
 
         self.assertListEqual(scores, expected_scores, 5)
 
+    def test_mead_summary_length(self):
+        """
+        Test length of summary is less than 100 words
+        :return:
+        """
+        topics = {'PUP1A': [Document('TST_ENG_20190101.0001'), Document('TST_ENG_20190101.0002'),
+                            Document('TST20190201.0001'), Document('TST20190201.0002')],
+                  'WAR2A': [Document('TST_ENG_20190301.0001'), Document('TST_ENG_20190301.0002'),
+                            Document('TST20190401.0001'), Document('TST20190401.0002')]}
+        WordMap.create_mapping()
+        vec = Vectors()
+        vec.create_freq_vectors(topics)
+        idf = MeadSummaryGenerator.get_idf_array(self)
+        max_length = 100
+
+        for topic_id, documents in topics.items():
+            generator = MeadSummaryGenerator(documents, MeadContentSelector())
+            generator.select_content(idf)
+            generator.order_information()
+            generator.content_selector.selected_content = generator.content_selector.selected_content
+            realized_content = generator.realize_content()
+            realized_content = [w for w in realized_content.split(" ") if not " "]
+            content_length = len(realized_content)
+            self.assertLessEqual(content_length, max_length)
+
+    def test_generate_summary(self):
+        topics = {'PUP1A': [Document('TST_ENG_20190101.0001'), Document('TST_ENG_20190101.0002'),
+                            Document('TST20190201.0001'), Document('TST20190201.0002')],
+                  'WAR2A': [Document('TST_ENG_20190301.0001'), Document('TST_ENG_20190301.0002'),
+                            Document('TST20190401.0001'), Document('TST20190401.0002')]}
+        WordMap.create_mapping()
+        vec = Vectors()
+        vec.create_freq_vectors(topics)
+        idf = MeadSummaryGenerator.get_idf_array(self)
+
+        for topic_id, documents in topics.items():
+            summarizer = MeadSummaryGenerator(documents, MeadContentSelector())
+            summary = summarizer.generate_summary(idf)
+            print(summary)
+            self.assertIsNot(summary, None)
 
 if __name__ == '__main__':
     unittest.main()
