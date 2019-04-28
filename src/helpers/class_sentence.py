@@ -119,6 +119,7 @@ class Sentence:
         :return: float
         """
         self.mead_score = score
+        self.order_by = self.mead_score
 
     def get_score(self):
         """
@@ -173,6 +174,4 @@ class Sentence:
         :param other:
         :return:
         """
-        if self.mead_score:
-            self.order_by = self.mead_score
         return self.order_by < other.order_by

@@ -138,19 +138,21 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
             content_length = len(realized_content)
             self.assertLessEqual(content_length, max_length)
 
-    # def test_generate_summary(self):
-    #     topics = {'PUP1A': [Document('TST_ENG_20190101.0001'), Document('TST_ENG_20190101.0002'),
-    #                         Document('TST20190201.0001'), Document('TST20190201.0002')],
-    #               'WAR2A': [Document('TST_ENG_20190301.0001'), Document('TST_ENG_20190301.0002'),
-    #                         Document('TST20190401.0001'), Document('TST20190401.0002')]}
-    #     WordMap.create_mapping()
-    #     vec = Vectors()
-    #     vec.create_freq_vectors(topics)
-    #     idf = MeadSummaryGenerator.get_idf_array(self)
-    #
-    #     for topic_id, documents in topics.items():
-    #         summarizer = MeadSummaryGenerator(documents, MeadContentSelector())
-    #         print(summarizer.generate_summary(idf))
+    def test_generate_summary(self):
+        topics = {'PUP1A': [Document('TST_ENG_20190101.0001'), Document('TST_ENG_20190101.0002'),
+                            Document('TST20190201.0001'), Document('TST20190201.0002')],
+                  'WAR2A': [Document('TST_ENG_20190301.0001'), Document('TST_ENG_20190301.0002'),
+                            Document('TST20190401.0001'), Document('TST20190401.0002')]}
+        WordMap.create_mapping()
+        vec = Vectors()
+        vec.create_freq_vectors(topics)
+        idf = MeadSummaryGenerator.get_idf_array(self)
+
+        for topic_id, documents in topics.items():
+            summarizer = MeadSummaryGenerator(documents, MeadContentSelector())
+            summary = summarizer.generate_summary(idf)
+            print(summary)
+            self.assertIsNot(summary, None)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,8 +1,8 @@
 #!/bin/sh
 
 ROUGE_DIR='/dropbox/18-19/573/code/ROUGE'
-#CONFIG_FILE_PATH='/home2/zoew2/Ling573/results'
-CONFIG_FILE_PATH='/home2/jmcanal/ling573/CGJZ/results'
+CURR_DIR=$(/usr/bin/pwd)
+CONFIG_FILE_PATH="$CURR_DIR"
 
 
 #"$ROUGE_DIR"/ROUGE-1.5.5.pl -e "$ROUGE_DIR"/data -a -n 2 -x -m -c 95 -r 1000 -f A -p 0.5 -t 0 -l 100 -s -d "$CONFIG_FILE_PATH"/lead_rouge_run.xml &> lead_rouge_scores.out
