@@ -8,7 +8,7 @@ Genevieve Peaslee<br>
 Zoe Winkworth<br>
 
 
-Both baseline systems - Lead Sentence (hereafter LEAD) and MEAD - are run from `run_all.sh` through the Condor file `D2.cmd`. `run_all.sh` executes the main module, `run_summarization.py`, which takes two arguments: the .xml file with the topics + document ids to be summarized and an integer indicating which system to run (1 for LEAD and 2 for MEAD).
+Both baseline systems - Lead Sentence (hereafter LEAD) and MEAD - can be run by executing `run_all.sh` from inside CGJZ/src, either directly or by submitting `D2.cmd` to Condor. `run_all.sh` executes the main module, `run_summarization.py`, which takes two arguments: the .xml file with the topics + document ids to be summarized and an integer indicating which system to run (1 for LEAD and 2 for MEAD).
 
 
 The variable parameters discussed in our write-up can be found in the following locations:
