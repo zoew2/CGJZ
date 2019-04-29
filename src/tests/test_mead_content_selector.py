@@ -64,7 +64,7 @@ class MeadContentSelectorTests(unittest.TestCase):
         centroid = selector.get_cluster_centroid(self.doc_list, self.idf)
 
         actual_non_zero = np.count_nonzero(centroid)
-        should_be_non_zero = 40
+        should_be_non_zero = 3
 
         self.assertEqual(actual_non_zero, should_be_non_zero)
 
@@ -77,7 +77,7 @@ class MeadContentSelectorTests(unittest.TestCase):
 
         centroid = selector.get_cluster_centroid(self.doc_list, self.idf)
 
-        expected_centroid_score = 9.9
+        expected_centroid_score = 8.2
         c_score = selector.get_centroid_score(sent_1, centroid)
 
         self.assertAlmostEqual(expected_centroid_score, c_score, 1)
@@ -95,8 +95,8 @@ class MeadContentSelectorTests(unittest.TestCase):
         selected = selector.select_content(self.doc_list, self.idf)
         selector.apply_redundancy_penalty(selected[0])
         scores = [s.mead_score for s in selector.selected_content]
-        expected_scores = [15.765854141988374, 15.65890701749496, 10.081583108898956,
-                           10.733254415109, 18.45724390219461, 15.901560114542184]
+        expected_scores = [6.607957027843801, 0.5, 8.36614263567251,
+                           1.875, 9.04293356667541, 2.5668647622958933]
 
         self.assertEqual(scores, expected_scores)
 
@@ -108,7 +108,7 @@ class MeadContentSelectorTests(unittest.TestCase):
                                 'puppies played fetch with their owners today.'
 
         top_mead_score = float("{:.5f}".format(top_sentence.mead_score))
-        expected_top_mead_score = 16.26585
+        expected_top_mead_score = 7.10796
 
         self.assertEqual(top_sentence.raw_sentence, expected_top_sentence)
         self.assertEqual(top_mead_score, expected_top_mead_score)

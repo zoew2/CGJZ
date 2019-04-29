@@ -48,13 +48,14 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         :return:
         """
         doc_id_1 = 'TST_ENG_20190101.0001'
-        sentence_1 = 'In a park somewhere, a bunch of puppies played fetch with their owners today.'
+        sentence_1 = "There were many bigger puppies but he didn\'t get in a fight with any of them, " \
+                     "they just played together with their toys and chased each other."
         sentence_2 = 'They all ran around with their tails wagging ' \
                      'and their tongues hanging out having loads of fun in the sun.'
         sentence_3 = 'I took my small puppy to the dog park today.'
-        expected_info = [Sentence(sentence_1, 1, doc_id_1),
+        expected_info = [Sentence(sentence_2, 2, doc_id_1),
                          Sentence(sentence_3, 3, doc_id_1),
-                         Sentence(sentence_2, 2, doc_id_1)]
+                         Sentence(sentence_1, 1, doc_id_1)]
 
 
         WordMap.word_to_id = self.w_map
@@ -72,13 +73,14 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         Test applying redundancy penalty during realize_content
         :return:
         """
-        expected_content = "There were many bigger puppies but he didn't get in a fight with any of them, " \
-                           "they just played together with their toys and chased each other.\n" \
+        expected_content = "He loves playing so he liked to run around with the other dogs playing fetch.\n" \
                            "Puppies love playing fetch.\n" \
-                           "He loves playing so he liked to run around with the other dogs playing fetch.\n" \
-                           "They all ran around with their tails wagging and their tongues hanging out having loads of fun in the sun.\n" \
+                           "In a park somewhere, a bunch of puppies played fetch with their owners today.\n" \
+                           "There were many bigger puppies but he didn't get in a fight with any of them, " \
+                           "they just played together with their toys and chased each other.\n" \
                            "I took my small puppy to the dog park today.\n" \
-                           "In a park somewhere, a bunch of puppies played fetch with their owners today."
+                           "They all ran around with their tails wagging and their tongues hanging out" \
+                           " having loads of fun in the sun."
 
         WordMap.word_to_id = self.w_map
         Vectors().create_freq_vectors(self.topics)
@@ -106,10 +108,10 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
             curr_score = idf[WordMap.id_of(word)]
             scores.append("{:.5f}".format(curr_score))
 
-        expected_scores = ['1.37302', '3.25479', '2.91900',
-                           '0.48039', '4.03294', '3.55582',
-                           '0.76366', '4.03294', '4.03294',
-                           '4.03294']
+        expected_scores = ['0.17522', '1.06550', '1.61979',
+                           '0.01233', '2.69897', '2.39794',
+                           '0.04191', '2.00000', '1.61979',
+                           '2.69897']
 
         self.assertListEqual(scores, expected_scores, 5)
 
