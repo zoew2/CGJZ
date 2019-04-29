@@ -1,7 +1,7 @@
 from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
-from nltk.corpus import reuters, brown
+from nltk.corpus import brown
 import numpy as np
 
 
@@ -40,8 +40,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         for cluster centroid calculations
         :return: numpy array of idf values
         """
-        corpus = reuters
-        # corpus = brown
+        corpus = brown
         num_words = Vectors().num_unique_words
         n = len(corpus.fileids())  # number of documents in Reuters corpus
         docs_word_matrix = np.zeros([n, num_words])

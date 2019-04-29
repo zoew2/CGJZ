@@ -61,7 +61,7 @@ class MeadContentSelector(BaseContentSelector):
         :param: centroid_cluster
         :return: float
         """
-        threshold = self.mean_threshold(centroid_cluster)
+        threshold = self.max_mean_threshold(centroid_cluster)
 
         return threshold
 
@@ -131,7 +131,7 @@ class MeadContentSelector(BaseContentSelector):
         p_score = self.get_sentence_position(sentence, n)
         f_score = self.get_first_sentence_overlap(sentence, first)
 
-        # add up the scores adjusted with optional score weights (default weights of 1)
+        # add up the scores adjuste d with optional score weights (default weights of 1)
         score = (w_c * c_score) + (w_p * p_score) + (w_f * f_score)
 
         sentence.set_mead_score(score)  # assign score value to Sentence object
