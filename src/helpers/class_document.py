@@ -35,7 +35,7 @@ class Document:
         self.art_id = ids[1]  # .0001
 
         if self.src == 'TST':
-            self.path = '../tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
+            self.path = '/home2/youyunzh/573/CGJZ/src/tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
             self.docid_inxml = self.docid
         elif int(self.year) > 2000:  # get path, if date belongs to 2004+
             self.path = "/corpora/LDC/LDC08T25/data/" + self.src.lower() + self.lang.lower() + "/" + \
