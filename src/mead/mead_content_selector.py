@@ -33,7 +33,7 @@ class MeadContentSelector(BaseContentSelector):
         """
         return 1 - cosine(first_sentence.vector.toarray(), sentence.vector.toarray())
 
-    def get_cluster_centroid(self, documents, idf_array, threshold=-1):
+    def get_cluster_centroid(self, documents, idf_array, threshold_calc):
         """
         The centroid for the cluster is the vector for
         the pseudo-document for the cluster, cf. MEAD paper
@@ -42,28 +42,36 @@ class MeadContentSelector(BaseContentSelector):
         """
         word_sentence_matrix = Vectors().get_topic_matrix(documents).toarray()
         total_words_in_cluster = word_sentence_matrix.sum(0)
-        sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0) # across the cluster
+        sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0)  # across the cluster
         average_count = np.divide(total_words_in_cluster, sentences_per_word + 1)
 
         if len(average_count) != len(idf_array):
             raise Exception("Cluster centroid arrays must be the same length")
 
         centroid_cluster = np.multiply(average_count, idf_array)
-        if threshold == -1:
-            threshold = self.__calculate_threshold(centroid_cluster)
-        centroid_cluster[centroid_cluster < threshold] = 0 # set all centroid word values below threshold to zero
+
+        if threshold_calc == 'min':
+            threshold = self.min_mean_threshold(centroid_cluster)
+        elif threshold_calc == 'mean':
+            threshold = self.mean_threshold(centroid_cluster)
+        elif threshold_calc == 'max':
+            threshold = self.max_mean_threshold(centroid_cluster)
+        else:
+            threshold = 0
+
+        centroid_cluster[centroid_cluster < threshold] = 0  # set all centroid word values below threshold to zero
         return centroid_cluster
 
-    def __calculate_threshold(self, centroid_cluster):
-        """
-        Calculate threshold for centroid value if not given
-        This is just a trial value, it can be modified as needed/appropriate
-        :param: centroid_cluster
-        :return: float
-        """
-        threshold = self.max_mean_threshold(centroid_cluster)
-
-        return threshold
+    # def __calculate_threshold(self, centroid_cluster):
+    #     """
+    #     Calculate threshold for centroid value if not given
+    #     This is just a trial value, it can be modified as needed/appropriate
+    #     :param: centroid_cluster
+    #     :return: float
+    #     """
+    #     threshold = self.max_mean_threshold(centroid_cluster)
+    #
+    #     return threshold
 
     def min_mean_threshold(self, centroid_cluster):
         """
@@ -121,34 +129,35 @@ class MeadContentSelector(BaseContentSelector):
             counts = selected_vector.sum() + sentence.vector.sum()
             sentence.mead_score = sentence.mead_score - (overlap/counts)
 
-    def get_score(self, sentence, centroid, n, first, w_c=1, w_p=1, w_f=1):
+    def get_score(self, sentence, centroid, n, first, args):
         """
         Get the MEAD score for this sentence
-        :param sentence, centroid, n, and optional weights: w_c, w_p, w_f:
+        :param sentence, centroid, n, first, and optional weights: w_c, w_p, w_f:
         """
         # get each parameter for the score
         c_score = self.get_centroid_score(sentence, centroid)
         p_score = self.get_sentence_position(sentence, n)
         f_score = self.get_first_sentence_overlap(sentence, first)
 
+        print(args.w_c)
         # add up the scores adjuste d with optional score weights (default weights of 1)
-        score = (w_c * c_score) + (w_p * p_score) + (w_f * f_score)
+        score = (args.w_c * c_score) + (args.w_p * p_score) + (args.w_f * f_score)
 
         sentence.set_mead_score(score)  # assign score value to Sentence object
 
-    def select_content(self, documents, idf_array=None):
+    def select_content(self, documents, args, idf_array=None,):
         """
         Select the salient content for the summary
         :param: list of Document objects
         :return: dictionary of Date, Sentence object pairs
         """
         self.selected_content = []
-        centroid = self.get_cluster_centroid(documents, idf_array)
+        centroid = self.get_cluster_centroid(documents, idf_array, args.c_threshold)
         for doc in documents:
             n = len(documents)
             first = doc.get_sen_bypos(0)
             for s in doc.sens:
-                self.get_score(s, centroid, n, first)
+                self.get_score(s, centroid, n, first, args)
                 self.selected_content.append(s)
 
         return self.selected_content
