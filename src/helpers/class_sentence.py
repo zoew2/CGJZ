@@ -138,8 +138,8 @@ class Sentence:
         stop_words = stopwords.words('english')
         stop_words.extend(['edu'])  # if we want to add any new words to stopwords
 
-        words = tokenize.word_tokenize(self.raw_sentence)  # No NER or Stemming
-        # words = self.stemming_n_linking_name_entity()  # NER and Stemming
+        # words = tokenize.word_tokenize(self.raw_sentence)  # No NER or Stemming
+        words = self.stemming_n_linking_name_entity()  # NER and Stemming
 
         self.tokens = [w.lower() for w in words if (w not in string.punctuation and w not in stop_words)]
         # Strip punctuation and stopwords from sentence tokens
