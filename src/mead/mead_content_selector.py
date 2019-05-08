@@ -118,7 +118,7 @@ class MeadContentSelector(BaseContentSelector):
             counts = selected_vector.sum() + sentence.vector.sum()
             sentence.mead_score = sentence.mead_score - (overlap/counts)
 
-    def get_score(self, sentence, centroid, n, first, args):
+    def get_scores(self, sentence, centroid, n, first, args):
         """
         Get the MEAD score for this sentence
         :param sentence, centroid, n, first, and optional weights: w_c, w_p, w_f:
@@ -128,10 +128,22 @@ class MeadContentSelector(BaseContentSelector):
         p_score = self.get_sentence_position(sentence, n)
         f_score = self.get_first_sentence_overlap(sentence, first)
 
-        # add up the scores adjuste d with optional score weights (default weights of 1)
-        score = (args.w_c * c_score) + (args.w_p * p_score) + (args.w_f * f_score)
+    def calculate_mead_scores(self, w_c=1, w_p=1, w_f=1):
 
-        sentence.set_mead_score(score)  # assign score value to Sentence object
+        c_scores = [s.c_score for s in self.selected_content]
+        max_c = max(c_scores)
+        c_sum = sum(c_scores)
+        p_sum = sum([s.p_score for s in self.selected_content])
+        f_sum = sum([s.f_score for s in self.selected_content])
+        for doc in self.selected_content:
+            for s in doc.sens:
+                s.c_score = s.c_score / c_sum
+                s.p_score = (s.p_score * max_c) / p_sum
+                s.f_score = s.f_score / f_sum
+
+                # add up the scores adjuste d with optional score weights (default weights of 1)
+                score = (w_c * s.c_score) + (w_p * s.p_score) + (w_f * s.f_score)
+                s.set_mead_score(score)  # assign score value to Sentence object
 
     def select_content(self, documents, args, idf_array=None,):
         """
@@ -145,8 +157,9 @@ class MeadContentSelector(BaseContentSelector):
             n = len(documents)
             first = doc.get_sen_bypos(0)
             for s in doc.sens:
-                self.get_score(s, centroid, n, first, args)
+                self.get_scores(s, centroid, n, first, args)
                 self.selected_content.append(s)
 
+        self.calculate_mead_scores()
         return self.selected_content
 
