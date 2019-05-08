@@ -12,16 +12,17 @@ class MeadContentSelector(BaseContentSelector):
     Select content using MEAD scores
     """
 
-    def get_sentence_position(self, sentence, n, c_max=1):
+    def get_sentence_position(self, sentence, document_length):
         """
         Get the position score for this sentence
-        :param: sentence, n (number of sentences in document), c_max (optional)
+        :param sentence: the given sentence
+        :param document_length: the number of sentences in the document
         :return: float
         """
         i = sentence.position()
         # original equation adds 1 to the numerator but our sentence numbering
         # is zero-based so +1 isn't necessary
-        p_score = ((n - i) / n) * c_max
+        p_score = ((document_length - i) / document_length)
         return p_score
 
     def get_first_sentence_overlap(self, sentence, first_sentence):
@@ -113,8 +114,7 @@ class MeadContentSelector(BaseContentSelector):
         selected_vector = selected_sentence.vector
 
         for sentence in self.selected_content:
-            vector_ = (selected_vector != 0)
-            overlap = csr_matrix.sum(vector_.multiply(sentence.vector != 0))
+            overlap = csr_matrix.sum((selected_vector != 0).multiply(sentence.vector != 0))
             counts = selected_vector.sum() + sentence.vector.sum()
             sentence.mead_score = sentence.mead_score - (overlap/counts)
 
@@ -130,20 +130,15 @@ class MeadContentSelector(BaseContentSelector):
 
     def calculate_mead_scores(self, w_c=1, w_p=1, w_f=1):
 
-        c_scores = [s.c_score for s in self.selected_content]
-        max_c = max(c_scores)
-        c_sum = sum(c_scores)
-        p_sum = sum([s.p_score for s in self.selected_content])
-        f_sum = sum([s.f_score for s in self.selected_content])
-        for doc in self.selected_content:
-            for s in doc.sens:
-                s.c_score = s.c_score / c_sum
-                s.p_score = (s.p_score * max_c) / p_sum
-                s.f_score = s.f_score / f_sum
+        max_c = max([s.c_score for s in self.selected_content])
+        max_p = max([s.p_score*max_c for s in self.selected_content])
+        max_f = max([s.f_score for s in self.selected_content])
 
-                # add up the scores adjuste d with optional score weights (default weights of 1)
-                score = (w_c * s.c_score) + (w_p * s.p_score) + (w_f * s.f_score)
-                s.set_mead_score(score)  # assign score value to Sentence object
+        # normalize all of the scores
+        for sentence in self.selected_content:
+            sentence.c_score = sentence.c_score / max_c
+            sentence.p_score = (sentence.p_score * max_c) / max_p
+            sentence.f_score = sentence.f_score / max_f
 
     def select_content(self, documents, args, idf_array=None,):
         """
@@ -154,11 +149,13 @@ class MeadContentSelector(BaseContentSelector):
         self.selected_content = []
         centroid = self.get_cluster_centroid(documents, idf_array, args.c_threshold)
         for doc in documents:
-            n = len(documents)
-            first = doc.get_sen_bypos(0)
-            for s in doc.sens:
-                self.get_scores(s, centroid, n, first, args)
-                self.selected_content.append(s)
+            document_length = len(doc.sens)
+            first_sentence = doc.get_sen_bypos(0)
+            for sentence in doc.sens:
+                sentence.c_score = self.get_centroid_score(sentence, centroid)
+                sentence.p_score = self.get_sentence_position(sentence, document_length)
+                sentence.f_score = self.get_first_sentence_overlap(sentence, first_sentence)
+                self.selected_content.append(sentence)
 
         self.calculate_mead_scores()
         return self.selected_content

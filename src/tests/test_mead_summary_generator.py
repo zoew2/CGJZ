@@ -48,11 +48,11 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         :return:
         """
         doc_id_1 = 'TST_ENG_20190101.0001'
-        sentence_1 = "There were many bigger puppies but he didn\'t get in a fight with any of them, " \
+        sentence_1 = 'Puppies love playing fetch.'
+        sentence_2 = "There were many bigger puppies but he didn\'t get in a fight with any of them, " \
                      "they just played together with their toys and chased each other."
-        sentence_2 = 'They all ran around with their tails wagging ' \
+        sentence_3 = 'They all ran around with their tails wagging ' \
                      'and their tongues hanging out having loads of fun in the sun.'
-        sentence_3 = 'I took my small puppy to the dog park today.'
         expected_info = [Sentence(sentence_2, 2, doc_id_1),
                          Sentence(sentence_3, 3, doc_id_1),
                          Sentence(sentence_1, 1, doc_id_1)]
@@ -73,14 +73,14 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         Test applying redundancy penalty during realize_content
         :return:
         """
-        expected_content = "He loves playing so he liked to run around with the other dogs playing fetch.\n" \
-                           "Puppies love playing fetch.\n" \
-                           "In a park somewhere, a bunch of puppies played fetch with their owners today.\n" \
-                           "There were many bigger puppies but he didn't get in a fight with any of them, " \
-                           "they just played together with their toys and chased each other.\n" \
+        expected_content = "In a park somewhere, a bunch of puppies played fetch with their owners today.\n" \
                            "I took my small puppy to the dog park today.\n" \
-                           "They all ran around with their tails wagging and their tongues hanging out" \
-                           " having loads of fun in the sun."
+                           "He loves playing so he liked to run around with the other dogs playing fetch.\n" \
+                           "Puppies love playing fetch.\n" \
+                           "They all ran around with their tails wagging " \
+                           "and their tongues hanging out having loads of fun in the sun.\n" \
+                           "There were many bigger puppies but he didn't get in a fight with any of them, " \
+                           "they just played together with their toys and chased each other."
 
         WordMap.word_to_id = self.w_map
         Vectors().create_freq_vectors(self.topics)

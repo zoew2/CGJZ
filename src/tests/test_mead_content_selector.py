@@ -95,8 +95,8 @@ class MeadContentSelectorTests(unittest.TestCase):
         selected = selector.select_content(self.doc_list, self.idf)
         selector.apply_redundancy_penalty(selected[0])
         scores = [s.mead_score for s in selector.selected_content]
-        expected_scores = [6.607957027843801, 0.5, 8.36614263567251,
-                           1.875, 9.04293356667541, 2.5668647622958933]
+        expected_scores = [2.0940528568719627, 0.6666666666666666, 1.4649244626899312,
+                           1.875, 1.611111111111111, 0.5434883762002072]
 
         self.assertEqual(scores, expected_scores)
 
@@ -108,7 +108,7 @@ class MeadContentSelectorTests(unittest.TestCase):
                                 'puppies played fetch with their owners today.'
 
         top_mead_score = float("{:.5f}".format(top_sentence.mead_score))
-        expected_top_mead_score = 7.10796
+        expected_top_mead_score = 2.59405
 
         self.assertEqual(top_sentence.raw_sentence, expected_top_sentence)
         self.assertEqual(top_mead_score, expected_top_mead_score)
