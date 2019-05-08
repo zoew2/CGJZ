@@ -62,17 +62,6 @@ class MeadContentSelector(BaseContentSelector):
         centroid_cluster[centroid_cluster < threshold] = 0  # set all centroid word values below threshold to zero
         return centroid_cluster
 
-    # def __calculate_threshold(self, centroid_cluster):
-    #     """
-    #     Calculate threshold for centroid value if not given
-    #     This is just a trial value, it can be modified as needed/appropriate
-    #     :param: centroid_cluster
-    #     :return: float
-    #     """
-    #     threshold = self.max_mean_threshold(centroid_cluster)
-    #
-    #     return threshold
-
     def min_mean_threshold(self, centroid_cluster):
         """
         version 3 of threshold calculation: halfway between cluster mean & min
@@ -139,7 +128,6 @@ class MeadContentSelector(BaseContentSelector):
         p_score = self.get_sentence_position(sentence, n)
         f_score = self.get_first_sentence_overlap(sentence, first)
 
-        print(args.w_c)
         # add up the scores adjuste d with optional score weights (default weights of 1)
         score = (args.w_c * c_score) + (args.w_p * p_score) + (args.w_f * f_score)
 
