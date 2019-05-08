@@ -10,7 +10,7 @@ import string
 from nltk.corpus import stopwords
 import spacy
 from src.helpers.class_wordmap import WordMap
-
+from src.helpers.class_preprocessor import Preprocessor
 
 class Sentence:
 
@@ -77,41 +77,41 @@ class Sentence:
         """
         return self.doc_id
 
-    def stemming_n_linking_name_entity(self):
-        """
-        first find all name entities
-        then lemmatize all the words that are not in an name entity
-
-        :return: new_toks, type: string, e.g, ['New York', 'is', 'looking', 'at', 'buying', 'U.K.', 'startup', 'for', '$1 billion']
-
-        """
-        nlp = spacy.load("en")
-        sen = nlp(self.raw_sentence)  # process sen
-
-        entity_ind = [-1] * len(sen)
-        ind = 0
-
-        for ent in sen.ents:
-            for i in range(ent.start, ent.end):
-                entity_ind[i] = ind
-            ind += 1
-        # [0, 0, -1, -1, -1, -1, 1, -1, -1, 2, 2, 2]
-
-        new_toks = []
-        ent_ind = 0  # pointer to entities
-        for i in range(len(entity_ind)):
-            if_ent = entity_ind[i]
-            if if_ent >= 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
-                if i == 0:
-                    new_toks.append(sen.ents[0].text)
-                    ent_ind += 1
-                elif entity_ind[i - 1] < 0:
-                    new_toks.append(sen.ents[ent_ind].text)
-                    ent_ind += 1
-            else:
-                new_toks.append(sen[i].text)
-
-        return new_toks
+    # def stemming_n_linking_name_entity(self):
+    #     """
+    #     first find all name entities
+    #     then lemmatize all the words that are not in an name entity
+    #
+    #     :return: new_toks, type: string, e.g, ['New York', 'is', 'looking', 'at', 'buying', 'U.K.', 'startup', 'for', '$1 billion']
+    #
+    #     """
+    #     nlp = spacy.load("en")
+    #     sen = nlp(self.raw_sentence)  # process sen
+    #
+    #     entity_ind = [-1] * len(sen)
+    #     ind = 0
+    #
+    #     for ent in sen.ents:
+    #         for i in range(ent.start, ent.end):
+    #             entity_ind[i] = ind
+    #         ind += 1
+    #     # [0, 0, -1, -1, -1, -1, 1, -1, -1, 2, 2, 2]
+    #
+    #     new_toks = []
+    #     ent_ind = 0  # pointer to entities
+    #     for i in range(len(entity_ind)):
+    #         if_ent = entity_ind[i]
+    #         if if_ent >= 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
+    #             if i == 0:
+    #                 new_toks.append(sen.ents[0].text)
+    #                 ent_ind += 1
+    #             elif entity_ind[i - 1] < 0:
+    #                 new_toks.append(sen.ents[ent_ind].text)
+    #                 ent_ind += 1
+    #         else:
+    #             new_toks.append(sen[i].text)
+    #
+    #     return new_toks
 
     def set_mead_score(self, score):
         """
@@ -139,10 +139,11 @@ class Sentence:
         stop_words.extend(['edu'])  # if we want to add any new words to stopwords
 
         # words = tokenize.word_tokenize(self.raw_sentence)  # No NER or Stemming
-        words = self.stemming_n_linking_name_entity()  # NER and Stemming
-
-        self.tokens = [w.lower() for w in words if (w not in string.punctuation and w not in stop_words)]
+        # self.tokens = [w.lower() for w in words if (w not in string.punctuation and w not in stop_words)]
         # Strip punctuation and stopwords from sentence tokens
+
+        self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
+
 
     def set_vector(self, vector):
         """

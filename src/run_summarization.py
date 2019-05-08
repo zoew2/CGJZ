@@ -11,6 +11,7 @@ from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.mead.mead_content_selector import MeadContentSelector
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
+from src.helpers.class_preprocessor import Preprocessor
 import argparse
 
 
@@ -70,6 +71,8 @@ def main():
     Read in the input files and output summaries
     :return:
     """
+    # load spacy en model for later tokenization, stemming and NER
+    preprocessor = Preprocessor()
 
     parser = argparse.ArgumentParser()
     parser.add_argument('topic_file')
