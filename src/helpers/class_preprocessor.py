@@ -24,10 +24,10 @@ class Preprocessor:
                             ['-PRON-', 'take', '-PRON-', 'small', 'puppy', 'dog', 'park', 'today']
                 None, if not a proper sentence
         """
-        # rule out wierd sentences
-        ct_dash=0
-        ct_nl=0
-        ct_d=0
+        # rule out weird sentences
+        ct_dash = 0
+        ct_nl = 0
+        ct_d = 0
 
         for cha in raw_sentence:
             if cha == '-':

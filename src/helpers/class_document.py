@@ -99,9 +99,11 @@ class Document:
 
         sens_c = []  # sens in class structure
         for sen_pos in range(len(sens)):
-            newsen = Sentence(sens[sen_pos], sen_pos)
-
-            sens_c.append(newsen)
+            try:
+                newsen = Sentence(sens[sen_pos], sen_pos)
+                sens_c.append(newsen)
+            except:
+                continue
 
         return sens_c
 

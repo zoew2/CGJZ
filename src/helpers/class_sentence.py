@@ -22,6 +22,8 @@ class Sentence:
         :param sent_pos:
         """
         self.raw_sentence = raw_sentence.strip('\n')  # raw input form of current sentence
+        self.__tokenize_sentence()  # try tokenize first, if not a proper sentence just throw exception don't bother
+
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
         self.tokens = []
@@ -29,8 +31,7 @@ class Sentence:
         self.order_by = self.sent_pos
         self.mead_score = None
 
-        if not self.tokens:
-            self.__tokenize_sentence()
+
 
         # update global mapping of words to indices
         WordMap.add_words(self.tokens)  # make sure self.tokens is the right thing here
@@ -144,7 +145,9 @@ class Sentence:
         # Strip punctuation and stopwords from sentence tokens
 
         self.tokens = Preprocessor().sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
-        print(self.tokens)
+        # print(self.tokens)
+        if not self.tokens:
+            raise Exception('not a sentence: ' + self.raw_sentence)
 
     def set_vector(self, vector):
         """
