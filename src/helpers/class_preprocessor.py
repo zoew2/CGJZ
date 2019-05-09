@@ -1,7 +1,7 @@
 import spacy
 import string
 from nltk.corpus import stopwords
-
+import numpy as np
 
 class Preprocessor:
     """
@@ -15,32 +15,57 @@ class Preprocessor:
 
     def sent_preprocessing(self, raw_sentence):
         """
-        first find all name entities
+        first rule out wierd sentences
+        then find all name entities
         then lemmatize all the words that are not in an name entity
-
-        # :return: new_toks, type: string, e.g, ['New York', 'is', 'looking', 'at', 'buying', 'U.K.', 'startup', 'for', '$1 billion']
+        then get rid of stopwords and punt
         :return: new_toks, type: list of string,
-                            e.g, ['New York', 'is', 'looking', 'buying', 'U.K.', 'startup', '$1 billion']
-
+                            e.g, ['New York', 'be', 'looking', 'buy', 'U.K.', 'startup', '$1 billion']
+                            ['-PRON-', 'take', '-PRON-', 'small', 'puppy', 'dog', 'park', 'today']
+                None, if not a proper sentence
         """
+        # rule out wierd sentences
+        ct_dash=0
+        ct_nl=0
+        ct_d=0
 
-        sen = self.spacynlp(raw_sentence)  # process sen
+        for cha in raw_sentence:
+            if cha == '-':
+                ct_dash += 1
+                if ct_dash > 3:
+                    return None
+            elif cha == '\n':
+                ct_nl += 1
+                if ct_nl > 3:
+                    return None
+            elif cha.isdigit():
+                ct_d += 1
+                if ct_d > 10:
+                    return None
 
-        entity_ind = [-1] * len(sen)
-        ind = 0
+        # process sen
+        sen = self.spacynlp(raw_sentence)
+
+        entity_ind = [0] * len(sen)
+        ind = 1
 
         for ent in sen.ents:
             for i in range(ent.start, ent.end):
                 entity_ind[i] = ind
             ind += 1
-        # [0, 0, -1, -1, -1, -1, 1, -1, -1, 2, 2, 2]
 
+        # [1, 1, 0, 0, 0, 2, 0, 0, 3, 3, 3] # index > 0 are NEs
+
+        if np.prod(entity_ind) != 0: # if every word is a NE, not a sentence.
+            return None
+
+        # linking NE
         new_toks = []
         ent_ind = 0  # pointer to entities
         for i in range(len(entity_ind)):
 
             if_ent = entity_ind[i]
-            if if_ent >= 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
+            if if_ent > 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
                 if i == 0:
                     new_toks.append(sen.ents[0].text)
                     ent_ind += 1

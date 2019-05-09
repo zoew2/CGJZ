@@ -12,8 +12,9 @@ import unittest
 def main():
     topics = {1: [Document('TST_ENG_20190101.0001'), Document('TST_ENG_20190101.0002')]}
     WordMap.create_mapping()
-    mapping = WordMap.get_mapping()
-    topic_one = topics.get(1)  # list of Documents
+
+    # mapping = WordMap.get_mapping()
+    # topic_one = topics.get(1)  # list of Documents
 
     topic_tdf = []
 
@@ -35,7 +36,8 @@ def main():
                                                 alpha='auto',
                                                 per_word_topics=True)
 
-    testtok = ['puppy', 'playing', 'fetch']
+    print(lda_model.print_topics())
+    testtok = ['puppy', 'love', 'playing', 'fetch']
     testsen = Vectors().create_term_sen_freq(testtok)
     print(testsen)
     print(lda_model.get_document_topics(testsen))
