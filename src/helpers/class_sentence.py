@@ -135,16 +135,16 @@ class Sentence:
         function only for internal usage
         """
 
-        stop_words = stopwords.words('english')
-        stop_words.extend(['edu'])  # if we want to add any new words to stopwords
+        # stop_words = stopwords.words('english')
+        # stop_words.extend(['edu'])  # if we want to add any new words to stopwords
 
         # words = tokenize.word_tokenize(self.raw_sentence)  # No NER or Stemming
         # words = self.stemming_n_linking_name_entity()  # NER and Stemming
         # self.tokens = [w.lower() for w in words if (w not in string.punctuation and w not in stop_words)]
         # Strip punctuation and stopwords from sentence tokens
 
-        self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
-
+        self.tokens = Preprocessor().sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
+        print(self.tokens)
 
     def set_vector(self, vector):
         """

@@ -48,7 +48,7 @@ class Preprocessor:
                     new_toks.append(sen.ents[ent_ind].text)
                     ent_ind += 1
             else:
-                w = sen[i].text
+                w = sen[i].lemma_
                 if w not in string.punctuation and w not in self.stop_words:  # Strip punctuation and stopwords from sentence tokens
 
                     new_toks.append(w)

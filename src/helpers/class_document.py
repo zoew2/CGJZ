@@ -51,7 +51,7 @@ class Document:
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
         self.sens = self.tok_toSens(self.text)  # list of sen objects
         self.vectors = []  # placeholder
-        self.tdf=[]
+        self.tdf = []
         self.tokenized_text = []
         if not self.tokenized_text:
             self.__get_tokenized_text()
@@ -124,7 +124,7 @@ class Document:
         self.vectors = matrix
 
     def set_tdf(self, term_doc_freq_list):
-        self.tdf=term_doc_freq_list
+        self.tdf = term_doc_freq_list
 
     def __get_tokenized_text(self):
 

@@ -1,3 +1,5 @@
+import warnings
+
 class WordMap:
     """
     class representing a mapping of each unique word in all documents in all topics to an integer identifier
@@ -44,6 +46,8 @@ class WordMap:
         :param word: String
         :return: int
         """
+        if word not in WordMap.word_set:
+            warnings.warn('Word \'' + word + '\' not in WordMap', Warning)
         return WordMap.word_to_id.get(word, None)
 
     @staticmethod

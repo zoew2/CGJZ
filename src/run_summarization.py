@@ -41,7 +41,8 @@ def load_documents_for_topics(topic_soup):
     # Need to trigger creation of mapping and of vectors
     WordMap.create_mapping()
     vec = Vectors()
-    vec.create_freq_vectors(topics)
+    vec.create_freq_vectors(topics)  # do we need to have this here if we don't run mead based content selection
+    vec.create_term_doc_freq(topics)
 
     return topics
 
@@ -103,6 +104,7 @@ def main():
             summarizer = MeadSummaryGenerator(documents, MeadContentSelector(), args)
         elif args.version == 'melda':
             pass
+
         else:
             summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
         output_file = get_output_filename(topic_id, args)
