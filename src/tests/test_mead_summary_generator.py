@@ -1,4 +1,5 @@
 import unittest
+from src.run_summarization import parse_args
 from src.mead.mead_content_selector import MeadContentSelector
 from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.helpers.class_sentence import Sentence
@@ -42,6 +43,8 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
            3.5558196830611912, 3.5558196830611912, 1.9876179589941962,
            1.077734400238912]
 
+    args = parse_args(['test_data/test_topics.xml', 'test'])
+
     def test_order_information(self):
         """
         Test ordering Sentences by MEAD score
@@ -60,7 +63,7 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
 
         WordMap.word_to_id = self.w_map
         Vectors().create_freq_vectors(self.topics)
-        generator = MeadSummaryGenerator(self.doc_list, MeadContentSelector())
+        generator = MeadSummaryGenerator(self.doc_list, MeadContentSelector(), self.args)
         generator.select_content(self.idf)
         generator.order_information()
 
@@ -85,7 +88,7 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         WordMap.word_to_id = self.w_map
         Vectors().create_freq_vectors(self.topics)
 
-        generator = MeadSummaryGenerator(self.doc_list, MeadContentSelector())
+        generator = MeadSummaryGenerator(self.doc_list, MeadContentSelector(), self.args)
         generator.select_content(self.idf)
         generator.order_information()
         generator.content_selector.selected_content = generator.content_selector.selected_content
@@ -95,13 +98,12 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
     def test_get_idf_array(self):
         words = ["i", "eat", "cake", "is", "delicious",
                            "puppies", "are", "cute", "cats", "furry"]
-        doc_list = [Document("TST_ENG_20190101.0001"), Document("TST_ENG_20190101.0002")]
         # Must override WordMap dictionary for test
         WordMap.word_to_id = {'delicious': 0, 'eat': 1, 'furry': 2,
                               'puppies': 3, 'i': 4, 'cats': 5,
                               'are': 6, 'is': 7, 'cute': 8, 'cake': 9}
 
-        idf = MeadSummaryGenerator(doc_list, MeadContentSelector()).get_idf_array()
+        idf = MeadSummaryGenerator(self.doc_list, MeadContentSelector(), self.args).get_idf_array()
 
         scores = []
         for word in words:
@@ -127,11 +129,11 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         WordMap.create_mapping()
         vec = Vectors()
         vec.create_freq_vectors(topics)
-        idf = MeadSummaryGenerator.get_idf_array(self)
+        idf = MeadSummaryGenerator(self.doc_list, MeadContentSelector(), self.args).get_idf_array()
         max_length = 100
 
         for topic_id, documents in topics.items():
-            generator = MeadSummaryGenerator(documents, MeadContentSelector())
+            generator = MeadSummaryGenerator(documents, MeadContentSelector(), self.args)
             generator.select_content(idf)
             generator.order_information()
             generator.content_selector.selected_content = generator.content_selector.selected_content
@@ -148,12 +150,11 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
         WordMap.create_mapping()
         vec = Vectors()
         vec.create_freq_vectors(topics)
-        idf = MeadSummaryGenerator.get_idf_array(self)
+        idf = MeadSummaryGenerator(self.doc_list, MeadContentSelector(), self.args).get_idf_array()
 
         for topic_id, documents in topics.items():
-            summarizer = MeadSummaryGenerator(documents, MeadContentSelector())
+            summarizer = MeadSummaryGenerator(documents, MeadContentSelector(), self.args)
             summary = summarizer.generate_summary(idf)
-            print(summary)
             self.assertIsNot(summary, None)
 
 if __name__ == '__main__':

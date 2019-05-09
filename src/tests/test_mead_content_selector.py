@@ -1,6 +1,6 @@
 import unittest
+from src.run_summarization import parse_args
 from src.mead.mead_content_selector import MeadContentSelector
-from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.helpers.class_sentence import Sentence
 from src.helpers.class_document import Document
 from src.helpers.class_sentence import WordMap
@@ -42,6 +42,8 @@ class MeadContentSelectorTests(unittest.TestCase):
            3.5558196830611912, 3.5558196830611912, 1.9876179589941962,
            1.077734400238912]
 
+    args = parse_args(['test_data/test_topics.xml', 'test'])
+
     def test_get_sentence_position(self):
         selector = MeadContentSelector()
         sentence_1 = Sentence("Here is a test sentence.", 0)
@@ -61,7 +63,7 @@ class MeadContentSelectorTests(unittest.TestCase):
         selector = MeadContentSelector()
         Vectors().create_freq_vectors(self.topics)
         WordMap.word_to_id = self.w_map
-        centroid = selector.get_cluster_centroid(self.doc_list, self.idf)
+        centroid = selector.get_cluster_centroid(self.doc_list, self.idf, self.args.c_threshold)
 
         actual_non_zero = np.count_nonzero(centroid)
         should_be_non_zero = 3
@@ -75,7 +77,7 @@ class MeadContentSelectorTests(unittest.TestCase):
         WordMap.word_to_id = self.w_map
         Vectors().create_freq_vectors(self.topics)
 
-        centroid = selector.get_cluster_centroid(self.doc_list, self.idf)
+        centroid = selector.get_cluster_centroid(self.doc_list, self.idf, self.args.c_threshold)
 
         expected_centroid_score = 8.2
         c_score = selector.get_centroid_score(sent_1, centroid)
@@ -92,7 +94,7 @@ class MeadContentSelectorTests(unittest.TestCase):
         WordMap.word_to_id = self.w_map
         Vectors().create_freq_vectors(self.topics)
 
-        selected = selector.select_content(self.doc_list, self.idf)
+        selected = selector.select_content(self.doc_list, self.args, self.idf)
         selector.apply_redundancy_penalty(selected[0])
         scores = [s.mead_score for s in selector.selected_content]
         expected_scores = [2.0940528568719627, 0.6666666666666666, 1.4649244626899312,
@@ -102,7 +104,7 @@ class MeadContentSelectorTests(unittest.TestCase):
 
     def test_select_content(self):
         selector = MeadContentSelector()
-        selected = selector.select_content(self.doc_list, self.idf)
+        selected = selector.select_content(self.doc_list, self.args, self.idf)
         top_sentence = selected[0]
         expected_top_sentence = 'In a park somewhere, a bunch of ' \
                                 'puppies played fetch with their owners today.'

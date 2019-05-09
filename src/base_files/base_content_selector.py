@@ -7,7 +7,7 @@ class BaseContentSelector:
 
     selected_content = None
 
-    def select_content(self, documents, idf=None):
+    def select_content(self, documents, args=None, idf_array=None,):
         """
         Select the salient content for the summary
         default functionality is just to return all sentences

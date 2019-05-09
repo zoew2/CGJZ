@@ -118,16 +118,6 @@ class MeadContentSelector(BaseContentSelector):
             counts = selected_vector.sum() + sentence.vector.sum()
             sentence.mead_score = sentence.mead_score - (overlap/counts)
 
-    def get_scores(self, sentence, centroid, n, first, args):
-        """
-        Get the MEAD score for this sentence
-        :param sentence, centroid, n, first, and optional weights: w_c, w_p, w_f:
-        """
-        # get each parameter for the score
-        c_score = self.get_centroid_score(sentence, centroid)
-        p_score = self.get_sentence_position(sentence, n)
-        f_score = self.get_first_sentence_overlap(sentence, first)
-
     def calculate_mead_scores(self, w_c=1, w_p=1, w_f=1):
 
         max_c = max([s.c_score for s in self.selected_content])
@@ -140,7 +130,11 @@ class MeadContentSelector(BaseContentSelector):
             sentence.p_score = (sentence.p_score * max_c) / max_p
             sentence.f_score = sentence.f_score / max_f
 
-    def select_content(self, documents, args, idf_array=None,):
+            # add up the scores adjusted with optional score weights (default weights of 1)
+            score = (w_c * sentence.c_score) + (w_p * sentence.p_score) + (w_f * sentence.f_score)
+            sentence.set_mead_score(score)  # assign score value to Sentence object
+
+    def select_content(self, documents, args=None, idf_array=None,):
         """
         Select the salient content for the summary
         :param: list of Document objects
