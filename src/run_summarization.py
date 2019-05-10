@@ -65,23 +65,26 @@ def get_output_filename(topic_id, args):
     return output_file
 
 
+def parse_args(args):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('topic_file')
+    parser.add_argument('version', choices=['test', 'lead', 'mead', 'melda'])
+    parser.add_argument('--output_dir', default='../outputs/D2/')
+    parser.add_argument('--corpus', choices=['B', 'R'], default='B')
+    parser.add_argument('--w_c', type=float, default=1)
+    parser.add_argument('--w_p', type=float, default=1)
+    parser.add_argument('--w_f', type=float, default=1)
+    parser.add_argument('--c_threshold', choices=['max', 'mean', 'min', 'zero'], default='max')
+    return parser.parse_args(args)
+
+
 def main():
     """
     Read in the input files and output summaries
     :return:
     """
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('topic_file')
-    parser.add_argument('version', choices=['lead', 'mead', 'melda'])
-    parser.add_argument('--output_dir', default='../outputs/D3/')
-    parser.add_argument('--corpus', choices=['B', 'R'], default='B')
-    parser.add_argument('--w_c', type=float, default=1)
-    parser.add_argument('--w_p', type=float, default=1)
-    parser.add_argument('--w_f', type=float, default=1)
-    parser.add_argument('--c_threshold', choices=['max', 'mean', 'min', 'zero'], default='max')
-
-    args = parser.parse_args()
+    args = parse_args(sys.argv[1:])
 
     # read in the topics
     topic_soup = make_soup(args.topic_file)
