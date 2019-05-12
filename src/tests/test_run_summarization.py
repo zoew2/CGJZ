@@ -1,5 +1,5 @@
 import unittest
-from src.run_summarization import make_soup, load_documents_for_topics, get_output_filename
+from src.run_summarization import make_soup, load_documents_for_topics, get_output_filename, parse_args
 from src.helpers.class_document import Document
 
 
@@ -19,9 +19,15 @@ class IOTests(unittest.TestCase):
 
     def test_get_output_filename(self):
         topic_id = 'PUP1A'
-        output_file = get_output_filename(topic_id, 'test')
+        args = parse_args(['test_data/test_topics.xml', 'test', '--output_dir', '../outputs/D0/'])
+        output_file = get_output_filename(topic_id, args)
 
-        self.assertEqual(output_file, '../outputs/D2/PUP1-A.M.100.A.test')
+        self.assertEqual(output_file, '../outputs/D0/PUP1-A.M.100.A.test')
+
+    def test_argparse(self):
+        args = parse_args(['test_data/test_topics.xml', 'test'])
+
+        self.assertEqual(len(args._get_kwargs()), 8)
 
 
 if __name__ == '__main__':

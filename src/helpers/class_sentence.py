@@ -29,7 +29,7 @@ class Sentence:
         self.tokens = []
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
-        self.mead_score = None
+        self.c_score = self.p_score = self.f_score = self.mead_score = None
 
 
 
