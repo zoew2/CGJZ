@@ -59,17 +59,21 @@ class Preprocessor:
         if np.prod(entity_ind) != 0: # if every word is a NE, not a sentence.
             return None
 
+
         # linking NE
         new_toks = []
         ent_ind = 0  # pointer to entities
         for i in range(len(entity_ind)):
-
+            
             if_ent = entity_ind[i]
             if if_ent > 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
                 if i == 0:
                     new_toks.append(sen.ents[0].text)
                     ent_ind += 1
-                elif entity_ind[i - 1] < 0:
+                elif entity_ind[i - 1] == 0:  # the tok before is not in a NE
+                    new_toks.append(sen.ents[ent_ind].text)
+                    ent_ind += 1
+                elif entity_ind[i - 1] < if_ent:  # another NE follow right after it
                     new_toks.append(sen.ents[ent_ind].text)
                     ent_ind += 1
             else:

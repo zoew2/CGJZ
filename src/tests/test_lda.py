@@ -1,51 +1,42 @@
-import gensim
-import gensim.corpora as corpora
-from gensim.utils import simple_preprocess
-from gensim.models import CoherenceModel
-
+from src.melda.melda_content_selector import MeldaContentSelector
+from src.helpers.class_preprocessor import Preprocessor
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_document import Document
 import unittest
 
-
-def main():
-    topics = {1: [Document('TST_ENG_20190101.0001'), Document('TST_ENG_20190101.0002')]}
+class MeldaContentSelectorTests(unittest.TestCase):
+    preprocessor = Preprocessor()
+    doc_1 = Document("TST_ENG_20190101.0001")
+    doc_3 = Document("TST_ENG_20190301.0001")
+    doc_list = [doc_1, doc_3]
+    topics = {'PUPWAR': [doc_1, doc_3]}
     WordMap.create_mapping()
-
-    # mapping = WordMap.get_mapping()
-    # topic_one = topics.get(1)  # list of Documents
-
-    topic_tdf = []
-
-    # def create_freq_vectors(self):
-
+    vec = Vectors()
+    vec.create_freq_vectors(topics)
     Vectors().create_term_doc_freq(topics)
-    for doc_list in topics.values():
-        for doc in doc_list:
-            topic_tdf.append(doc.tdf)
-            print(doc.tokenized_text)
-
-    lda_model = gensim.models.ldamodel.LdaModel(corpus=topic_tdf,
-                                                id2word=WordMap.get_id2word_mapping(),
-                                                num_topics=2,
-                                                random_state=100,
-                                                update_every=1,
-                                                chunksize=100,
-                                                passes=10,
-                                                alpha='auto',
-                                                per_word_topics=True)
-
-    print(lda_model.print_topics())
     testtok = ['puppy', 'love', 'playing', 'fetch']
     testsen = Vectors().create_term_sen_freq(testtok)
-    print(testsen)
-    print(lda_model.get_document_topics(testsen))
-    # doc_lda = lda_model[topicdocs]
 
-    # print('\nPerplexity: ', lda_model.log_perplexity(topic_tdf))
-    # print(lda_model.get_document_topics())
+
+    def LDA_model_and_score(self):
+
+
+
+
+
+        print('preproceesed')
+        generator = MeldaContentSelector(self.doc_list, MeldaContentSelector(), args=None)
+        generator.doLDA()
+        print(generator.lda_model.print_topics())
+        expected_topics=[]
+        self.assertListEqual(expected_topics,generator.lda_model.print_topics())
+
+
+        print(generator.lda_model.get_document_topics(self.testsen))
+        expected_results=[]
+        self.assertListEqual(expected_results, generator.lda_model.get_document_topics(self.testsen))
 
 
 if __name__ == '__main__':
-    main()
+    unittest.main()

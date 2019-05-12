@@ -54,6 +54,6 @@ class MeldaContentSelector(MeadContentSelector):
         :param sen: tokenized sentence, e.g.,['puppy', 'playing', 'fetch']
         :return: LDA score of sentense per topic[(0, 0.01499077), (1, 0.98500925)]
         """
-
+        self.doLDA()
         sen_tdf = Vectors().create_term_sen_freq(sen)
         return self.lda_model.get_document_topics(sen_tdf)
