@@ -66,15 +66,14 @@ class Preprocessor:
 
         # [1, 1, 0, 0, 0, 2, 0, 0, 3, 3, 3] # index > 0 are NEs
 
-        if np.prod(entity_ind) != 0: # if every word is a NE, not a sentence.
+        if np.prod(entity_ind) != 0:  # if every word is a NE, not a sentence.
             return None
-
 
         # linking NE
         new_toks = []
         ent_ind = 0  # pointer to entities
         for i in range(len(entity_ind)):
-            
+
             if_ent = entity_ind[i]
             if if_ent > 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
                 if i == 0:

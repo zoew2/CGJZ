@@ -9,6 +9,7 @@ import string
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_preprocessor import Preprocessor
 
+
 class Sentence:
 
     def __init__(self, raw_sentence, sent_pos, doc_id=None):
@@ -18,16 +19,15 @@ class Sentence:
         NOTE: self.raw_sentence now reflects coreference resolution done on the whole document
         :param raw_sentence:
         :param sent_pos:
+        :param coref_sentence: SciPy Span object
         """
-        self.raw_sentence = raw_sentence.strip('\n')  # raw input form of current sentence
+        self.raw_sentence = raw_sentence.strip('\n')  # input form of current sentence (corefs resolved)
         self.__tokenize_sentence()  # try tokenize first, if not a proper sentence just throw exception don't bother
-
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
         self.c_score = self.p_score = self.f_score = self.mead_score = self.lda_scores = self.melda_scores = None
-
 
 
         # update global mapping of words to indices

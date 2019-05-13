@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import unittest
 from src.helpers.class_preprocessor import Preprocessor
 
@@ -38,6 +39,7 @@ class PreprocessorTests(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 =======
+<<<<<<< HEAD
 from src.helpers.class_document import Document
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
@@ -98,3 +100,17 @@ if __name__ == '__main__':
 
 
 >>>>>>> coref resolution and tests
+=======
+from unittest import TestCase
+from nltk import tokenize
+import neuralcoref
+
+class TestPreprocessor(TestCase):
+    '''
+    preprocessed text is making it into vectors:
+    - sentence.tokens reflects NER, stemming, lowercasing, and coref resolution
+    - wordmap.word_to_id contains all preprocessed tokens
+    -
+    '''
+>>>>>>> rebasing
+>>>>>>> rebasing
