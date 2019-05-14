@@ -145,7 +145,7 @@ class Sentence:
         # Strip punctuation and stopwords from sentence tokens
 
         self.tokens = Preprocessor().sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
-        # print(self.tokens)
+
         if not self.tokens:
             raise Exception('not a sentence: ' + self.raw_sentence)
 

@@ -82,7 +82,7 @@ class Vectors:
             if word_id not in term_doc_freq_dict:
                 term_doc_freq_dict[word_id] = 0
             term_doc_freq_dict[word_id] += 1
-        print(term_doc_freq_dict)
+
         term_doc_freq_list = []
         for word_id in sorted(term_doc_freq_dict):
             term_doc_freq_list.append((word_id, term_doc_freq_dict[word_id]))
