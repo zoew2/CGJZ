@@ -10,16 +10,17 @@ class MeldaContentSelector(MeadContentSelector):
     Select content using MEAD scores
     """
 
-    def __init__(self, documents, content_selector, args):
+    def __init__(self, documents, idf_array=None):
         """
-        Initialize this class by saving input documents
-        :param documents: list of Document objects
+        Select the salient content for the summary
+        :param: list of Document objects
+        :return: dictionary of Date, Sentence object pairs
         """
-        super().__init__(documents, content_selector)
-        self.idf_array = None
-        self.args = args
+
+        self.documents=documents
         self.lda_model = None
         self.doLDA()
+
 
     def select_content(self, documents, idf_array=None):
         """
@@ -33,14 +34,14 @@ class MeldaContentSelector(MeadContentSelector):
 
     def doLDA(self):
         topic_tdf = []
-        for doc_list in self.documents:
-            for doc in doc_list:
-                topic_tdf.append(doc.tdf)
+        for doc in self.documents:
+
+            topic_tdf.append(doc.tdf)
 
         lda_model = gensim.models.ldamodel.LdaModel(corpus=topic_tdf,
                                                     id2word=WordMap.get_id2word_mapping(),
                                                     num_topics=2,
-                                                    random_state=100,
+                                                    random_state=0,
                                                     update_every=1,
                                                     chunksize=100,
                                                     passes=10,

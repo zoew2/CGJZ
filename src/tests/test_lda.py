@@ -4,6 +4,7 @@ from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_document import Document
 import unittest
+import re
 
 class MeldaContentSelectorTests(unittest.TestCase):
     preprocessor = Preprocessor()
@@ -13,7 +14,6 @@ class MeldaContentSelectorTests(unittest.TestCase):
     doc_list = [doc_1, doc_3]
     topics = {'PUPWAR': [doc_1, doc_3]}
     WordMap.create_mapping()
-    WordMap.get_mapping()
 
     vec = Vectors()
     # vec.create_freq_vectors(topics)
@@ -22,19 +22,39 @@ class MeldaContentSelectorTests(unittest.TestCase):
     testsen = Vectors().create_term_sen_freq(testtok)
 
 
+
     def test_LDA_model_and_score(self):
 
-
-        generator = MeldaContentSelector(self.doc_list, MeldaContentSelector(), args=None)
-        # generator.doLDA()
-        print(generator.lda_model.print_topics())
-        expected_topics=[]
-        self.assertListEqual(expected_topics,generator.lda_model.print_topics())
+        generator = MeldaContentSelector(self.doc_list)
 
 
-        print(generator.lda_model.get_document_topics(self.testsen))
-        expected_results=[]
-        self.assertListEqual(expected_results, generator.lda_model.get_document_topics(self.testsen))
+        topics=generator.lda_model.print_topics()
+        print(topics)
+        sum=0
+        for t in topics:
+            probs=re.findall(r'\d+\.\d+', t[1])
+            for p in probs:
+                sum += float(p)
+
+        sen_topic_prob=generator.lda_model.get_document_topics(self.testsen)
+
+
+        # random state introduced, can't compare results
+        # expected_topics = [(0,
+        #                     '0.184*"-PRON-" + 0.060*"enemy" + 0.060*"fight" + 0.060*"kill" + 0.060*"go" \
+        #                     + 0.060*"war" + 0.060*"soldier" + 0.036*"    " + 0.036*"get" + 0.036*"travel"'),
+        #                    (1,
+        #                     '0.107*"-PRON-" + 0.061*"puppy" + 0.061*"fetch" + 0.037*"somewhere" + 0.037*"load" \
+        #                     + 0.037*"bunch" + 0.037*"wag" + 0.037*"around" + 0.037*"park" + 0.037*"sun"')]
+
+
+        self.assertTrue(1.1509-sum < 0.5)
+        if len(sen_topic_prob)<2:
+            self.assertAlmostEqual(float(sen_topic_prob[0][1]),0.99,2)
+        else:
+            self.assertTrue(abs(float(sen_topic_prob[0][1]) - float(sen_topic_prob[1][1]) ) >0.7)
+
+        # self.assertListEqual(expected_results, generator.lda_model.get_document_topics(self.testsen))
 
 
 if __name__ == '__main__':
