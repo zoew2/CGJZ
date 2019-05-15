@@ -8,6 +8,7 @@ class PreprocessorTests(unittest.TestCase):
     """
 
     preprocessor = Preprocessor()
+    preprocessor.init()
 
 
     def test_sent_preprocessing(self):

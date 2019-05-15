@@ -26,7 +26,7 @@ class Sentence:
 
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
-        self.tokens = []
+        # self.tokens = []
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
         self.c_score = self.p_score = self.f_score = self.mead_score = None
@@ -144,7 +144,7 @@ class Sentence:
         # self.tokens = [w.lower() for w in words if (w not in string.punctuation and w not in stop_words)]
         # Strip punctuation and stopwords from sentence tokens
 
-        self.tokens = Preprocessor().sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
+        self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
 
         if not self.tokens:
             raise Exception('not a sentence: ' + self.raw_sentence)

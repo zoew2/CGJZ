@@ -7,27 +7,26 @@ import unittest
 
 class MeldaContentSelectorTests(unittest.TestCase):
     preprocessor = Preprocessor()
+    Preprocessor.init()
     doc_1 = Document("TST_ENG_20190101.0001")
     doc_3 = Document("TST_ENG_20190301.0001")
     doc_list = [doc_1, doc_3]
     topics = {'PUPWAR': [doc_1, doc_3]}
     WordMap.create_mapping()
+    WordMap.get_mapping()
+
     vec = Vectors()
-    vec.create_freq_vectors(topics)
+    # vec.create_freq_vectors(topics)
     Vectors().create_term_doc_freq(topics)
     testtok = ['puppy', 'love', 'playing', 'fetch']
     testsen = Vectors().create_term_sen_freq(testtok)
 
 
-    def LDA_model_and_score(self):
+    def test_LDA_model_and_score(self):
 
 
-
-
-
-        print('preproceesed')
         generator = MeldaContentSelector(self.doc_list, MeldaContentSelector(), args=None)
-        generator.doLDA()
+        # generator.doLDA()
         print(generator.lda_model.print_topics())
         expected_topics=[]
         self.assertListEqual(expected_topics,generator.lda_model.print_topics())

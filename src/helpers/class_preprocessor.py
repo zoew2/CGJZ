@@ -9,12 +9,17 @@ class Preprocessor:
     """
 
     # def __init__(self):
-    def init(self):
-        self.spacynlp = spacy.load("en")
-        self.stop_words = stopwords.words('english')
-        self.stop_words.extend(['edu'])  # if we want to add any new words to stopwords
+    spacynlp = None
+    stop_words = None
 
-    def sent_preprocessing(self, raw_sentence):
+    @staticmethod
+    def init():
+        Preprocessor.spacynlp = spacy.load("en")
+        Preprocessor.stop_words = stopwords.words('english')
+        Preprocessor.stop_words.extend(['edu'])  # if we want to add any new words to stopwords
+
+    @staticmethod
+    def sent_preprocessing(raw_sentence):
         """
         first rule out wierd sentences
         then find all name entities
@@ -29,6 +34,7 @@ class Preprocessor:
         ct_dash = 0
         ct_nl = 0
         ct_d = 0
+
 
         for cha in raw_sentence:
             if cha == '-':
@@ -45,7 +51,7 @@ class Preprocessor:
                     return None
 
         # process sen
-        sen = self.spacynlp(raw_sentence)
+        sen = Preprocessor.spacynlp(raw_sentence)
 
         entity_ind = [0] * len(sen)
         ind = 1
@@ -82,7 +88,7 @@ class Preprocessor:
                 w = sen[i].lemma_
                 if w != '-PRON-':  # if w is not a NE, lowercase it
                     w = w.lower()
-                if w not in string.punctuation and w not in self.stop_words:  # Strip punctuation and stopwords from sentence tokens
+                if w not in string.punctuation and w not in Preprocessor.stop_words:  # Strip punctuation and stopwords from sentence tokens
 
                     new_toks.append(w)
 
