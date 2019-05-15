@@ -29,7 +29,7 @@ class MeldaContentSelectorTests(unittest.TestCase):
 
 
         topics=generator.lda_model.print_topics()
-        print(topics)
+
         sum=0
         for t in topics:
             probs=re.findall(r'\d+\.\d+', t[1])
