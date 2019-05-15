@@ -49,6 +49,7 @@ class Document:
             self.docid_inxml = self.src + self.date + "." + self.art_id  # APW19980613.0001
 
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
+        print(self.text)
         self.sens = self.tok_toSens(self.text)  # list of sen objects
         self.vectors = []  # placeholder
         self.tdf = []
@@ -71,9 +72,12 @@ class Document:
                 line = f.readline()
             while "<HEADLINE>" not in line:
                 line = f.readline()
-            line = f.readline()
+            if "</HEADLINE>" in line:
+                headline += line[10:-12].strip()
+            else:
+                line = f.readline()
             while "</HEADLINE>" not in line:
-                headline += line
+                headline += line.strip()
                 line = f.readline()
             while "<TEXT>" not in line:
                 line = f.readline()
