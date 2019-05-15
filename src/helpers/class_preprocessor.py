@@ -8,7 +8,8 @@ class Preprocessor:
     do all the preprocessing
     """
 
-    def __init__(self):
+    # def __init__(self):
+    def init(self):
         self.spacynlp = spacy.load("en")
         self.stop_words = stopwords.words('english')
         self.stop_words.extend(['edu'])  # if we want to add any new words to stopwords

@@ -90,7 +90,7 @@ def main():
     args = parse_args(sys.argv[1:])
     
     # load spacy en model for later tokenization, stemming and NER
-    preprocessor = Preprocessor()
+    preprocessor = Preprocessor().init()
 
     # read in the topics
     topic_soup = make_soup(args.topic_file)
