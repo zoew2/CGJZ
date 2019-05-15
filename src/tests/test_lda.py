@@ -54,7 +54,7 @@ class MeldaContentSelectorTests(unittest.TestCase):
         else:
             self.assertTrue(abs(float(sen_topic_prob[0][1]) - float(sen_topic_prob[1][1]) ) >0.7)
 
-        # self.assertListEqual(expected_results, generator.lda_model.get_document_topics(self.testsen))
+
 
 
 if __name__ == '__main__':
