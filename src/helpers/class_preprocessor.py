@@ -2,6 +2,8 @@ import spacy
 import string
 from nltk.corpus import stopwords
 import numpy as np
+from nltk import tokenize
+import neuralcoref
 
 class Preprocessor:
     """
@@ -14,6 +16,8 @@ class Preprocessor:
     @staticmethod
     def load_models():
         Preprocessor.spacynlp = spacy.load("en")
+        coref_module = neuralcoref.NeuralCoref(Preprocessor.spacynlp.vocab)
+        Preprocessor.spacynlp.add_pipe(coref_module, name='neuralcoref', before='ner')
         Preprocessor.stop_words = stopwords.words('english')
         Preprocessor.stop_words.extend(['edu'])  # if we want to add any new words to stopwords
 
@@ -95,3 +99,26 @@ class Preprocessor:
                     new_toks.append(w)
 
         return new_toks
+
+    @staticmethod
+    def segment_sens(text):
+        '''
+        segments text into sentences
+        :param text: multi-sentence String
+        :return: list of Strings (sentences)
+        '''
+        return tokenize.sent_tokenize(text)
+
+    @staticmethod
+    def coref_resolve(text):
+        '''
+        identifies all spans in doc_text that refer to the same entity and replaces each one with the main mention of
+        that entity
+        :param text: String (raw text of an input document)
+        :return: String
+        '''
+
+        coref_text = Preprocessor.spacynlp(text)._.coref_resolved
+        if not coref_text:
+            raise Exception('no coref text')
+        return coref_text

@@ -2,14 +2,21 @@ import unittest
 from src.run_summarization import make_soup, load_documents_for_topics, get_output_filename, parse_args
 from src.helpers.class_document import Document
 from src.helpers.class_preprocessor import Preprocessor
+<<<<<<< HEAD
 
+=======
+>>>>>>> coref resolution and tests
 
 class IOTests(unittest.TestCase):
     """
     Tests for file IO operations
     """
 
+<<<<<<< HEAD
     Preprocessor.load_models()
+=======
+    Preprocessor.init()
+>>>>>>> coref resolution and tests
 
     def test_get_documents_for_topics(self):
         topic_soup = make_soup('test_data/test_topics.xml')

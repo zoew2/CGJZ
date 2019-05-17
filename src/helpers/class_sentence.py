@@ -30,7 +30,7 @@ class Sentence:
 
 
         # update global mapping of words to indices
-        WordMap.add_words(self.tokens)  # make sure self.tokens is the right thing here
+        WordMap.add_words(self.tokens)  # (use the tokens that we want represented in the vectors)
 
     def is_first_sentence(self):
         """

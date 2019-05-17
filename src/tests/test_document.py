@@ -1,14 +1,21 @@
 import unittest
 from src.helpers.class_document import Document
 from src.helpers.class_preprocessor import Preprocessor
+<<<<<<< HEAD
 
+=======
+>>>>>>> coref resolution and tests
 
 class DocumentTests(unittest.TestCase):
     """
     Tests for Document class
     """
 
+<<<<<<< HEAD
     Preprocessor.load_models()
+=======
+    Preprocessor.init()
+>>>>>>> coref resolution and tests
 
     def test_parse_doc_id(self):
         doc = Document("TST_ENG_20190101.0001")

@@ -2,7 +2,6 @@ import unittest
 from src.helpers.class_sentence import Sentence
 from src.helpers.class_preprocessor import Preprocessor
 
-
 class SentenceClassTests(unittest.TestCase):
     """
     Tests for Sentence class functionality

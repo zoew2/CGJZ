@@ -48,8 +48,8 @@ class Document:
                         self.date + "_" + self.src2 + self.lang
             self.docid_inxml = self.src + self.date + "." + self.art_id  # APW19980613.0001
 
-        self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
-        self.sens = self.tok_toSens(self.text)  # list of sen objects
+        self.headline, self.text = self.get_doc(self.path, self.docid_inxml)  # coref'd text
+        self.sens = self.tok_toSens(self.text)  # list of sen objects (processing done)
         self.vectors = []  # placeholder
         self.tdf = []
         self.tokenized_text = []
@@ -88,7 +88,8 @@ class Document:
                     text += '\n'  # separate paragraphs
                 line = f.readline().strip('\n').replace("\t", "\n")
 
-        return headline, text
+        coref_text = Preprocessor.coref_resolve(text)
+        return headline, coref_text
 
     def tok_toSens(self, text):
         """
