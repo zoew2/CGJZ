@@ -36,10 +36,11 @@ class Document:
 
         if self.src == 'TST':
             self.path = '../tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
+
             self.docid_inxml = self.docid
         elif int(self.year) > 2000:  # get path, if date belongs to 2004+
             self.path = "/corpora/LDC/LDC08T25/data/" + self.src.lower() + self.lang.lower() + "/" + \
-                        self.src.lower() + self.lang.lower() + "_" + self.date[:-2]+".xml"
+                        self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
             self.docid_inxml = self.docid
 
         else:
@@ -50,6 +51,10 @@ class Document:
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
         self.sens = self.tok_toSens(self.text)  # list of sen objects
         self.vectors = []  # placeholder
+        self.tdf = []
+        self.tokenized_text = []
+        if not self.tokenized_text:
+            self.__get_tokenized_text()
 
     def get_doc(self, path, id_xml):
         """
@@ -92,11 +97,13 @@ class Document:
         if not len(sens):
             warnings.warn('No sentence in the document! Document id: ' + self.docid, Warning)
 
-        sens_c=[]  # sens in class structure
+        sens_c = []  # sens in class structure
         for sen_pos in range(len(sens)):
-            newsen = Sentence(sens[sen_pos], sen_pos)
-
-            sens_c.append(newsen)
+            try:
+                newsen = Sentence(sens[sen_pos], sen_pos)
+                sens_c.append(newsen)
+            except:
+                continue
 
         return sens_c
 
@@ -117,6 +124,15 @@ class Document:
         :return:
         """
         self.vectors = matrix
+
+    def set_tdf(self, term_doc_freq_list):
+        self.tdf = term_doc_freq_list
+
+    def __get_tokenized_text(self):
+
+        for s in self.sens:
+            for t in s.tokens:
+                self.tokenized_text.append(t)
 
     def __eq__(self, other):
         """

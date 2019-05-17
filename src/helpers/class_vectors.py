@@ -46,3 +46,45 @@ class Vectors:
                 # assign matrix to document
                 document.set_vectors(doc_vectors)
 
+    def create_term_doc_freq(self, topics):
+        """
+        create term freq on each doc over each topic
+        :param topics:
+        :return: set tdf to topic_list of [doc_list of (wordid, freq)]
+                e.g.,[[(0, 1), (1, 2), (2, 1), (3, 1), (4, 1), (6, 5),  (9, 2), (10, 1), (11, 1)...],[...]]
+
+        """
+        for cluster in topics.values():
+            for document in cluster:
+                term_doc_freq_dict = {}
+                for sentence in document.sens:
+
+                    for word in sentence.tokenized():
+                        word_id = WordMap.id_of(word)
+                        if word_id not in term_doc_freq_dict:
+                            term_doc_freq_dict[word_id] = 0
+                        term_doc_freq_dict[word_id] += 1
+                term_doc_freq_list = []
+                for word_id in sorted(term_doc_freq_dict):
+                    term_doc_freq_list.append((word_id, term_doc_freq_dict[word_id]))
+
+                document.set_tdf(term_doc_freq_list)
+
+    def create_term_sen_freq(self, sen):
+        """
+        create term freq on a tokenized sentence
+        :param sent:
+        :return:
+        """
+        term_doc_freq_dict = {}
+        for tok in sen:
+            word_id = WordMap.id_of(tok)
+            if word_id not in term_doc_freq_dict:
+                term_doc_freq_dict[word_id] = 0
+            term_doc_freq_dict[word_id] += 1
+
+        term_doc_freq_list = []
+        for word_id in sorted(term_doc_freq_dict):
+            term_doc_freq_list.append((word_id, term_doc_freq_dict[word_id]))
+
+        return term_doc_freq_list

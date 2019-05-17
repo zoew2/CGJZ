@@ -11,6 +11,7 @@ from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.mead.mead_content_selector import MeadContentSelector
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
+from src.helpers.class_preprocessor import Preprocessor
 import argparse
 
 
@@ -40,7 +41,8 @@ def load_documents_for_topics(topic_soup):
     # Need to trigger creation of mapping and of vectors
     WordMap.create_mapping()
     vec = Vectors()
-    vec.create_freq_vectors(topics)
+    vec.create_freq_vectors(topics)  # do we need to have this here if we don't run mead based content selection
+    vec.create_term_doc_freq(topics)
 
     return topics
 
@@ -65,6 +67,7 @@ def get_output_filename(topic_id, args):
     return output_file
 
 
+
 def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('topic_file')
@@ -85,6 +88,9 @@ def main():
     """
 
     args = parse_args(sys.argv[1:])
+    
+    # load spacy en model for later tokenization, stemming and NER
+    preprocessor = Preprocessor().init()
 
     # read in the topics
     topic_soup = make_soup(args.topic_file)
@@ -103,6 +109,7 @@ def main():
             summarizer = MeadSummaryGenerator(documents, MeadContentSelector(), args)
         elif args.version == 'melda':
             pass
+
         else:
             summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
         output_file = get_output_filename(topic_id, args)

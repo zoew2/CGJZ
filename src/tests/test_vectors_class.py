@@ -16,6 +16,7 @@ class VectorsTests(unittest.TestCase):
         for doc_list in self.topics.values():
             for doc in doc_list:
                 # check that there's a vector for each sentence
+
                 doc_matrix_shape = doc.vectors.get_shape()
                 expected_rows = 3
                 self.assertEqual(doc_matrix_shape[0], expected_rows)
