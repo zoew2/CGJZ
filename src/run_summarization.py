@@ -9,6 +9,8 @@ from src.lead_sentence.lead_summary_generator import LeadSummaryGenerator
 from src.lead_sentence.lead_sentence_selector import LeadSentenceSelector
 from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.mead.mead_content_selector import MeadContentSelector
+from src.melda.melda_summary_generator import MeldaSummaryGenerator
+from src.melda.melda_content_selector import MeldaContentSelector
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_preprocessor import Preprocessor
@@ -63,9 +65,9 @@ def load_documents(topic):
 def get_output_filename(topic_id, args):
     topic_id1 = topic_id[:-1]
     topic_id2 = topic_id[-1]
-    output_file = args.output_dir + topic_id1 + '-A.M.100.' + topic_id2 + '.' + args.version
+    output_file = args.output_dir + topic_id1 + '-A.M.100.' + topic_id2 + '.' + args.version + '-' + args.corpus + \
+                  '-' + args.c_threshold + '-' + str(args.w_c) + str(args.w_p) + str(args.w_f)
     return output_file
-
 
 
 def parse_args(args):
@@ -88,7 +90,7 @@ def main():
     """
 
     args = parse_args(sys.argv[1:])
-    
+
     # load spacy en model for later tokenization, stemming and NER
     preprocessor = Preprocessor().init()
 
@@ -101,17 +103,17 @@ def main():
     # for each topic, load the documents and generate the summary
     for topic_id, documents in topics.items():
         if args.version == 'lead':
-            summarizer = LeadSummaryGenerator(documents, LeadSentenceSelector())
+            summarizer = LeadSummaryGenerator(documents, LeadSentenceSelector(), args)
         elif args.version == 'mead':
             if idf is None:
-                idf = MeadSummaryGenerator.get_idf_array(
-                    MeadSummaryGenerator(documents, MeadContentSelector(), args))
+                idf = MeadSummaryGenerator.get_idf_array(MeadSummaryGenerator(documents, MeadContentSelector(), args))
             summarizer = MeadSummaryGenerator(documents, MeadContentSelector(), args)
         elif args.version == 'melda':
-            pass
-
+            if idf is None:
+                idf = MeldaSummaryGenerator.get_idf_array(MeldaSummaryGenerator(documents, MeadContentSelector(), args))
+            summarizer = MeldaSummaryGenerator(documents, MeldaContentSelector(), args)
         else:
-            summarizer = BaseSummaryGenerator(documents, BaseContentSelector())
+            summarizer = BaseSummaryGenerator(documents, BaseContentSelector(), args)
         output_file = get_output_filename(topic_id, args)
 
         with open(output_file, "w") as f:

@@ -49,7 +49,6 @@ class Document:
             self.docid_inxml = self.src + self.date + "." + self.art_id  # APW19980613.0001
 
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
-        print(self.text)
         self.sens = self.tok_toSens(self.text)  # list of sen objects
         self.vectors = []  # placeholder
         self.tdf = []

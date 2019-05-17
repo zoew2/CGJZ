@@ -6,7 +6,7 @@ class LeadSentenceSelector(BaseContentSelector):
     Functions to summarize documents
     """
 
-    def select_content(self, documents, args=None, idf_array=None,):
+    def select_content(self, documents, args, idf_array=None,):
         """
         Select the salient content for the summary
         (lead sentence of each document, ordered by date - least to most recent)

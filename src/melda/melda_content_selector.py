@@ -21,15 +21,23 @@ class MeldaContentSelector(MeadContentSelector):
         self.lda_model = None
         self.doLDA()
 
-
-    def select_content(self, documents, idf_array=None):
-        """
-        Select the salient content for the summary
-        :param: list of Document objects
-        :return: dictionary of Date, Sentence object pairs
-        """
+    def select_top_n(self, sentences, topics, n):
         self.selected_content = []
+        for idx in range(0, topics-1):
+            values = [s.lda_topics[idx] for s in sentences].sort()
+            # redundancy
+            self.selected_content.extend(values[:n])
 
+    def calculate_lda_scores(self, sentences):
+        for sentence in sentences:
+            sentence.lda_scores = self.get_LDA_score_of_sen(sentence.tokens)
+
+        return sentences
+
+    def select_content(self, documents, args, idf_array=None,):
+        sentences = self.calculate_mead_scores(documents, args, idf_array)
+        sentences = self.calculate_lda_scores(sentences)
+        self.select_top_n(sentences, args.lda_topics, args.n)
         return self.selected_content
 
     def doLDA(self):

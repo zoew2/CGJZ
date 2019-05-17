@@ -18,7 +18,7 @@ class LeadSentenceSelectorTests(unittest.TestCase):
         selector = LeadSentenceSelector()
         documents = [Document(doc_id_1), Document(doc_id_2)]
         expected_sentences = [Sentence(sentence_1, 1, doc_id_1), Sentence(sentence_2, 1, doc_id_2)]
-        selector.select_content(documents)
+        selector.select_content(documents, [])
         selected_sentences = selector.selected_content
 
         self.assertCountEqual(expected_sentences, selected_sentences)
