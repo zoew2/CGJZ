@@ -1,11 +1,14 @@
 import unittest
 from src.helpers.class_document import Document
+from src.helpers.class_preprocessor import Preprocessor
 
 
 class DocumentTests(unittest.TestCase):
     """
     Tests for Document class
     """
+
+    Preprocessor.load_models()
 
     def test_parse_doc_id(self):
         doc = Document("TST_ENG_20190101.0001")

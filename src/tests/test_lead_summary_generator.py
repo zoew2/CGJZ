@@ -3,12 +3,15 @@ from src.lead_sentence.lead_sentence_selector import LeadSentenceSelector
 from src.lead_sentence.lead_summary_generator import LeadSummaryGenerator
 from src.helpers.class_sentence import Sentence
 from src.helpers.class_document import Document
+from src.helpers.class_preprocessor import Preprocessor
 
 
 class LeadSummaryGeneratorTests(unittest.TestCase):
     """
     Tests for LeadSummaryGenerator
     """
+
+    Preprocessor.load_models()
 
     def test_order_information(self):
         sentence_1 = 'Puppies are cute because many of them are small.'

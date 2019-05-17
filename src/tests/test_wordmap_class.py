@@ -1,6 +1,7 @@
 import unittest
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_document import Document
+from src.helpers.class_preprocessor import Preprocessor
 
 
 class WordMapTests(unittest.TestCase):
@@ -8,9 +9,12 @@ class WordMapTests(unittest.TestCase):
     tests for WordMap
     """
 
-    word_set = {'small', 'tails', 'together', 'somewhere', 'sun', 'dog', 'love', 'chased', 'played', "n't", 'in', 'toys', 'park', 'bunch', 'puppies', 'hanging', 'many', 'owners', 'get', 'fetch', 'loads', 'loves', 'liked', 'dogs', 'fight', 'ran', 'fun', 'took', 'wagging', 'bigger', 'playing', 'they', 'he', 'i', 'tongues', 'around', 'today', 'run', 'there', 'puppy'}
+    word_set = {'hang', 'park', 'small', 'fetch', 'run', 'load', 'dog', 'together', 'love', 'get', 'fun', 'tail', 'play', 'playing', 'owner', 'chase', 'bunch', 'toy', 'like', 'today', 'take', '-PRON-', 'big', 'puppy', 'sun', 'tongue', 'wag', 'around', 'fight', 'many', 'somewhere'}
 
     def test_create_mapping(self):
+
+        Preprocessor.load_models()
+
         WordMap.word_set = set()
         WordMap.word_to_id = {}
 
@@ -20,7 +24,9 @@ class WordMapTests(unittest.TestCase):
         WordMap.create_mapping()
         mapping = WordMap.get_mapping()
 
-        self.assertEqual(self.word_set, mapping.keys())  # each word in word_set got added to the dictionary
+        test = mapping.keys()
+
+        self.assertCountEqual(self.word_set, mapping.keys())  # each word in word_set got added to the dictionary
         self.assertEqual(len(mapping), len(set(mapping.items())))  # each id value in the dict is unique
 
 

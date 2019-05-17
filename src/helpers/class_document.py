@@ -105,7 +105,8 @@ class Document:
             try:
                 newsen = Sentence(sens[sen_pos], sen_pos)
                 sens_c.append(newsen)
-            except:
+            except ValueError:
+                warnings.warn('Ignoring suspicious sentence: ' + sens[sen_pos], Warning)
                 continue
 
         return sens_c

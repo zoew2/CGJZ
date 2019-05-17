@@ -5,6 +5,7 @@ from src.helpers.class_sentence import Sentence
 from src.helpers.class_document import Document
 from src.helpers.class_sentence import WordMap
 from src.helpers.class_vectors import Vectors
+from src.helpers.class_preprocessor import Preprocessor
 import numpy as np
 
 class MeadContentSelectorTests(unittest.TestCase):
@@ -13,6 +14,7 @@ class MeadContentSelectorTests(unittest.TestCase):
     """
 
     # variables used in multiple tests
+    Preprocessor.load_models()
     doc_1 = Document("TST_ENG_20190101.0001")
     doc_2 = Document("TST_ENG_20190101.0002")
     doc_list = [doc_1, doc_2]

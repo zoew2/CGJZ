@@ -80,6 +80,8 @@ def parse_args(args):
     parser.add_argument('--w_p', type=float, default=1)
     parser.add_argument('--w_f', type=float, default=1)
     parser.add_argument('--c_threshold', choices=['max', 'mean', 'min', 'zero'], default='max')
+    parser.add_argument('--lda_topics', type=int, default=10)
+    parser.add_argument('--n', type=int, default=2)
     return parser.parse_args(args)
 
 
@@ -92,7 +94,7 @@ def main():
     args = parse_args(sys.argv[1:])
 
     # load spacy en model for later tokenization, stemming and NER
-    preprocessor = Preprocessor().init()
+    Preprocessor.load_models()
 
     # read in the topics
     topic_soup = make_soup(args.topic_file)
@@ -105,13 +107,13 @@ def main():
         if args.version == 'lead':
             summarizer = LeadSummaryGenerator(documents, LeadSentenceSelector(), args)
         elif args.version == 'mead':
-            if idf is None:
-                idf = MeadSummaryGenerator.get_idf_array(MeadSummaryGenerator(documents, MeadContentSelector(), args))
             summarizer = MeadSummaryGenerator(documents, MeadContentSelector(), args)
-        elif args.version == 'melda':
             if idf is None:
-                idf = MeldaSummaryGenerator.get_idf_array(MeldaSummaryGenerator(documents, MeadContentSelector(), args))
+                idf = summarizer.get_idf_array()
+        elif args.version == 'melda':
             summarizer = MeldaSummaryGenerator(documents, MeldaContentSelector(), args)
+            if idf is None:
+                idf = summarizer.get_idf_array()
         else:
             summarizer = BaseSummaryGenerator(documents, BaseContentSelector(), args)
         output_file = get_output_filename(topic_id, args)

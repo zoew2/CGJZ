@@ -1,5 +1,6 @@
 import unittest
 from src.helpers.class_sentence import Sentence
+from src.helpers.class_preprocessor import Preprocessor
 
 
 class SentenceClassTests(unittest.TestCase):
@@ -8,6 +9,7 @@ class SentenceClassTests(unittest.TestCase):
     """
 
     def test_process_sentence(self):
+        Preprocessor.load_models()
         test_sentence = "In a park somewhere, a bunch of puppies played fetch with their owners today."
         doc_id = "TST_ENG_20190101.0001"
         s = Sentence(test_sentence, 0, doc_id)
@@ -18,7 +20,7 @@ class SentenceClassTests(unittest.TestCase):
         e = s.document_id()
 
         features = [a, b, c, d, e]
-        expected_features = [['in', 'park', 'somewhere', 'bunch', 'puppies', 'played', 'fetch', 'owners', 'today'],
+        expected_features = [['park', 'somewhere', 'bunch', 'puppy', 'play', 'fetch', '-PRON-', 'owner', 'today'],
                              14, True, 0, 'TST_ENG_20190101.0001']
 
         self.assertCountEqual(features, expected_features)

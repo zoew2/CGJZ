@@ -147,7 +147,7 @@ class Sentence:
         self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
 
         if not self.tokens:
-            raise Exception('not a sentence: ' + self.raw_sentence)
+            raise ValueError('not a sentence: ' + self.raw_sentence)
 
     def set_vector(self, vector):
         """

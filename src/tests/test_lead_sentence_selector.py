@@ -2,12 +2,15 @@ import unittest
 from src.lead_sentence.lead_sentence_selector import LeadSentenceSelector
 from src.helpers.class_document import Document
 from src.helpers.class_sentence import Sentence
+from src.helpers.class_preprocessor import Preprocessor
 
 
 class LeadSentenceSelectorTests(unittest.TestCase):
     """
     Tests for LeadSentenceSelector
     """
+
+    Preprocessor.load_models()
 
     def test_select_content(self):
         sentence_1 = 'In a park somewhere, a bunch of puppies played fetch with their owners today.'
