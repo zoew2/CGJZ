@@ -19,7 +19,6 @@ class Sentence:
         NOTE: self.raw_sentence now reflects coreference resolution done on the whole document
         :param raw_sentence:
         :param sent_pos:
-        :param coref_sentence: SciPy Span object
         """
         self.raw_sentence = raw_sentence.strip('\n')  # input form of current sentence (corefs resolved)
         self.__tokenize_sentence()  # try tokenize first, if not a proper sentence just throw exception don't bother

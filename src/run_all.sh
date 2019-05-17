@@ -1,6 +1,8 @@
 #!/bin/sh
 
-dir=/dropbox/18-19/573/Data/Documents/devtest
+DATA_DIR=/dropbox/18-19/573/Data/Documents/devtest
+ROUGE_DIR='/dropbox/18-19/573/code/ROUGE'
+RESULTS_FILE_PATH='../results'
 
 # run lead
 #time python3 run_summarization.py "$dir"/GuidedSumm10_test_topics.xml lead
