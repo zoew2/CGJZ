@@ -2,7 +2,10 @@ import unittest
 from src.helpers.class_document import Document
 from src.helpers.class_preprocessor import Preprocessor
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> coref resolution and tests
 =======
 >>>>>>> coref resolution and tests
 
@@ -12,7 +15,11 @@ class DocumentTests(unittest.TestCase):
     """
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     Preprocessor.load_models()
+=======
+    Preprocessor.init()
+>>>>>>> coref resolution and tests
 =======
     Preprocessor.init()
 >>>>>>> coref resolution and tests

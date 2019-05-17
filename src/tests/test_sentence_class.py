@@ -1,6 +1,9 @@
 import unittest
 from src.helpers.class_sentence import Sentence
+<<<<<<< HEAD
 from src.helpers.class_preprocessor import Preprocessor
+=======
+>>>>>>> coref resolution and tests
 
 class SentenceClassTests(unittest.TestCase):
     """

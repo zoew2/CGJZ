@@ -1,6 +1,6 @@
-from nltk import tokenize
 from .class_sentence import Sentence
 import warnings
+from src.helpers.class_preprocessor import Preprocessor
 
 """
 This is a module file of Document class.
@@ -97,7 +97,7 @@ class Document:
         :param text:
         :return: sens_c
         """
-        sens = tokenize.sent_tokenize(text)  # plain sens
+        sens = Preprocessor.segment_sens(text)  # plain sens
         if not len(sens):
             warnings.warn('No sentence in the document! Document id: ' + self.docid, Warning)
 
@@ -109,7 +109,6 @@ class Document:
             except ValueError:
                 warnings.warn('Ignoring suspicious sentence: ' + sens[sen_pos], Warning)
                 continue
-
         return sens_c
 
     def get_sen_bypos(self, sen_pos):
