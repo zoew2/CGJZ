@@ -1,6 +1,7 @@
 from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
+from src.helpers.class_preprocessor import Preprocessor
 from nltk.corpus import brown, reuters
 import numpy as np
 
@@ -47,8 +48,14 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         n = len(corpus.fileids())  # number of documents in corpus
         docs_word_matrix = np.zeros([n, num_words])
         for doc_idx, doc_id in enumerate(corpus.fileids()):
-            word_set = set(corpus.words(doc_id))
-            words_in_doc = [w.lower() for w in word_set]
+            # word_set = set(corpus.words(doc_id))
+            # words_in_doc = [w.lower() for w in word_set]
+            sentences = list(corpus.sents(doc_id))
+            words_in_doc = set()
+            for s in sentences:
+                s = ' '.join(s)
+                proc_s = Preprocessor().sent_preprocessing(s)
+                words_in_doc.add(proc_s)
             for word in words_in_doc:
                 word_idx = WordMap.id_of(word)
                 if word_idx:
