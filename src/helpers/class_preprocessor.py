@@ -13,7 +13,7 @@ class Preprocessor:
     stop_words = None
 
     @staticmethod
-    def init():
+    def load_models():
         Preprocessor.spacynlp = spacy.load("en")
         Preprocessor.stop_words = stopwords.words('english')
         Preprocessor.stop_words.extend(['edu'])  # if we want to add any new words to stopwords

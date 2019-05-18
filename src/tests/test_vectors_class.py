@@ -2,10 +2,12 @@ import unittest
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_document import Document
+from src.helpers.class_preprocessor import Preprocessor
 
 
 class VectorsTests(unittest.TestCase):
 
+    Preprocessor.load_models()
     topics = {1: [Document('TST_ENG_20190101.0001'), Document('TST_ENG_20190101.0002')]}
     WordMap.create_mapping()
     mapping = WordMap.get_mapping()
@@ -25,7 +27,7 @@ class VectorsTests(unittest.TestCase):
         s = self.topics.get(1)[1].sens[1]  # s1 is a Sentence object
         # s text: 'He loves playing so he liked to run around with the other dogs playing fetch.'
         id_of_playing = WordMap.id_of('playing')
-        self.assertEqual(s.vector.getcol(id_of_playing).sum(), 2)
+        self.assertEqual(s.vector.getcol(id_of_playing).sum(), 1)
         for word in s.tokens:
             id_of_word = WordMap.id_of(word)
             self.assertGreater(s.vector.getcol(id_of_word).sum(), 0)

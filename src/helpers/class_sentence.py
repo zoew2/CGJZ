@@ -29,7 +29,7 @@ class Sentence:
         # self.tokens = []
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
-        self.c_score = self.p_score = self.f_score = self.mead_score = None
+        self.c_score = self.p_score = self.f_score = self.mead_score = self.lda_scores = self.melda_score = None
 
 
 
@@ -147,7 +147,7 @@ class Sentence:
         self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
 
         if not self.tokens:
-            raise Exception('not a sentence: ' + self.raw_sentence)
+            raise ValueError('not a sentence: ' + self.raw_sentence)
 
     def set_vector(self, vector):
         """

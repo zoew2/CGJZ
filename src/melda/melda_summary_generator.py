@@ -6,14 +6,6 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
     Summarize documents using MEAD
     """
 
-    def __init__(self, documents, content_selector):
-        """
-        Initialize this class by saving input documents
-        :param documents: list of Document objects
-        """
-        super().__init__(documents, content_selector)
-        self.idf_array = None
-
     def pre_process(self, documents):
         """
         Preprocess the documents by tokenizing, removing stop words etc

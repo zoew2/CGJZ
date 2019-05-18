@@ -6,6 +6,7 @@ from src.helpers.class_sentence import Sentence
 from src.helpers.class_document import Document
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
+from src.helpers.class_preprocessor import Preprocessor
 
 
 class MeadSummaryGeneratorTests(unittest.TestCase):
@@ -14,6 +15,7 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
     """
 
     # variables used in multiple tests
+    Preprocessor.load_models()
     doc_1 = Document("TST_ENG_20190101.0001")
     doc_2 = Document("TST_ENG_20190101.0002")
     doc_list = [doc_1, doc_2]
@@ -60,9 +62,10 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
                          Sentence(sentence_3, 3, doc_id_1),
                          Sentence(sentence_1, 1, doc_id_1)]
 
-
+        # WordMap.create_mapping()
         WordMap.word_to_id = self.w_map
-        Vectors().create_freq_vectors(self.topics)
+        Vectors().create_term_doc_freq(self.topics)
+        # Vectors().create_freq_vectors(self.topics)
         generator = MeadSummaryGenerator(self.doc_list, MeadContentSelector(), self.args)
         generator.select_content(self.idf)
         generator.order_information()

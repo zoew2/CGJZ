@@ -15,9 +15,8 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         Initialize this class by saving input documents
         :param documents: list of Document objects
         """
-        super().__init__(documents, content_selector)
+        super().__init__(documents, content_selector, args)
         self.idf_array = None
-        self.args = args
 
     def pre_process(self, documents):
         """

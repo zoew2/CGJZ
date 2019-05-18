@@ -71,9 +71,12 @@ class Document:
                 line = f.readline()
             while "<HEADLINE>" not in line:
                 line = f.readline()
-            line = f.readline()
+            if "</HEADLINE>" in line:
+                headline += line[10:-12].strip()
+            else:
+                line = f.readline()
             while "</HEADLINE>" not in line:
-                headline += line
+                headline += line.strip()
                 line = f.readline()
             while "<TEXT>" not in line:
                 line = f.readline()
@@ -102,7 +105,8 @@ class Document:
             try:
                 newsen = Sentence(sens[sen_pos], sen_pos)
                 sens_c.append(newsen)
-            except:
+            except ValueError:
+                warnings.warn('Ignoring suspicious sentence: ' + sens[sen_pos], Warning)
                 continue
 
         return sens_c
