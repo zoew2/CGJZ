@@ -49,8 +49,11 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
 
     def test_melda_info_ordering(self):
         summarizer = MeldaSummaryGenerator(self.topics['PUP1A'], MeldaContentSelector(), self.args)
+        for doc in self.topics['PUP1A']:
+            print(doc.vectors)
         content_selector = summarizer.select_content(self.idf)
         expected_len = len(content_selector)
+        # lda_topics = self.args.lda_topics
         summarizer.order_information()
 
         actual_len = len(content_selector)
