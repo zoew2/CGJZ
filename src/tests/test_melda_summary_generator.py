@@ -65,5 +65,6 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
             summary = summarizer.generate_summary(self.idf)
             self.assertIsNot(summary, None)
 
+
 if __name__ == '__main__':
     unittest.main()
