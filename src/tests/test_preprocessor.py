@@ -77,5 +77,6 @@ class PreprocessorTests(unittest.TestCase):
 
         self.assertEqual(exp_coref, self.topics.get(1)[0].text)
 
+
 if __name__ == '__main__':
     unittest.main()
