@@ -46,9 +46,9 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
     vec.create_freq_vectors(topics)
     idf = MeldaSummaryGenerator(doc_list, MeldaContentSelector(), args).get_idf_array()
 
-
     def test_melda_info_ordering(self):
         summarizer = MeldaSummaryGenerator(self.topics['PUP1A'], MeldaContentSelector(), self.args)
+        content_selector = summarizer.select_content(self.idf)
         content_selector = summarizer.select_content(self.idf)
         expected_len = len(content_selector)
         summarizer.order_information()
