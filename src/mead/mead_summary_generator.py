@@ -47,15 +47,14 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         num_words = Vectors().num_unique_words
         n = len(corpus.fileids())  # number of documents in corpus
         docs_word_matrix = np.zeros([n, num_words])
-        for doc_idx, doc_id in enumerate(corpus.fileids()):
-            # word_set = set(corpus.words(doc_id))
-            # words_in_doc = [w.lower() for w in word_set]
+        for doc_idx, doc_id in enumerate(corpus.fileids()[:20]): # todo: change back to full corpus
             sentences = list(corpus.sents(doc_id))
             words_in_doc = set()
             for s in sentences:
                 s = ' '.join(s)
                 proc_s = Preprocessor().sent_preprocessing(s)
-                words_in_doc.add(proc_s)
+                if proc_s:
+                    words_in_doc.union(proc_s)
             for word in words_in_doc:
                 word_idx = WordMap.id_of(word)
                 if word_idx:

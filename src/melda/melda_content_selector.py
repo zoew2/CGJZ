@@ -1,6 +1,7 @@
 from src.mead.mead_content_selector import MeadContentSelector
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
+# from src.run_summarization import parse_args
 import numpy as np
 import gensim
 
@@ -22,8 +23,9 @@ class MeldaContentSelector(MeadContentSelector):
         """
         self.selected_content = []
         for idx in range(0, topics-1):
-            values = [s.lda_topics[idx] for s in sentences]
-            values.sort()
+            value_tuples = [(s.lda_scores[idx], s) for s in sentences]
+            value_tuples.sort()
+            values = [s for (n, s) in value_tuples]
             for num in range(0, n-1):
                 sentence = values.pop()
                 self.selected_content.append(sentence)
@@ -68,7 +70,7 @@ class MeldaContentSelector(MeadContentSelector):
         :param idf_array: idf array
         :return: list of selected sentences
         """
-        lda_model = self.build_lda_model(documents, args.num_topics)
+        lda_model = self.build_lda_model(documents, args.lda_topics)
         sentences = self.calculate_mead_scores(documents, args, idf_array)
         sentences = self.calculate_lda_scores(sentences, lda_model)
         self.select_top_n(sentences, args.lda_topics, args.n)

@@ -106,7 +106,8 @@ class MeadContentSelectorTests(unittest.TestCase):
 
     def test_select_content(self):
         selector = MeadContentSelector()
-        selected = selector.select_content(self.doc_list, self.args, self.idf)
+        Vectors().create_freq_vectors(self.topics)
+        selected = selector.select_content(self.topics['PUP1A'], self.args, self.idf)
         top_sentence = selected[0]
         expected_top_sentence = 'In a park somewhere, a bunch of ' \
                                 'puppies played fetch with their owners today.'
