@@ -45,7 +45,6 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
     vec = Vectors()
     vec.create_freq_vectors(topics)
     idf = MeldaSummaryGenerator(doc_list, MeldaContentSelector(), args).get_idf_array()
-    # summarizer = MeldaSummaryGenerator(doc_list, MeldaContentSelector(), args)
 
 
     def test_melda_info_ordering(self):
