@@ -15,6 +15,7 @@ class Sentence:
         """
         initialize Sentence class with methods for plain/raw and tokenized sentence
         options, word count, position of sentence in document and document id
+        NOTE: self.raw_sentence now reflects coreference resolution done on the whole document
         :param raw_sentence:
         :param sent_pos:
         """
@@ -108,6 +109,7 @@ class Sentence:
 
         if not self.tokens:
             raise ValueError('not a sentence: ' + self.raw_sentence)
+            raise Exception('not a sentence: ' + self.raw_sentence)
 
     def set_vector(self, vector):
         """

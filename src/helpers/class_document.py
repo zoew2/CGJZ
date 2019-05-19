@@ -35,7 +35,7 @@ class Document:
         self.art_id = ids[1]  # .0001
 
         if self.src == 'TST':
-            self.path = '../tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
+            self.path = 'tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
 
             self.docid_inxml = self.docid
         elif int(self.year) > 2000:  # get path, if date belongs to 2004+
@@ -49,7 +49,7 @@ class Document:
             self.docid_inxml = self.src + self.date + "." + self.art_id  # APW19980613.0001
 
         self.headline, self.text = self.get_doc(self.path, self.docid_inxml)  # coref'd text
-        self.sens = self.tok_toSens(self.text)  # list of sen objects (processing done)
+        self.sens = self.tok_toSens(self.text)  # list of sen objects (all processing done)
         self.vectors = []  # placeholder
         self.tdf = []
         self.tokenized_text = []
@@ -125,7 +125,7 @@ class Document:
     def set_vectors(self, matrix):
         """
         assigns a matrix representing all the sentences in this document to self.vectors
-        :param matrix: sparse matrix (dok_matrix????)
+        :param matrix: spacy dok sparse matrix
         :return:
         """
         self.vectors = matrix

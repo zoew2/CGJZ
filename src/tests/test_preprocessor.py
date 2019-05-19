@@ -1,6 +1,6 @@
 import unittest
-<<<<<<< HEAD
 from src.helpers.class_preprocessor import Preprocessor
+
 
 
 class PreprocessorTests(unittest.TestCase):
@@ -91,6 +91,7 @@ class TestPreprocessor(unittest.TestCase):
    Several of the officers are said to have told associates that Several of the officers continued firing because Diallo did not fall even after Several of the officers had unleashed the fusillade. When the officers saw afterward that Diallo was unarmed, people knowledgeable about the case said, at least one of the officers wept.'''
 
         self.assertEqual(exp_coref, self.topics.get(1)[0].text)
+
 
 if __name__ == '__main__':
     unittest.main()

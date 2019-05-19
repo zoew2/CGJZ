@@ -18,36 +18,40 @@ class Vectors:
         pre: create_freq vectors has been called
         """
 
-        topic_matrix = dok_matrix((0,0))  # initialize topic_matrix
+        topic_matrix = dok_matrix((0, self.num_unique_words))  # initialize topic_matrix
         # stack remaining document matrices
-        for index in range(len(topic_docs)):
-            topic_matrix = vstack([topic_matrix, topic_docs[index].vectors])
+        for doc in topic_docs:
+            topic_matrix = vstack([topic_matrix, doc.vectors])
         return topic_matrix
 
     def create_freq_vectors(self, topics):
         """
         creates a frequency vector for each sentence in each document in each topic in topics; stores single vectors in
         relevant Sentence objects and per-document matrices in relevant Document objects
+        If a sentence has been deemed not a good sentence, it won't have been tokenized and its vector will be all zeros
         :param topics: Dictionary {topic -> list of Documents}
         :return: None
         pre: WordMap.create_mapping has been called (should happen in run_summarization document loading)
         """
         for cluster in topics.values():
             for document in cluster:
-                doc_vectors = dok_matrix((0,0))
+                doc_vectors = dok_matrix((0, self.num_unique_words))
                 for sentence in document.sens:
                     sentence_vector = dok_matrix((1, self.num_unique_words))
-                    for word in sentence.tokenized():  # maybe check that sentence.tokenized() is the right thing here
+                    for word in sentence.tokens:
                         word_id = WordMap.id_of(word)
                         if word_id is None:
                             warnings.warn('Word \'' + word + '\' not in WordMap', Warning)
                         sentence_vector[0, word_id] += 1
                     # assign vector to sentence object
                     sentence.set_vector(sentence_vector)
-                    # add sentence vector to document matrix
+                    # add sentence vector to matrix for this doc
                     doc_vectors = vstack([doc_vectors, sentence_vector])
+                if doc_vectors.get_shape()[0] == 0:
+                    print("no sentence vectors for doc " + document.docid)
                 # assign matrix to document
                 document.set_vectors(doc_vectors)
+
 
     def create_term_doc_freq(self, topics):
         """

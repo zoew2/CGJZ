@@ -1,5 +1,5 @@
 from .base_content_selector import BaseContentSelector
-
+import warnings
 
 class BaseSummaryGenerator:
     """
@@ -59,7 +59,8 @@ class BaseSummaryGenerator:
                 token_total += next_sent_len
             else:
                 if token_total == 0:
-                    raise Exception("Top sentence is too long!\n" + next_sent.raw_sentence)
+                    # raise Exception("Top sentence is too long!\n" + next_sent.raw_sentence)
+                    warnings.warn('Top sentence too long', Warning)
                 break
             next_sent = self.get_next_sentence(next_sent)
         output_content = '\n'.join(output_content)  # one sentence per line
