@@ -47,7 +47,9 @@ class MeadContentSelector(BaseContentSelector):
         average_count = np.divide(total_words_in_cluster, sentences_per_word + 1)
 
         if len(average_count) != len(idf_array):
-            raise Exception("Cluster centroid arrays must be the same length")
+            raise Exception("Cluster centroid arrays must be the same length; "
+                            "Word array length {}, IDF array length {}"
+                            .format(len(average_count), len(idf_array)))
 
         centroid_cluster = np.multiply(average_count, idf_array)
 
@@ -104,6 +106,7 @@ class MeadContentSelector(BaseContentSelector):
         for word in sentence.tokens:
             id = WordMap.id_of(word)
             centroid_score += centroid[id] if id is not None else 0
+        # return centroid_score/(sentence.word_count() + 1)
         return centroid_score
 
     def apply_redundancy_penalty(self, selected_sentence):
