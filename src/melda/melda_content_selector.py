@@ -47,7 +47,7 @@ class MeldaContentSelector(MeadContentSelector):
             for topic_id, prob in lda_scores:
                 lda_arr[topic_id] = prob
 
-            sentence.lda_scores = lda_arr * sentence.word_count()
+            sentence.lda_scores = lda_arr
 
         return sentences
 

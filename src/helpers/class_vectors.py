@@ -18,7 +18,7 @@ class Vectors:
         pre: create_freq vectors has been called
         """
 
-        topic_matrix = dok_matrix((0,0))  # initialize topic_matrix
+        topic_matrix = dok_matrix((0, self.num_unique_words))  # initialize topic_matrix
         # stack remaining document matrices
         for index in range(len(topic_docs)):
             topic_matrix = vstack([topic_matrix, topic_docs[index].vectors])
@@ -34,7 +34,7 @@ class Vectors:
         """
         for cluster in topics.values():
             for document in cluster:
-                doc_vectors = dok_matrix((0,0))
+                doc_vectors = dok_matrix((0, self.num_unique_words))
                 for sentence in document.sens:
                     sentence_vector = dok_matrix((1, self.num_unique_words))
                     for word in sentence.tokenized():  # maybe check that sentence.tokenized() is the right thing here
