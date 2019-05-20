@@ -102,7 +102,8 @@ class MeadContentSelector(BaseContentSelector):
         """
         centroid_score = 0
         for word in sentence.tokens:
-            centroid_score += centroid[WordMap.id_of(word)]
+            id = WordMap.id_of(word)
+            centroid_score += centroid[id] if id is not None else 0
         return centroid_score
 
     def apply_redundancy_penalty(self, selected_sentence):

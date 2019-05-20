@@ -1,4 +1,3 @@
-import warnings
 
 class WordMap:
     """
@@ -8,6 +7,11 @@ class WordMap:
     word_set = set()
     word_to_id = {}
     id_to_word = {}
+
+    @staticmethod
+    def reset():
+        WordMap.word_to_id = {}
+        WordMap.id_to_word = {}
 
     @staticmethod
     def add_words(words):
@@ -23,6 +27,7 @@ class WordMap:
         creates a sorted list of words for lookups by word or id (index in list)
         pre: all documents loaded and all tokens added to word_set
         """
+        WordMap.reset()
         id = 0
         for word in WordMap.word_set:
             WordMap.word_to_id[word] = id
@@ -46,8 +51,6 @@ class WordMap:
         :param word: String
         :return: int
         """
-        if word not in WordMap.word_set:
-            warnings.warn('Word \'' + word + '\' not in WordMap', Warning)
         return WordMap.word_to_id.get(word, None)
 
     @staticmethod

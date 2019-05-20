@@ -8,7 +8,6 @@ class Preprocessor:
     do all the preprocessing
     """
 
-    # def __init__(self):
     spacynlp = None
     stop_words = None
 
