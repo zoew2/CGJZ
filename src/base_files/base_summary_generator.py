@@ -6,13 +6,14 @@ class BaseSummaryGenerator:
     Functions to summarize documents
     """
 
-    def __init__(self, documents, content_selector):
+    def __init__(self, documents, content_selector, args):
         """
         Initialize this class by saving input documents
         :param documents: list of Document objects
         """
         self.documents = self.pre_process(documents)
         self.content_selector = content_selector or BaseContentSelector()
+        self.args = args
 
     def pre_process(self, documents):
         """

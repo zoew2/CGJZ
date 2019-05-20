@@ -12,16 +12,17 @@ class MeadContentSelector(BaseContentSelector):
     Select content using MEAD scores
     """
 
-    def get_sentence_position(self, sentence, n, c_max=1):
+    def get_sentence_position(self, sentence, document_length):
         """
         Get the position score for this sentence
-        :param: sentence, n (number of sentences in document), c_max (optional)
+        :param sentence: the given sentence
+        :param document_length: the number of sentences in the document
         :return: float
         """
         i = sentence.position()
         # original equation adds 1 to the numerator but our sentence numbering
         # is zero-based so +1 isn't necessary
-        p_score = ((n - i) / n) * c_max
+        p_score = ((document_length - i) / document_length)
         return p_score
 
     def get_first_sentence_overlap(self, sentence, first_sentence):
@@ -33,7 +34,7 @@ class MeadContentSelector(BaseContentSelector):
         """
         return 1 - cosine(first_sentence.vector.toarray(), sentence.vector.toarray())
 
-    def get_cluster_centroid(self, documents, idf_array, threshold=-1):
+    def get_cluster_centroid(self, documents, idf_array, threshold_calc):
         """
         The centroid for the cluster is the vector for
         the pseudo-document for the cluster, cf. MEAD paper
@@ -42,28 +43,27 @@ class MeadContentSelector(BaseContentSelector):
         """
         word_sentence_matrix = Vectors().get_topic_matrix(documents).toarray()
         total_words_in_cluster = word_sentence_matrix.sum(0)
-        sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0) # across the cluster
+        sentences_per_word = np.count_nonzero(word_sentence_matrix, axis=0)  # across the cluster
         average_count = np.divide(total_words_in_cluster, sentences_per_word + 1)
 
         if len(average_count) != len(idf_array):
-            raise Exception("Cluster centroid arrays must be the same length")
+            raise Exception("Cluster centroid arrays must be the same length; "
+                            "Word array length {}, IDF array length {}"
+                            .format(len(average_count), len(idf_array)))
 
         centroid_cluster = np.multiply(average_count, idf_array)
-        if threshold == -1:
-            threshold = self.__calculate_threshold(centroid_cluster)
-        centroid_cluster[centroid_cluster < threshold] = 0 # set all centroid word values below threshold to zero
+
+        if threshold_calc == 'min':
+            threshold = self.min_mean_threshold(centroid_cluster)
+        elif threshold_calc == 'mean':
+            threshold = self.mean_threshold(centroid_cluster)
+        elif threshold_calc == 'max':
+            threshold = self.max_mean_threshold(centroid_cluster)
+        else:
+            threshold = 0
+
+        centroid_cluster[centroid_cluster < threshold] = 0  # set all centroid word values below threshold to zero
         return centroid_cluster
-
-    def __calculate_threshold(self, centroid_cluster):
-        """
-        Calculate threshold for centroid value if not given
-        This is just a trial value, it can be modified as needed/appropriate
-        :param: centroid_cluster
-        :return: float
-        """
-        threshold = self.max_mean_threshold(centroid_cluster)
-
-        return threshold
 
     def min_mean_threshold(self, centroid_cluster):
         """
@@ -104,7 +104,8 @@ class MeadContentSelector(BaseContentSelector):
         """
         centroid_score = 0
         for word in sentence.tokens:
-            centroid_score += centroid[WordMap.id_of(word)]
+            id = WordMap.id_of(word)
+            centroid_score += centroid[id] if id is not None else 0
         return centroid_score
 
     def apply_redundancy_penalty(self, selected_sentence):
@@ -116,40 +117,59 @@ class MeadContentSelector(BaseContentSelector):
         selected_vector = selected_sentence.vector
 
         for sentence in self.selected_content:
-            vector_ = (selected_vector != 0)
-            overlap = csr_matrix.sum(vector_.multiply(sentence.vector != 0))
+            overlap = csr_matrix.sum((selected_vector != 0).multiply(sentence.vector != 0))
             counts = selected_vector.sum() + sentence.vector.sum()
             sentence.mead_score = sentence.mead_score - (overlap/counts)
 
-    def get_score(self, sentence, centroid, n, first, w_c=1, w_p=1, w_f=1):
-        """
-        Get the MEAD score for this sentence
-        :param sentence, centroid, n, and optional weights: w_c, w_p, w_f:
-        """
-        # get each parameter for the score
-        c_score = self.get_centroid_score(sentence, centroid)
-        p_score = self.get_sentence_position(sentence, n)
-        f_score = self.get_first_sentence_overlap(sentence, first)
+    def calculate_scores(self, documents, args=None, idf_array=None):
 
-        # add up the scores adjuste d with optional score weights (default weights of 1)
-        score = (w_c * c_score) + (w_p * p_score) + (w_f * f_score)
+        sentences = []
+        c_scores = []
+        p_scores = []
+        f_scores = []
+        centroid = self.get_cluster_centroid(documents, idf_array, args.c_threshold)
 
-        sentence.set_mead_score(score)  # assign score value to Sentence object
+        for doc in documents:
+            document_length = len(doc.sens)
+            first_sentence = doc.get_sen_bypos(0)
 
-    def select_content(self, documents, idf_array=None):
+            for sentence in doc.sens:
+                sentence.c_score = self.get_centroid_score(sentence, centroid)
+                sentence.p_score = self.get_sentence_position(sentence, document_length)
+                sentence.f_score = self.get_first_sentence_overlap(sentence, first_sentence)
+
+                c_scores.append(sentence.c_score)
+                p_scores.append(sentence.p_score)
+                f_scores.append(sentence.f_score)
+
+                sentences.append(sentence)
+
+        max_c = max(c_scores)
+        return sentences, max_c, max([p*max_c for p in p_scores]), max(f_scores)
+
+    def calculate_mead_scores(self, documents, args, idf_array=None):
+
+        sentences, max_c, max_p, max_f = self.calculate_scores(documents, args, idf_array)
+
+        # normalize all of the scores
+        for sentence in sentences:
+            sentence.c_score = sentence.c_score / max_c
+            sentence.p_score = (sentence.p_score * max_c) / max_p
+            sentence.f_score = sentence.f_score / max_f
+
+            # add up the scores adjusted with optional score weights (default weights of 1)
+            score = (args.w_c * sentence.c_score) + (args.w_p * sentence.p_score) + (args.w_f * sentence.f_score)
+            sentence.set_mead_score(score)  # assign score value to Sentence object
+
+        return sentences
+
+    def select_content(self, documents, args, idf_array=None):
         """
         Select the salient content for the summary
         :param: list of Document objects
         :return: dictionary of Date, Sentence object pairs
         """
-        self.selected_content = []
-        centroid = self.get_cluster_centroid(documents, idf_array)
-        for doc in documents:
-            n = len(documents)
-            first = doc.get_sen_bypos(0)
-            for s in doc.sens:
-                self.get_score(s, centroid, n, first)
-                self.selected_content.append(s)
-
+        sentences = self.calculate_mead_scores(documents, args, idf_array)
+        self.selected_content = sentences
         return self.selected_content
 

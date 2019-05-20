@@ -1,5 +1,6 @@
 from scipy.sparse import dok_matrix, vstack
 from src.helpers.class_wordmap import WordMap
+import warnings
 
 class Vectors:
     """
@@ -17,7 +18,7 @@ class Vectors:
         pre: create_freq vectors has been called
         """
 
-        topic_matrix = dok_matrix((0,0))  # initialize topic_matrix
+        topic_matrix = dok_matrix((0, self.num_unique_words))  # initialize topic_matrix
         # stack remaining document matrices
         for index in range(len(topic_docs)):
             topic_matrix = vstack([topic_matrix, topic_docs[index].vectors])
@@ -33,11 +34,13 @@ class Vectors:
         """
         for cluster in topics.values():
             for document in cluster:
-                doc_vectors = dok_matrix((0,0))
+                doc_vectors = dok_matrix((0, self.num_unique_words))
                 for sentence in document.sens:
                     sentence_vector = dok_matrix((1, self.num_unique_words))
                     for word in sentence.tokenized():  # maybe check that sentence.tokenized() is the right thing here
                         word_id = WordMap.id_of(word)
+                        if word_id is None:
+                            warnings.warn('Word \'' + word + '\' not in WordMap', Warning)
                         sentence_vector[0, word_id] += 1
                     # assign vector to sentence object
                     sentence.set_vector(sentence_vector)
@@ -46,3 +49,50 @@ class Vectors:
                 # assign matrix to document
                 document.set_vectors(doc_vectors)
 
+    def create_term_doc_freq(self, topics):
+        """
+        create term freq on each doc over each topic
+        :param topics:
+        :return: set tdf to topic_list of [doc_list of (wordid, freq)]
+                e.g.,[[(0, 1), (1, 2), (2, 1), (3, 1), (4, 1), (6, 5),  (9, 2), (10, 1), (11, 1)...],[...]]
+
+        """
+        for cluster in topics.values():
+            for document in cluster:
+                term_doc_freq_dict = {}
+                for sentence in document.sens:
+
+                    for word in sentence.tokenized():
+                        word_id = WordMap.id_of(word)
+                        if word_id is None:
+                            warnings.warn('Word \'' + word + '\' not in WordMap', Warning)
+                            continue
+                        if word_id not in term_doc_freq_dict:
+                            term_doc_freq_dict[word_id] = 0
+                        term_doc_freq_dict[word_id] += 1
+                term_doc_freq_list = []
+                for word_id in sorted(term_doc_freq_dict):
+                    term_doc_freq_list.append((word_id, term_doc_freq_dict[word_id]))
+
+                document.set_tdf(term_doc_freq_list)
+
+    def create_term_sen_freq(self, sen):
+        """
+        create term freq on a tokenized sentence
+        :param sent:
+        :return:
+        """
+        term_doc_freq_dict = {}
+        for tok in sen:
+            word_id = WordMap.id_of(tok)
+            if word_id is None:
+                warnings.warn('Word \'' + tok + '\' not in WordMap', Warning)
+            if word_id not in term_doc_freq_dict:
+                term_doc_freq_dict[word_id] = 0
+            term_doc_freq_dict[word_id] += 1
+
+        term_doc_freq_list = []
+        for word_id in sorted(term_doc_freq_dict):
+            term_doc_freq_list.append((word_id, term_doc_freq_dict[word_id]))
+
+        return term_doc_freq_list

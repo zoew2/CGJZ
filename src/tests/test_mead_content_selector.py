@@ -1,10 +1,11 @@
 import unittest
+from src.run_summarization import parse_args
 from src.mead.mead_content_selector import MeadContentSelector
-from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.helpers.class_sentence import Sentence
 from src.helpers.class_document import Document
 from src.helpers.class_sentence import WordMap
 from src.helpers.class_vectors import Vectors
+from src.helpers.class_preprocessor import Preprocessor
 import numpy as np
 
 class MeadContentSelectorTests(unittest.TestCase):
@@ -13,20 +14,21 @@ class MeadContentSelectorTests(unittest.TestCase):
     """
 
     # variables used in multiple tests
+    Preprocessor.load_models()
     doc_1 = Document("TST_ENG_20190101.0001")
     doc_2 = Document("TST_ENG_20190101.0002")
     doc_list = [doc_1, doc_2]
     topics = {'PUP1A': [doc_1, doc_2]}
-    w_map = {'he': 0, 'owners': 1, 'i': 2, 'played': 3, 'bigger': 4,
-             'chased': 5, 'fetch': 6, 'park': 7, 'dog': 8, 'fun': 9,
-             'toys': 10, 'tongues': 11, 'took': 12, 'ran': 13,
-             'in': 14, 'sun': 15, 'loves': 16, 'somewhere': 17,
-             'many': 18, 'together': 19, 'around': 20, 'puppy': 21,
-             'today': 22, 'loads': 23, 'fight': 24, 'small': 25,
-             "n't": 26, 'love': 27, 'wagging': 28, 'hanging': 29,
-             'puppies': 30, 'bunch': 31, 'dogs': 32, 'get': 33,
-             'playing': 34, 'they': 35, 'liked': 36, 'tails': 37,
-             'run': 38, 'there': 39}
+    w_set = {'he', 'owner', 'i', 'play', 'big',
+             'chase', 'fetch', 'park', 'dog', 'fun',
+             'toy', 'tongue', 'take', 'ran',
+             'in', 'sun', 'love', 'somewhere',
+             'many', 'together', 'around', 'puppy',
+             'today', 'load', 'fight', 'small',
+             "n't", '-PRON-', 'wag', 'hang',
+             'loads', 'bunch', 'get', 'playing',
+             'they', 'like', 'tail', 'run', 'there'}
+
     idf = [4.032940937780854, 2.420157081061118, 1.3730247377110034,
            2.8868129021026157, 2.7776684326775474, 3.7319109421168726,
            3.25478968739721, 2.7107216430469343, 3.7319109421168726,
@@ -39,8 +41,10 @@ class MeadContentSelectorTests(unittest.TestCase):
            3.4308809464528913, 4.032940937780854, 3.4308809464528913,
            3.5558196830611912, 3.5558196830611912, 4.032940937780854,
            1.734087861371147, 3.0786984283415286, 0.9055121599292547,
-           3.5558196830611912, 3.5558196830611912, 1.9876179589941962,
-           1.077734400238912]
+           3.5558196830611912, 3.5558196830611912, 1.9876179589941962]
+
+    args = parse_args(['test_data/test_topics.xml', 'test'])
+    args.c_threshold = 'min'
 
     def test_get_sentence_position(self):
         selector = MeadContentSelector()
@@ -59,12 +63,13 @@ class MeadContentSelectorTests(unittest.TestCase):
 
     def test_get_cluster_centroid(self):
         selector = MeadContentSelector()
+        WordMap.word_set = self.w_set
+        WordMap.create_mapping()
         Vectors().create_freq_vectors(self.topics)
-        WordMap.word_to_id = self.w_map
-        centroid = selector.get_cluster_centroid(self.doc_list, self.idf)
+        centroid = selector.get_cluster_centroid(self.doc_list, self.idf, self.args.c_threshold)
 
         actual_non_zero = np.count_nonzero(centroid)
-        should_be_non_zero = 3
+        should_be_non_zero = 28
 
         self.assertEqual(actual_non_zero, should_be_non_zero)
 
@@ -72,12 +77,13 @@ class MeadContentSelectorTests(unittest.TestCase):
         selector = MeadContentSelector()
         sent_1 = Sentence("Puppies love playing fetch.", 0)
 
-        WordMap.word_to_id = self.w_map
+        WordMap.word_set = self.w_set
+        WordMap.create_mapping()
         Vectors().create_freq_vectors(self.topics)
 
-        centroid = selector.get_cluster_centroid(self.doc_list, self.idf)
+        centroid = selector.get_cluster_centroid(self.doc_list, self.idf, self.args.c_threshold)
 
-        expected_centroid_score = 8.2
+        expected_centroid_score = 6.1
         c_score = selector.get_centroid_score(sent_1, centroid)
 
         self.assertAlmostEqual(expected_centroid_score, c_score, 1)
@@ -89,26 +95,28 @@ class MeadContentSelectorTests(unittest.TestCase):
         """
         selector = MeadContentSelector()
 
-        WordMap.word_to_id = self.w_map
+        WordMap.word_set = self.w_set
+        WordMap.create_mapping()
         Vectors().create_freq_vectors(self.topics)
 
-        selected = selector.select_content(self.doc_list, self.idf)
+        selected = selector.select_content(self.doc_list, self.args, self.idf)
         selector.apply_redundancy_penalty(selected[0])
         scores = [s.mead_score for s in selector.selected_content]
-        expected_scores = [6.607957027843801, 0.5, 8.36614263567251,
-                           1.875, 9.04293356667541, 2.5668647622958933]
+        expected_scores = [1.9003829413846463, 1.6243717975775935, 0.6522065176000799,
+                           2.3571461578060453, 1.532600545620478, 1.7661796758000055]
 
         self.assertEqual(scores, expected_scores)
 
     def test_select_content(self):
         selector = MeadContentSelector()
-        selected = selector.select_content(self.doc_list, self.idf)
+        Vectors().create_freq_vectors(self.topics)
+        selected = selector.select_content(self.topics['PUP1A'], self.args, self.idf)
         top_sentence = selected[0]
         expected_top_sentence = 'In a park somewhere, a bunch of ' \
                                 'puppies played fetch with their owners today.'
 
         top_mead_score = float("{:.5f}".format(top_sentence.mead_score))
-        expected_top_mead_score = 7.10796
+        expected_top_mead_score = 2.40038
 
         self.assertEqual(top_sentence.raw_sentence, expected_top_sentence)
         self.assertEqual(top_mead_score, expected_top_mead_score)
