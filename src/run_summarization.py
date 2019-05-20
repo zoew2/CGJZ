@@ -74,14 +74,14 @@ def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('topic_file')
     parser.add_argument('version', choices=['test', 'lead', 'mead', 'melda'])
-    parser.add_argument('--output_dir', default='../outputs/D2/')
+    parser.add_argument('--output_dir', default='../outputs/D3/')
     parser.add_argument('--corpus', choices=['B', 'R'], default='B')
     parser.add_argument('--w_c', type=float, default=1)
     parser.add_argument('--w_p', type=float, default=1)
     parser.add_argument('--w_f', type=float, default=1)
     parser.add_argument('--c_threshold', choices=['max', 'mean', 'min', 'zero'], default='max')
-    parser.add_argument('--lda_topics', type=int, default=10)
-    parser.add_argument('--n', type=int, default=2)
+    parser.add_argument('--lda_topics', type=int, default=3)
+    parser.add_argument('--n', type=int, default=5)
     return parser.parse_args(args)
 
 

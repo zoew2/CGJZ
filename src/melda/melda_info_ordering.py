@@ -71,7 +71,7 @@ class MeldaInfoOrdering():
 
             # Remove sentence vector from numpy array & replace with zeros so that
             # the same sentence doesn't get added to summary repeatedly
-            self.topic_vectors[sent_index] = np.zeros(self.num_topics)
+            self.topic_vectors[sent_index] = np.full(self.num_topics, -1)
 
         # return self.ordered_sentences
 

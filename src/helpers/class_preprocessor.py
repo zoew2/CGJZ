@@ -30,24 +30,24 @@ class Preprocessor:
                 None, if not a proper sentence
         """
         # rule out weird sentences
-        ct_dash = 0
-        ct_nl = 0
-        ct_d = 0
-
-
-        for cha in raw_sentence:
-            if cha == '-':
-                ct_dash += 1
-                if ct_dash > 3:
-                    return None
-            elif cha == '\n':
-                ct_nl += 1
-                if ct_nl > 3:
-                    return None
-            elif cha.isdigit():
-                ct_d += 1
-                if ct_d > 10:
-                    return None
+        # ct_dash = 0
+        # ct_nl = 0
+        # ct_d = 0
+        #
+        #
+        # for cha in raw_sentence:
+        #     if cha == '-':
+        #         ct_dash += 1
+        #         if ct_dash > 3:
+        #             return None
+        #     elif cha == '\n':
+        #         ct_nl += 1
+        #         if ct_nl > 3:
+        #             return None
+        #     elif cha.isdigit():
+        #         ct_d += 1
+        #         if ct_d > 10:
+        #             return None
 
         # process sen
         sen = Preprocessor.spacynlp(raw_sentence)
