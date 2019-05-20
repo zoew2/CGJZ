@@ -13,13 +13,13 @@ class PreprocessorTests(unittest.TestCase):
     def test_sent_preprocessing(self):
 
         raw_sentence = "He took his small puppy to New York today ."
-        expected_tokenized_sen= ['-PRON-', 'take', '-PRON-', 'small', 'puppy', 'New York', 'today']
+        expected_tokenized_sen= ['take', 'small', 'puppy', 'New York', 'today']
 
         tokenized_sen=Preprocessor.sent_preprocessing(raw_sentence)
         self.assertEqual(expected_tokenized_sen, tokenized_sen)
 
         raw_sentence1 = "In the morning he took his small puppy to New York today ."
-        expected_tokenized_sen1 = ['the morning', '-PRON-', 'take', '-PRON-', 'small', 'puppy', 'New York', 'today']
+        expected_tokenized_sen1 = ['the morning', 'take', 'small', 'puppy', 'New York', 'today']
 
         tokenized_sen1=Preprocessor.sent_preprocessing(raw_sentence1)
         self.assertEqual(expected_tokenized_sen1, tokenized_sen1)

@@ -87,6 +87,9 @@ class Preprocessor:
                 w = sen[i].lemma_
                 if w != '-PRON-':  # if w is not a NE, lowercase it
                     w = w.lower()
+                else:
+                    # w = sen[i].text
+                    continue
                 if w not in string.punctuation and w not in Preprocessor.stop_words:  # Strip punctuation and stopwords from sentence tokens
 
                     new_toks.append(w)
