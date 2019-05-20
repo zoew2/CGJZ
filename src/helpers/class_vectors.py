@@ -1,5 +1,6 @@
 from scipy.sparse import dok_matrix, vstack
 from src.helpers.class_wordmap import WordMap
+import warnings
 
 class Vectors:
     """
@@ -38,6 +39,8 @@ class Vectors:
                     sentence_vector = dok_matrix((1, self.num_unique_words))
                     for word in sentence.tokenized():  # maybe check that sentence.tokenized() is the right thing here
                         word_id = WordMap.id_of(word)
+                        if word_id is None:
+                            warnings.warn('Word \'' + word + '\' not in WordMap', Warning)
                         sentence_vector[0, word_id] += 1
                     # assign vector to sentence object
                     sentence.set_vector(sentence_vector)
@@ -61,6 +64,9 @@ class Vectors:
 
                     for word in sentence.tokenized():
                         word_id = WordMap.id_of(word)
+                        if word_id is None:
+                            warnings.warn('Word \'' + word + '\' not in WordMap', Warning)
+                            continue
                         if word_id not in term_doc_freq_dict:
                             term_doc_freq_dict[word_id] = 0
                         term_doc_freq_dict[word_id] += 1
@@ -79,6 +85,8 @@ class Vectors:
         term_doc_freq_dict = {}
         for tok in sen:
             word_id = WordMap.id_of(tok)
+            if word_id is None:
+                warnings.warn('Word \'' + tok + '\' not in WordMap', Warning)
             if word_id not in term_doc_freq_dict:
                 term_doc_freq_dict[word_id] = 0
             term_doc_freq_dict[word_id] += 1

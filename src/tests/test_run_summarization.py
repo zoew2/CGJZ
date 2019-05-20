@@ -30,7 +30,7 @@ class IOTests(unittest.TestCase):
     def test_argparse(self):
         args = parse_args(['test_data/test_topics.xml', 'test'])
 
-        self.assertEqual(len(args._get_kwargs()), 8)
+        self.assertEqual(len(args._get_kwargs()), 10)
 
 
 if __name__ == '__main__':

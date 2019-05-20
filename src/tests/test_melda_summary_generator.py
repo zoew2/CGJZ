@@ -19,35 +19,38 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
     # variables used in multiple tests
     Preprocessor.load_models()
     doc_1 = Document("TST_ENG_20190101.0001")
-    doc_2 = Document("TST_ENG_20190101.0002")
-    doc_list = [doc_1, doc_2]
+    doc_3 = Document("TST_ENG_20190301.0001")
+    doc_list = [doc_1, doc_3]
+    topics = {'PUPWAR': doc_list}
 
-    # topics = {'PUP1A': [doc_1, doc_2]}
-    # w_map = {'he': 0, 'owners': 1, 'i': 2, 'played': 3, 'bigger': 4,
-    #          'chased': 5, 'fetch': 6, 'park': 7, 'dog': 8, 'fun': 9,
-    #          'toys': 10, 'tongues': 11, 'took': 12, 'ran': 13,
-    #          'in': 14, 'sun': 15, 'loves': 16, 'somewhere': 17,
-    #          'many': 18, 'together': 19, 'around': 20, 'puppy': 21,
-    #          'today': 22, 'loads': 23, 'fight': 24, 'small': 25,
-    #          "n't": 26, 'love': 27, 'wagging': 28, 'hanging': 29,
-    #          'puppies': 30, 'bunch': 31, 'dogs': 32, 'get': 33,
-    #          'playing': 34, 'they': 35, 'liked': 36, 'tails': 37,
-    #          'run': 38, 'there': 39}
+    w_set = {'park', 'somewhere', 'bunch', 'puppy', 'play', 'fetch', 'their', 'owner', 'today', 'they', 'all', 'run',
+             'around', 'their', 'tail', 'wag', 'tongue', 'hang', 'out', 'have', 'load', 'fun', 'sun', 'love', 'our',
+             'country', 'go', 'war', 'soldier', 'go', 'fight', 'travel', 'wherever', 'fight', 'enemy', 'try', 'kill',
+             'before', 'get', 'kill', 'themselves', '-PRON-', 'playing'}
+
+    idf = [4.032940937780854, 2.420157081061118, 1.3730247377110034,
+           2.8868129021026157, 2.7776684326775474, 3.7319109421168726,
+           3.25478968739721, 2.7107216430469343, 3.7319109421168726,
+           4.032940937780854, 3.3339709334448346, 4.032940937780854,
+           1.9257309681329853, 2.5705429398818973, 0.21458305982249878,
+           2.3608430798451363, 3.5558196830611912, 3.3339709334448346,
+           1.5660733174267443, 2.024340766018936, 1.2476111027700865,
+           4.032940937780854, 0.9959130580250786, 3.7319109421168726,
+           2.5415792439465807, 1.7107216430469343, 4.032940937780854,
+           3.4308809464528913, 4.032940937780854, 3.4308809464528913,
+           3.5558196830611912, 3.5558196830611912, 4.032940937780854,
+           1.734087861371147, 3.0786984283415286, 0.9055121599292547,
+           3.5558196830611912, 3.5558196830611912, 1.9876179589941962]
 
     args = parse_args(['test_data/test_topics.xml', 'test'])
-    args.lda_topics = 4
-
-    topics = {'PUP1A': [Document('TST_ENG_20190101.0001'), Document('TST_ENG_20190101.0002'),
-                        Document('TST20190201.0001'), Document('TST20190201.0002')],
-              'WAR2A': [Document('TST_ENG_20190301.0001'), Document('TST_ENG_20190301.0002'),
-                        Document('TST20190401.0001'), Document('TST20190401.0002')]}
-    WordMap.create_mapping()
-    vec = Vectors()
-    vec.create_freq_vectors(topics)
-    idf = MeldaSummaryGenerator(doc_list, MeldaContentSelector(), args).get_idf_array()
+    args.lda_topics = 2
 
     def test_melda_info_ordering(self):
-        summarizer = MeldaSummaryGenerator(self.topics['PUP1A'], MeldaContentSelector(), self.args)
+        WordMap.word_set = self.w_set
+        WordMap.create_mapping()
+        Vectors().create_freq_vectors(self.topics)
+        Vectors().create_term_doc_freq(self.topics)
+        summarizer = MeldaSummaryGenerator(self.doc_list, MeldaContentSelector(), self.args)
         content_selector = summarizer.select_content(self.idf)
         expected_len = len(content_selector)
         summarizer.order_information()
@@ -57,7 +60,10 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
         self.assertEqual(expected_len, actual_len)
 
     def test_melda_generate_summary(self):
-
+        WordMap.word_set = self.w_set
+        WordMap.create_mapping()
+        Vectors().create_freq_vectors(self.topics)
+        Vectors().create_term_doc_freq(self.topics)
         for topic_id, documents in self.topics.items():
             summarizer = MeldaSummaryGenerator(documents, MeldaContentSelector(), self.args)
             summary = summarizer.generate_summary(self.idf)

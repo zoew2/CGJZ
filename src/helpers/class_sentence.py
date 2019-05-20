@@ -5,10 +5,7 @@ word count for sentence, whether sentence is first or initial sentence of
 document and position/order of sentence within document as integer
 """
 
-from nltk import tokenize
 import string
-from nltk.corpus import stopwords
-import spacy
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_preprocessor import Preprocessor
 
@@ -26,10 +23,9 @@ class Sentence:
 
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
-        # self.tokens = []
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
-        self.c_score = self.p_score = self.f_score = self.mead_score = self.lda_scores = self.melda_score = None
+        self.c_score = self.p_score = self.f_score = self.mead_score = self.lda_scores = self.melda_scores = None
 
 
 
@@ -77,42 +73,6 @@ class Sentence:
         :return: String of document id or None if not provided
         """
         return self.doc_id
-
-    # def stemming_n_linking_name_entity(self):
-    #     """
-    #     first find all name entities
-    #     then lemmatize all the words that are not in an name entity
-    #
-    #     :return: new_toks, type: string, e.g, ['New York', 'is', 'looking', 'at', 'buying', 'U.K.', 'startup', 'for', '$1 billion']
-    #
-    #     """
-    #     nlp = spacy.load("en")
-    #     sen = nlp(self.raw_sentence)  # process sen
-    #
-    #     entity_ind = [-1] * len(sen)
-    #     ind = 0
-    #
-    #     for ent in sen.ents:
-    #         for i in range(ent.start, ent.end):
-    #             entity_ind[i] = ind
-    #         ind += 1
-    #     # [0, 0, -1, -1, -1, -1, 1, -1, -1, 2, 2, 2]
-    #
-    #     new_toks = []
-    #     ent_ind = 0  # pointer to entities
-    #     for i in range(len(entity_ind)):
-    #         if_ent = entity_ind[i]
-    #         if if_ent >= 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
-    #             if i == 0:
-    #                 new_toks.append(sen.ents[0].text)
-    #                 ent_ind += 1
-    #             elif entity_ind[i - 1] < 0:
-    #                 new_toks.append(sen.ents[ent_ind].text)
-    #                 ent_ind += 1
-    #         else:
-    #             new_toks.append(sen[i].text)
-    #
-    #     return new_toks
 
     def set_mead_score(self, score):
         """
