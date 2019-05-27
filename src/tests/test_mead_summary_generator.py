@@ -99,22 +99,27 @@ class MeadSummaryGeneratorTests(unittest.TestCase):
 
     def test_get_idf_array(self):
         words = ["i", "eat", "cake", "is", "delicious",
-                           "puppies", "are", "cute", "cats", "furry"]
+                 "puppies", "are", "cute", "cats", "furry",
+                 "bank", "company", "sugar", "dollar", "however",
+                 "say"]
         # Must override WordMap dictionary for test
         WordMap.word_to_id = {'delicious': 0, 'eat': 1, 'furry': 2,
                               'puppies': 3, 'i': 4, 'cats': 5,
-                              'are': 6, 'is': 7, 'cute': 8, 'cake': 9}
+                              'are': 6, 'is': 7, 'cute': 8, 'cake': 9,
+                              'bank':10, 'company':11, 'sugar':12,
+                              'dollar':13, 'however':14, 'say':15}
 
         idf = MeadSummaryGenerator(self.doc_list, MeadContentSelector(), self.args).get_idf_array()
+
         scores = []
         for word in words:
             curr_score = idf[WordMap.id_of(word)]
             scores.append("{:.5f}".format(curr_score))
 
-        expected_scores = ['2.69897', '2.69897', '2.69897',
-                           '2.69897', '2.69897', '2.69897',
-                           '2.69897', '2.69897', '2.69897',
-                           '2.69897']
+        expected_scores = ['2.69897', '0.80688', '1.49485', '2.69897', '2.69897',
+                           '2.69897', '2.69897', '1.92082', '2.69897', '2.69897',
+                           '1.04576', '0.65365', '1.44370', '0.98297', '0.24718',
+                           '0.10018']
 
         self.assertListEqual(scores, expected_scores, 5)
 
