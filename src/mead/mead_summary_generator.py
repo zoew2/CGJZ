@@ -54,7 +54,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
                 s = ' '.join(s)
                 proc_s = Preprocessor().sent_preprocessing(s)
                 if proc_s:
-                    words_in_doc.union(proc_s)
+                    words_in_doc = words_in_doc.union(proc_s)
             for word in words_in_doc:
                 word_idx = WordMap.id_of(word)
                 if word_idx:
@@ -62,6 +62,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
 
         docs_per_word = np.sum(docs_word_matrix, axis=0)
         self.idf_array = np.log10(np.divide(n, docs_per_word + 1))  # add one to avoid divide by zero error
+
         return self.idf_array
 
     def get_next_sentence(self, last_sentence=""):
