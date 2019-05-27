@@ -69,5 +69,24 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
             summary = summarizer.generate_summary(self.idf)
             self.assertIsNot(summary, None)
 
+    def test_ifvalid_sent(self):
+        for topic_id, documents in self.topics.items():
+            summarizer = MeldaSummaryGenerator(documents, MeldaContentSelector(), self.args)
+            break
+        raw_sent1="--"
+        self.assertEqual(summarizer.ifvalid_sent(raw_sent1),1)
+
+        raw_sent2="---"
+        self.assertEqual(summarizer.ifvalid_sent(raw_sent2),None)
+
+        raw_sent3="-342--"
+        self.assertEqual(summarizer.ifvalid_sent(raw_sent3),1)
+
+        raw_sent4="-342dafd23480134"
+        self.assertEqual(summarizer.ifvalid_sent(raw_sent4),None)
+
+        raw_sent5="\n\nsafadj\n\n"
+        self.assertEqual(summarizer.ifvalid_sent(raw_sent5),None)
+
 if __name__ == '__main__':
     unittest.main()

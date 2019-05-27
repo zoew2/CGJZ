@@ -63,7 +63,7 @@ class Preprocessor:
         # [1, 1, 0, 0, 0, 2, 0, 0, 3, 3, 3] # index > 0 are NEs
 
         if np.prod(entity_ind) != 0: # if every word is a NE, not a sentence.
-            return None
+            return []
 
 
         # linking NE
