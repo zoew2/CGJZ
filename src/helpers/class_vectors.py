@@ -41,7 +41,9 @@ class Vectors:
                         word_id = WordMap.id_of(word)
                         if word_id is None:
                             warnings.warn('Word \'' + word + '\' not in WordMap', Warning)
-                        sentence_vector[0, word_id] += 1
+                            warnings.warn('Sentence:' + sentence.raw_sentence, Warning)
+                        else:
+                            sentence_vector[0, word_id] += 1
                     # assign vector to sentence object
                     sentence.set_vector(sentence_vector)
                     # add sentence vector to document matrix
@@ -87,9 +89,11 @@ class Vectors:
             word_id = WordMap.id_of(tok)
             if word_id is None:
                 warnings.warn('Word \'' + tok + '\' not in WordMap', Warning)
-            if word_id not in term_doc_freq_dict:
-                term_doc_freq_dict[word_id] = 0
-            term_doc_freq_dict[word_id] += 1
+                continue
+            else:
+                if word_id not in term_doc_freq_dict:
+                    term_doc_freq_dict[word_id] = 0
+                term_doc_freq_dict[word_id] += 1
 
         term_doc_freq_list = []
         for word_id in sorted(term_doc_freq_dict):
