@@ -34,6 +34,5 @@ class DocumentTests(unittest.TestCase):
         doc = Document("TST_ENG_20190101.0002")
         self.assertEqual(doc.headline, "Playing in the dog park")
 
-
 if __name__ == '__main__':
     unittest.main()

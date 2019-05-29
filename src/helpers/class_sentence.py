@@ -19,7 +19,8 @@ class Sentence:
         :param sent_pos:
         """
         self.raw_sentence = raw_sentence.strip('\n')  # raw input form of current sentence
-        self.__tokenize_sentence()  # try tokenize first, if not a proper sentence just throw exception don't bother
+        self.tokens = []
+        self.__tokenize_sentence()  # tokenize sen, if not a proper sentence just return a empty list
 
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
@@ -97,8 +98,8 @@ class Sentence:
         """
         self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
 
-        if not self.tokens:
-            raise ValueError('not a sentence: ' + self.raw_sentence)
+        # if not self.tokens:
+        #     raise ValueError('not a sentence: ' + self.raw_sentence)
 
     def set_vector(self, vector):
         """

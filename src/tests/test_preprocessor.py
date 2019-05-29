@@ -30,6 +30,11 @@ class PreprocessorTests(unittest.TestCase):
         tokenized_sen2=Preprocessor.sent_preprocessing(raw_sentence2)
         self.assertEqual(expected_tokenized_sen2, tokenized_sen2)
 
+        raw_sentence3 = "Washington is New York ."
+        expected_tokenized_sen3 = ['Washington', 'New York']
+
+        tokenized_sen3=Preprocessor.sent_preprocessing(raw_sentence3)
+        self.assertEqual(expected_tokenized_sen3, tokenized_sen3)
 
 
 
