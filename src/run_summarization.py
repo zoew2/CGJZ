@@ -15,6 +15,8 @@ from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
 from src.helpers.class_preprocessor import Preprocessor
 import argparse
+import pickle
+import numpy as np
 
 
 def make_soup(topic_filename):
@@ -41,7 +43,13 @@ def load_documents_for_topics(topic_soup):
 
     # At this point, all docs have been loaded and all unique words are stored in WordMap set
     # Need to trigger creation of mapping and of vectors
-    WordMap.create_mapping()
+    # WordMap.create_mapping()
+    WordMap.word_to_id = pickle.load(open('../src/helpers/word_to_id_basic.pkl', "rb"))
+    WordMap.id_to_word = pickle.load(open('../src/helpers/id_to_word_basic.pkl', "rb"))
+    # pickle.dump(WordMap.word_set, open('../src/helpers/word_set_basic.pkl', 'wb'))
+    # pickle.dump(WordMap.word_to_id, open('../src/helpers/word_to_id_basic.pkl', 'wb'))
+    # pickle.dump(WordMap.id_to_word, open('../src/helpers/id_to_word_basic.pkl', 'wb'))
+
     vec = Vectors()
     vec.create_freq_vectors(topics)  # do we need to have this here if we don't run mead based content selection
     vec.create_term_doc_freq(topics)
@@ -65,8 +73,12 @@ def load_documents(topic):
 def get_output_filename(topic_id, args):
     topic_id1 = topic_id[:-1]
     topic_id2 = topic_id[-1]
-    output_file = args.output_dir + topic_id1 + '-A.M.100.' + topic_id2 + '.' + args.version + '-' + args.corpus + \
-                  '-' + args.c_threshold + '-' + str(args.w_c) + str(args.w_p) + str(args.w_f)
+    if args.version == 'melda':
+        output_file = args.output_dir + topic_id1 + '-A.M.100.' + topic_id2 + '.' + args.version + \
+                  '-' + str(int(args.lda_topics)) + str(int(args.n))
+    else:
+        output_file = args.output_dir + topic_id1 + '-A.M.100.' + topic_id2 + '.' + args.version + '-' + args.corpus + \
+                  '-' + args.c_threshold + '-' + str(int(args.w_c)) + str(int(args.w_p)) + str(int(args.w_f))
     return output_file
 
 
@@ -100,7 +112,8 @@ def main():
     topic_soup = make_soup(args.topic_file)
 
     topics = load_documents_for_topics(topic_soup)
-    idf = None
+    # idf = None
+    idf = np.load('../src/helpers/idf_basic_' + args.corpus + '.npy')
 
     # for each topic, load the documents and generate the summary
     for topic_id, documents in topics.items():
