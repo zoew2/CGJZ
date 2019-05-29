@@ -1,6 +1,7 @@
 from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.melda.melda_info_ordering import MeldaInfoOrdering
+import re
 
 class MeldaSummaryGenerator(MeadSummaryGenerator):
     """
@@ -55,43 +56,23 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
         next_sent = self.get_next_sentence()
         while next_sent:
             raw_sen = next_sent.raw_sentence
-            processed_sen = self.ifvalid_sent(raw_sen)
-            if processed_sen:
-                processed_content.append(processed_sen)
+            if_sen_valid = self.ifvalid_sent_reg(raw_sen)
+            if if_sen_valid:
+                processed_content.append(next_sent)
             next_sent = self.get_next_sentence(next_sent)
         return processed_content
 
-    def ifvalid_sent(self, raw_sen):
-        ct_consec_dash = 0  # int
-        ifprev_dash = 0  # bool
-        ct_nl = 0
-        ct_d = 0
+    def ifvalid_sent_reg(self, raw_sen):
+        pattern1 = re.compile("([\-])\\1\\1")
+        pattern2 = re.compile(".*\n.*\n.*\n")
+        pattern3 = re.compile(".*\d.*\d.*\d.*\d.*\d.*\d.*\d.*\d.*\d.*\d.*\d")
 
-        for ind, cha in enumerate(raw_sen):
-            if cha == '-':
-                if ind == 0:
-                    ct_consec_dash += 1
-                    ifprev_dash = 1
-                else:
-                    if ifprev_dash:
-                        ct_consec_dash += 1
-                    else:
-                        ct_consec_dash = 1
-                    ifprev_dash = 1
+        return not (pattern1.match(raw_sen) or pattern2.match(raw_sen) or pattern3.match(raw_sen))
 
-                if ct_consec_dash >= 3:
-                    return None
-            else:
-                ct_consec_dash = 0
-
-                if cha == '\n':
-                    ct_nl += 1
-                    if ct_nl > 3:
-                        return None
-
-                elif cha.isdigit():
-                    ct_d += 1
-                    if ct_d > 10:
-                        return None
-
-        return 1
+    def strip_beginning(self,raw_sen):
+        toks = raw_sen.split()
+        if toks[0].isupper():
+            for ind,t in enumerate(toks):
+                 if t == "--" or t == '_':
+                    return ' '.join(toks[ind+1:])
+        return raw_sen
