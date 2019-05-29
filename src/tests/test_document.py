@@ -34,9 +34,5 @@ class DocumentTests(unittest.TestCase):
         doc = Document("TST_ENG_20190101.0002")
         self.assertEqual(doc.headline, "Playing in the dog park")
 
-    def test_document_test_emptydoc(self):
-        doc = Document("TST_ENG_20190401.0002")
-        self.assertEqual(doc.headline, "Playing in the dog park")
-
 if __name__ == '__main__':
     unittest.main()

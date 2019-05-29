@@ -102,12 +102,10 @@ class Document:
 
         sens_c = []  # sens in class structure
         for sen_pos in range(len(sens)):
-            # try:
-                newsen = Sentence(sens[sen_pos], sen_pos)
-                sens_c.append(newsen)
-            # except ValueError:
-            #     warnings.warn('Ignoring suspicious sentence: ' + sens[sen_pos], Warning)
-            #     continue
+
+            newsen = Sentence(sens[sen_pos], sen_pos)
+            sens_c.append(newsen)
+
 
         return sens_c
 
