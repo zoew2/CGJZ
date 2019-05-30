@@ -44,11 +44,11 @@ def load_documents_for_topics(topic_soup):
     # At this point, all docs have been loaded and all unique words are stored in WordMap set
     # Need to trigger creation of mapping and of vectors
     # WordMap.create_mapping()
-    WordMap.word_to_id = pickle.load(open('../src/helpers/word_to_id_basic.pkl', "rb"))
-    WordMap.id_to_word = pickle.load(open('../src/helpers/id_to_word_basic.pkl', "rb"))
     # pickle.dump(WordMap.word_set, open('../src/helpers/word_set_basic.pkl', 'wb'))
     # pickle.dump(WordMap.word_to_id, open('../src/helpers/word_to_id_basic.pkl', 'wb'))
     # pickle.dump(WordMap.id_to_word, open('../src/helpers/id_to_word_basic.pkl', 'wb'))
+    WordMap.word_to_id = pickle.load(open('../src/helpers/word_to_id_basic.pkl', "rb"))
+    WordMap.id_to_word = pickle.load(open('../src/helpers/id_to_word_basic.pkl', "rb"))
 
     vec = Vectors()
     vec.create_freq_vectors(topics)  # do we need to have this here if we don't run mead based content selection
