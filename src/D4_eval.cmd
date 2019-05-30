@@ -5,6 +5,6 @@ getenv = true
 output = d3.out
 error = d3.error
 log = d3.log
-arguments = run_all.sh
+arguments = run_evalset.sh
 transfer_executable = false
 queue
