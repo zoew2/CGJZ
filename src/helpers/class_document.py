@@ -1,6 +1,8 @@
 from .class_sentence import Sentence
 import warnings
 from src.helpers.class_preprocessor import Preprocessor
+import gzip
+from io import TextIOWrapper as tw
 
 """
 This is a module file of Document class.
@@ -18,6 +20,7 @@ class Document:
         initialize Document class
         :param docid: e.g. "XIN_ENG_20041113.0001"
         """
+
         self.docid = input_docid  # docid
         ids = self.docid.split(".")
         info = ids[0].split("_")
@@ -34,22 +37,41 @@ class Document:
         self.year = self.date[:4]  # year - 2004
         self.art_id = ids[1]  # .0001
 
+
+        # TODO: check underscores in paths
         if self.src == 'TST':
             self.path = 'tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
-
             self.docid_inxml = self.docid
-        elif int(self.year) > 2000:  # get path, if date belongs to 2004+
+        elif int(self.date) >= 200604:  # Gigaword
+            self.path = "/corpora/LDC/LDC11T07/data/" + self.src.lower() + self.lang.lower() + "/" + \
+                        self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".gz"
+            self.docid_inxml = self.docid
+        elif int(self.year) > 2000:
             self.path = "/corpora/LDC/LDC08T25/data/" + self.src.lower() + self.lang.lower() + "/" + \
                         self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
             self.docid_inxml = self.docid
-
         else:
             self.path = "/corpora/LDC/LDC02T31/" + self.src.lower() + "/" + self.year + "/" + \
                         self.date + "_" + self.src2 + self.lang
             self.docid_inxml = self.src + self.date + "." + self.art_id  # APW19980613.0001
 
-        self.headline, self.text = self.get_doc(self.path, self.docid_inxml)  # coref'd text
+        self.headline, self.text = self.get_doc(self.path, self.docid_inxml)
         self.sens = self.tok_toSens(self.text)  # list of sen objects (all processing done)
+        # testing -----------------
+        # self.raw_sens = Preprocessor.segment_sens(self.text.lower())
+        # coref_text = Preprocessor.coref_resolve(self.text)
+        # self.coref_sens = Preprocessor.segment_sens(coref_text.lower())
+        # if len(self.raw_sens) != len(self.coref_sens):
+        #     i = 0
+        #     with open('./mismatches/' + input_docid, 'w') as f:
+        #         while self.raw_sens and self.coref_sens:
+        #             print(i, file=f)
+        #             print(self.raw_sens.pop(0), file=f)
+        #             print(self.coref_sens.pop(0), file=f)
+        #             i += 1
+        #     lengths = [str(len(self.raw_sens)), str(len(self.coref_sens))]
+        #     warnings.warn('coref and raw sentences don\'t match ' + ' '.join(lengths), Warning)
+        # -------------------------
         self.vectors = []  # placeholder
         self.tdf = []
         self.tokenized_text = []
@@ -65,31 +87,36 @@ class Document:
         """
         headline = ''
         text = ''
-        with open(path) as f:
+        if path.endswith('.gz'):
+            f = tw(gzip.open(path))  # read lines from .gz file as strings instead of bytes
+        else:
+            f = open(path)
+        line = f.readline()
+        while id_xml not in line:
             line = f.readline()
-            while id_xml not in line:
-                line = f.readline()
-            while "<HEADLINE>" not in line:
-                line = f.readline()
-            if "</HEADLINE>" in line:
-                headline += line[10:-12].strip()
-            else:
-                line = f.readline()
-            while "</HEADLINE>" not in line:
-                headline += line.strip()
-                line = f.readline()
-            while "<TEXT>" not in line:
-                line = f.readline()
-            line = f.readline().strip('\n').replace("\t", "\n")
-            while "</TEXT>" not in line:
-                if "<P>" not in line and "</P>" not in line:
-                    text += line + ' '
-                else:
-                    text += '\n'  # separate paragraphs
-                line = f.readline().strip('\n').replace("\t", "\n")
+        while "<HEADLINE>" not in line:
+            line = f.readline()
+        if "</HEADLINE>" in line:
+            headline += line[10:-12].strip()
+        else:
+            line = f.readline()
+        while "</HEADLINE>" not in line:
+            headline += line.strip()
+            line = f.readline()
+        while "<TEXT>" not in line:
+            line = f.readline()
+        line = f.readline().strip().replace("\n", "")
+        while "</TEXT>" not in line:
+            if "<P>" not in line and "</P>" not in line:
+                text += line + ' '
+            # else:
+            #     text += ''  # separate paragraphs
+            line = f.readline().strip().replace("\n", " ")
+        f.close()
 
-        coref_text = Preprocessor.coref_resolve(text)
-        return headline, coref_text
+        # coref_text = Preprocessor.coref_resolve(text)
+        # return headline, coref_text
+        return headline, text
 
     def tok_toSens(self, text):
         """

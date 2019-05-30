@@ -2,9 +2,9 @@ universe = vanilla
 executable = /usr/bin/sh
 getenv = true
 #input =
-output = d3.out
-error = d3.error
-log = d3.log
+output = d4_eval.out
+error = d4_eval.error
+log = d4_eval.log
 arguments = run_evalset.sh
 transfer_executable = false
 queue

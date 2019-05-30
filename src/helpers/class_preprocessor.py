@@ -33,28 +33,9 @@ class Preprocessor:
                             ['-PRON-', 'take', '-PRON-', 'small', 'puppy', 'dog', 'park', 'today']
                 None, if not a proper sentence
         """
-        # rule out weird sentences
-        # ct_dash = 0
-        # ct_nl = 0
-        # ct_d = 0
-        #
-        #
-        # for cha in raw_sentence:
-        #     if cha == '-':
-        #         ct_dash += 1
-        #         if ct_dash > 3:
-        #             return None
-        #     elif cha == '\n':
-        #         ct_nl += 1
-        #         if ct_nl > 3:
-        #             return None
-        #     elif cha.isdigit():
-        #         ct_d += 1
-        #         if ct_d > 10:
-        #             return None
 
         # process sen
-        sen = Preprocessor.spacynlp(raw_sentence)
+        sen = Preprocessor.spacynlp(raw_sentence.strip())
 
         entity_ind = [0] * len(sen)
         ind = 1
@@ -100,12 +81,17 @@ class Preprocessor:
         return new_toks
 
     @staticmethod
+    def test_sent_preprocessing(sent):
+        return tokenize.word_tokenize(sent.strip())
+
+    @staticmethod
     def segment_sens(text):
         '''
         segments text into sentences
         :param text: multi-sentence String
         :return: list of Strings (sentences)
         '''
+
         return tokenize.sent_tokenize(text)
 
     @staticmethod

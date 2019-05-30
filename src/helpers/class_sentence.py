@@ -20,14 +20,13 @@ class Sentence:
         :param raw_sentence:
         :param sent_pos:
         """
-        self.raw_sentence = raw_sentence.strip('\n')  # input form of current sentence (corefs resolved)
+        self.raw_sentence = raw_sentence.strip('\n')  # input form of current sentence
         self.__tokenize_sentence()  # try tokenize first, if not a proper sentence just throw exception don't bother
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
         self.c_score = self.p_score = self.f_score = self.mead_score = self.lda_scores = self.melda_scores = None
-
 
         # update global mapping of words to indices
         WordMap.add_words(self.tokens)  # (use the tokens that we want represented in the vectors)
@@ -96,8 +95,8 @@ class Sentence:
         function only for internal usage
         """
 
-        self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
-
+        # self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
+        self.tokens = Preprocessor.test_sent_preprocessing(self.raw_sentence)
         if not self.tokens:
             raise ValueError('not a sentence: ' + self.raw_sentence)
             raise Exception('not a sentence: ' + self.raw_sentence)
