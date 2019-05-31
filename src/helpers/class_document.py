@@ -39,7 +39,7 @@ class Document:
         if self.src == 'TST':
             self.path = 'tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
             self.docid_inxml = self.docid
-        elif int(self.date) >= 200604:  # Gigaword
+        elif int(self.date) >= 20060400:  # Gigaword
             self.path = "/corpora/LDC/LDC11T07/data/" + self.src.lower() + self.lang.lower() + "/" + \
                         self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".gz"
             self.docid_inxml = self.docid
@@ -70,7 +70,7 @@ class Document:
         headline = ''
         text = ''
         if path.endswith('.gz'):
-            f = tw(gzip.open(path))  # read lines from .gz file as strings, not bytes
+            f = tw(gzip.open(path))  # read lines from .gz files as strings, not bytes
         else:
             f = open(path)
         line = f.readline()
