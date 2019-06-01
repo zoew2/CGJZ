@@ -1,7 +1,8 @@
 from src.mead.mead_summary_generator import MeadSummaryGenerator
-from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.melda.melda_info_ordering import MeldaInfoOrdering
 import re
+from nltk.tokenize.treebank import TreebankWordDetokenizer
+import warnings
 
 class MeldaSummaryGenerator(MeadSummaryGenerator):
     """
@@ -30,8 +31,7 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
         :param last_sentence: the last sentence selected for the summary
         :return: next Sentence
         """
-        return BaseSummaryGenerator(self.documents, self.content_selector,
-                                    self.args).get_next_sentence(last_sentence)
+        return super(MeldaSummaryGenerator, self).get_next_sentence(last_sentence)
 
     def order_information(self):
         """
@@ -42,6 +42,83 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
             MeldaInfoOrdering(self.args, self.content_selector.selected_content
                               ).run_cohesion_gradient(self.documents)
 
+    def compress_sentences(self):
+        sentences = []
+        for sentence in self.content_selector.selected_content:
+            compressed = []
+            ignore = []
+            remove_punct = remove_that = False
+            for token in sentence.processed:
+                head_dep = token.head.dep_
+                attributives = ['said', 'claimed', 'reported']
+                children = [child for child in token.children]
+                child_deps = [child.dep_ for child in children]
+                head_head = token.head.head.text
+                if token.i in ignore or not token.text.rstrip():
+                    continue
+
+                # remove all adverbs
+                if token.pos_ is 'ADV':
+                    remove_punct = True
+                    continue
+
+                # remove initial conj
+                if token.pos_ is 'CCONJ' and token.i is 0:
+                    remove_punct = True
+                    continue
+
+                # remove punctuation following removed adv or initial conj unless it's sentence final
+                if remove_punct:
+                    if token.is_punct and token.i < len(token.doc)-1:
+                        continue
+                    else:
+                        remove_punct = False
+
+                # remove attributive words
+                if token.text in attributives:
+                    prep_indicies = [t.i for pp in token.children for t in pp.subtree if pp.dep_ is 'prep']
+                    ignore.extend(prep_indicies)
+                    remove_that = True
+                    continue
+
+                # remove 'that' if it's the start of a relative clause after an attributive word
+                if remove_that:
+                    if token.dep_ is 'mark':
+                        continue
+                    else:
+                        remove_that = False
+
+                # remove appositives and parenthesized info
+                if len(child_deps) > 2 and "punct appos punct" in " ".join(child_deps):
+                    punct = [child.i for child in children if child.is_punct]
+                    ignore.extend([i for i in range(punct[0], punct[-1] + 1)])
+
+                # remove the subject of an attribution
+                if head_head in attributives and head_dep is 'nsubj':
+                    tree_indices = [t.i for t in token.head.subtree]
+                    ignore.extend(tree_indices)
+                    continue
+
+                # warn if there are any missed appositives (to revisit later)
+                if token.dep_ is 'appos':
+                    warnings.warn("missed appositive: " + token.doc.text)
+                compressed.append(token.text)
+
+            # fix capitalization, detokenize and strip any weird beginnings
+            compressed[0] = compressed[0].capitalize()
+            new_sentence = TreebankWordDetokenizer().detokenize(compressed)
+            sentence_text = self.strip_beginning(new_sentence)
+
+            # set compressed sentence on sentence object
+            sentence.compressed = sentence_text
+            sentences.append(sentence)
+
+        self.content_selector.selected_content = sentences
+
+    def realize_content(self):
+        self.compress_sentences()
+        return super(MeldaSummaryGenerator, self).realize_content()
+
     def generate_summary(self, idf_array=None):
         """
         Generate the summary
@@ -51,28 +128,8 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
         self.order_information()
         return self.realize_content()
 
-    def process_selected_content(self, selected_content):
-        processed_content = []
-        next_sent = self.get_next_sentence()
-        while next_sent:
-            raw_sen = next_sent.raw_sentence
-            if_sen_valid = self.ifvalid_sent_reg(raw_sen)
-            if if_sen_valid:
-                processed_content.append(next_sent)
-            next_sent = self.get_next_sentence(next_sent)
-        return processed_content
-
-    def ifvalid_sent_reg(self, raw_sen):
-        pattern1 = re.compile("([\-])\\1\\1")
-        pattern2 = re.compile("(.*\n){3,}")
-        pattern3 = re.compile("(.*\d){11,}")
-
-        return not (pattern1.match(raw_sen) or pattern2.match(raw_sen) or pattern3.match(raw_sen))
-
-    def strip_beginning(self,raw_sen):
-        toks = raw_sen.split()
-        if toks[0].isupper():
-            for ind,t in enumerate(toks):
-                 if t == "--" or t == '_':
-                    return ' '.join(toks[ind+1:])
-        return raw_sen
+    def strip_beginning(self, raw_sentence):
+        matches = re.finditer(r"^[A-Z].*(-{2})", raw_sentence)
+        indicies = [m.end() for m in matches]
+        new_start_idx = indicies[0] if indicies else -1
+        return raw_sentence[new_start_idx+1:]

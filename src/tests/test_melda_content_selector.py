@@ -48,7 +48,7 @@ class MeldaContentSelectorTests(unittest.TestCase):
         topic_dist = [prob[1] for prob in document_topics]
 
         self.assertEqual(len(topic_dist), self.args.lda_topics)
-        self.assertAlmostEquals(sum(topic_dist), 1, 2)
+        self.assertAlmostEqual(sum(topic_dist), 1, 2)
 
 
     def test_term_topics(self):

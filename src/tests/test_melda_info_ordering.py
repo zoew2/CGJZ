@@ -21,15 +21,19 @@ class MeldaInfoOrderingTests(unittest.TestCase):
     s0 = Sentence("In a park somewhere, a bunch of puppies played fetch with their owners today.\n", 1)
     s0.lda_scores = [0.1,  0.1,  0.9,  0.01]
     s0.set_mead_score(0.9)
+    s0.melda_scores = np.add(s0.lda_scores, s0.mead_score)
     s1 = Sentence("I took my small puppy to the dog park today.\n", 1)
     s1.lda_scores = [0.1,  0.7,  0.4,  0.9]
     s1.set_mead_score(0.2)
+    s1.melda_scores = np.add(s1.lda_scores, s1.mead_score)
     s2 = Sentence("He loves playing so he liked to run around with the other dogs playing fetch.\n", 1)
     s2.lda_scores = [0.8, 0.01, 0.7, 0.01]
     s2.set_mead_score(0.25)
+    s2.melda_scores = np.add(s2.lda_scores, s2.mead_score)
     s3 = Sentence("Puppies love playing fetch.\n", 1)
     s3.lda_scores = [0.9, 0.01, 0.3, 0.7]
     s3.set_mead_score(0.1)
+    s3.melda_scores = np.add(s3.lda_scores, s3.mead_score)
 
     input_summary = [s0, s1, s2, s3]
 

@@ -1,10 +1,7 @@
 import unittest
 from src.run_summarization import parse_args
-from src.mead.mead_content_selector import MeadContentSelector
-from src.mead.mead_summary_generator import MeadSummaryGenerator
 from src.melda.melda_summary_generator import MeldaSummaryGenerator
 from src.melda.melda_content_selector import MeldaContentSelector
-from src.helpers.class_sentence import Sentence
 from src.helpers.class_document import Document
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_vectors import Vectors
@@ -44,6 +41,7 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
 
     args = parse_args(['test_data/test_topics.xml', 'test'])
     args.lda_topics = 2
+    args.n = 1
 
     def test_melda_info_ordering(self):
         WordMap.word_set = self.w_set
@@ -69,33 +67,28 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
             summary = summarizer.generate_summary(self.idf)
             self.assertIsNot(summary, None)
 
-    def test_ifvalid_sent(self):
-        for topic_id, documents in self.topics.items():
-            summarizer = MeldaSummaryGenerator(documents, MeldaContentSelector(), self.args)
-            break
+    def test_is_bad_sentence(self):
         raw_sent1="--"
-        self.assertEqual(summarizer.ifvalid_sent_reg(raw_sent1),1)
+        self.assertFalse(Preprocessor.is_bad_sentence(raw_sent1))
 
         raw_sent2="---"
-        self.assertEqual(summarizer.ifvalid_sent_reg(raw_sent2),0)
+        self.assertTrue(Preprocessor.is_bad_sentence(raw_sent2))
 
         raw_sent3="-342--"
-        self.assertEqual(summarizer.ifvalid_sent_reg(raw_sent3),1)
+        self.assertFalse(Preprocessor.is_bad_sentence(raw_sent3))
 
         raw_sent4="-342dafd23480134"
-        self.assertEqual(summarizer.ifvalid_sent_reg(raw_sent4),0)
+        self.assertTrue(Preprocessor.is_bad_sentence(raw_sent4))
 
         raw_sent5="\n\nsafadj\n\n"
-        self.assertEqual(summarizer.ifvalid_sent_reg(raw_sent5),0)
+        self.assertTrue(Preprocessor.is_bad_sentence(raw_sent5))
 
         raw_sent6="-342dafd23480"
-        self.assertEqual(summarizer.ifvalid_sent_reg(raw_sent6),1)
+        self.assertFalse(Preprocessor.is_bad_sentence(raw_sent6))
 
 
     def test_strip_beginning(self):
-        for topic_id, documents in self.topics.items():
-            summarizer = MeldaSummaryGenerator(documents, MeldaContentSelector(), self.args)
-            break
+        summarizer = MeldaSummaryGenerator(self.doc_list, MeldaContentSelector(), self.args)
         raw_sent1 = "SHENZHEN, December 26 (Xinhua) -- Hong Kong has cat."
         self.assertEqual(summarizer.strip_beginning(raw_sent1), "Hong Kong has cat.")
 
