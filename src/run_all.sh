@@ -10,10 +10,10 @@ RESULTS_FILE_PATH='../results'
 #"$ROUGE_DIR"/ROUGE-1.5.5.pl -e "$ROUGE_DIR"/data -a -n 2 -x -m -c 95 -r 1000 -f A -p 0.5 -t 0 -l 100 -s -d "$RESULTS_FILE_PATH"/lead_rouge_run.xml &> "$RESULTS_FILE_PATH"/lead_rouge_scores.out
 
 # run mead
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml mead
+time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml mead >> d3.out
 # evaluate mead
-#"$ROUGE_DIR"/ROUGE-1.5.5.pl -e "$ROUGE_DIR"/data -a -n 2 -x -m -c 95 -r 1000 -f A -p 0.5 -t 0 -l 100 -s -d "$RESULTS_FILE_PATH"/mead_rouge_run-B-max-111.xml &> "$RESULTS_FILE_PATH"/mead_rouge_scores-B-max-111.out
-#
+"$ROUGE_DIR"/ROUGE-1.5.5.pl -e "$ROUGE_DIR"/data -a -n 2 -x -m -c 95 -r 1000 -f A -p 0.5 -t 0 -l 100 -s -d "$RESULTS_FILE_PATH"/mead_rouge_run-B-max-111-35-mead.xml &> "$RESULTS_FILE_PATH"/mead_rouge_scores-no-NER.out
+
 #time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml mead --corpus R >> d3.out
 #"$ROUGE_DIR"/ROUGE-1.5.5.pl -e "$ROUGE_DIR"/data -a -n 2 -x -m -c 95 -r 1000 -f A -p 0.5 -t 0 -l 100 -s -d "$RESULTS_FILE_PATH"/mead_rouge_run-R-max-111.xml &> "$RESULTS_FILE_PATH"/mead_rouge_scores-R-max-111.out
 #
@@ -34,12 +34,3 @@ RESULTS_FILE_PATH='../results'
 time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda
 # evaluate melda
 "$ROUGE_DIR"/ROUGE-1.5.5.pl -e "$ROUGE_DIR"/data -a -n 2 -x -m -c 95 -r 1000 -f A -p 0.5 -t 0 -l 100 -s -d "$RESULTS_FILE_PATH"/melda_rouge_run-B-max-111-35-mead.xml &> "$RESULTS_FILE_PATH"/D4_rouge_scores.out
-
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda --w_c 0
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda --w_c 0 --w_p 0 --w_f 0
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda --w_c 0.5 --w_p 0.5 --w_f 0.5
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda --w_c 1.5 --w_p 1.5 --w_f 1.5
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda --lda_topics 2 --n 5
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda --lda_topics 5 --n 2
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda --lda_topics 5 --n 5
-#time /opt/python-3.6/bin/python3.6 run_summarization.py "$DATA_DIR"/GuidedSumm10_test_topics.xml melda --lda_topics 3 --n 3

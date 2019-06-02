@@ -21,11 +21,23 @@ class Preprocessor:
 
     @staticmethod
     def get_processed_sentence(raw_sentence):
+        """
+
+        :param raw_sentence:
+        :return: sentence as a spacy doc
+        """
         # return raw_sentence
         return Preprocessor.spacynlp(raw_sentence)
 
     @staticmethod
     def get_processed_tokens(processed):
+        """
+        returns the tokens in a given sentence with various processing done: lowercased, punctuation-only tokens
+        and stop words removed (and optionally, lemmatizing non-NEs)
+        :param processed: spacy Doc object
+        :return: List of Strings (empty if all tokens are punctuation, stopwords or, optionally, NEs)
+        commented code is for lemmatizing non-NEs
+        """
         # entities = [e.text.lower().split() for e in processed.ents]
         # entities = list(itertools.chain.from_iterable(entities))
         # processed = nltk.tokenize.word_tokenize(processed)
@@ -34,13 +46,16 @@ class Preprocessor:
         # processed_tokens.extend([e.text for e in processed.ents])
         all_entities = True
         for w in processed:
-            # w = w.lemma_.lower()
             w = w.text.lower()
+            # if w.text.lower() in entities:
+            #     continue
+            # else:
+            #     w = w.lemma_.lower()
             # w = w.lower()
             if w == '-pron-' or not w.rstrip():
                 continue
 
-            if w not in string.punctuation and w not in Preprocessor.stop_words: # and w not in entities:
+            if w not in string.punctuation and w not in Preprocessor.stop_words: #and w not in entities:
                 all_entities = False
                 processed_tokens.append(w)
 
