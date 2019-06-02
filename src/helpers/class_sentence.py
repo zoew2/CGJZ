@@ -18,9 +18,11 @@ class Sentence:
         :param raw_sentence:
         :param sent_pos:
         """
-        self.raw_sentence = raw_sentence.strip('\n')  # raw input form of current sentence
+        self.raw_sentence = ' '.join(raw_sentence.rstrip().split())
         self.tokens = []
-        self.__tokenize_sentence()  # tokenize sen, if not a proper sentence just return a empty list
+
+        self.processed = Preprocessor.get_processed_sentence(self.raw_sentence)
+        self.__tokenize_sentence(self.processed)  # try tokenize first, if not a proper sentence just throw exception don't bother
 
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
