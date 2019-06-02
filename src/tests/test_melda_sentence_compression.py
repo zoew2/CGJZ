@@ -70,6 +70,16 @@ class MeldaSentenceCompressionTests(unittest.TestCase):
         self.assertEqual(summary, expected)
 
     def test_remove_attributions(self):
+        s = Sentence("Julia said that puppies are cute.", 1)
+
+        self.selector.selected_content = [s]
+        self.generator.compress_sentences()
+        summary = "\n".join([s.compressed for s in self.selector.selected_content])
+
+        expected = "Puppies are cute."
+        self.assertEqual(summary, expected)
+
+    def test_remove_attribution_phrases(self):
         s = Sentence("Seattle State Bureau of Animal Rating said "
                      "in a press release that puppies are cute.", 1)
 
@@ -79,6 +89,39 @@ class MeldaSentenceCompressionTests(unittest.TestCase):
 
         expected = "Puppies are cute."
         self.assertEqual(summary, expected)
+
+    def test_remove_temporal_mod(self):
+        s = Sentence("By 8 a.m. on Saturday the park was full of puppies.", 1)
+
+        self.selector.selected_content = [s]
+        self.generator.compress_sentences()
+        summary = "\n".join([s.compressed for s in self.selector.selected_content])
+
+        expected = "The park was full of puppies."
+        self.assertEqual(summary, expected)
+
+    def test_remove_mod_rel(self):
+        s = Sentence("Joe said that by 8 a.m. on Saturday the park was full of puppies.", 1)
+
+        self.selector.selected_content = [s]
+        self.generator.compress_sentences()
+        summary = "\n".join([s.compressed for s in self.selector.selected_content])
+
+        expected = "The park was full of puppies."
+        self.assertEqual(summary, expected)
+
+    def test_bad(self):
+        s = Sentence("Heilongjiang Provincial Bureau of Environmental Protection said in a press release that by 6 a.m. on Saturday, concentration of nitrobenzene monitored at Sujiatun upstream Sifangtai, one major water intake spot of Harbin, capital of northeast China's Heilongjiang Province, fell to 0.0793 mg per liter, but above the state safety standard of 0.017 mg per liter, but the density of benzene stood at 0.0011 mg per liter, which is within   the state safety benchmark.", 1)
+
+        self.selector.selected_content = [s]
+        self.generator.compress_sentences()
+        summary = "\n".join([s.compressed for s in self.selector.selected_content])
+
+        expected = "Concentration of nitrobenzene monitored at Sujiatun upstream Sifangtai fell, " \
+                   "but above the state safety standard, but the density of benzene stood, " \
+                   "which is within the state safety benchmark."
+        self.assertEqual(summary, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
