@@ -8,7 +8,6 @@ document and position/order of sentence within document as integer
 import string
 from src.helpers.class_wordmap import WordMap
 from src.helpers.class_preprocessor import Preprocessor
-import warnings
 
 class Sentence:
 
@@ -19,10 +18,10 @@ class Sentence:
         :param raw_sentence:
         :param sent_pos:
         """
-        self.raw_sentence = raw_sentence.strip('\n')  # raw input form of current sentence
+        self.raw_sentence = ' '.join(raw_sentence.rstrip().split())
         self.tokens = []
 
-        self.processed = Preprocessor.get_processed_sentence(raw_sentence)
+        self.processed = Preprocessor.get_processed_sentence(self.raw_sentence)
         self.__tokenize_sentence(self.processed)  # try tokenize first, if not a proper sentence just throw exception don't bother
 
         self.sent_pos = int(sent_pos)  # position of sentence in document

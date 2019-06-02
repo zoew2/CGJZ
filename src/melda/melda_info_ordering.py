@@ -36,8 +36,9 @@ class MeldaInfoOrdering:
         :param:
         :return: int of top topic among first sentences of document
         """
-        self.first_sentence = sorted(self.selected_content).pop()
-        self.first_topic = np.argmax(self.first_sentence.lda_scores)
+        self.selected_content = sorted(self.selected_content)
+        self.first_sentence = self.selected_content.pop()
+        self.first_topic = np.argmax(self.first_sentence.melda_scores)
         return self.first_topic
 
     def __get_first_sent_topics(self, documents):

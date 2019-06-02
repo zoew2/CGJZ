@@ -72,7 +72,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
         :return: next Sentence
         """
         if last_sentence:
-            self.content_selector.apply_redundancy_penalty(last_sentence)
+            self.content_selector.apply_redundancy_penalty(last_sentence, self.content_selector.selected_content)
             self.order_information()
         content = self.content_selector.selected_content
         return content.pop() if content else False
