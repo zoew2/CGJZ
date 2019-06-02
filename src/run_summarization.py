@@ -74,7 +74,7 @@ def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('topic_file')
     parser.add_argument('version', choices=['test', 'lead', 'mead', 'melda'])
-    parser.add_argument('--output_dir', default='../outputs/D4_dev/')
+    parser.add_argument('--output_dir', default='../outputs/D4_devtest/')
     parser.add_argument('--corpus', choices=['B', 'R'], default='B')
     parser.add_argument('--w_c', type=float, default=1)
     parser.add_argument('--w_p', type=float, default=1)
