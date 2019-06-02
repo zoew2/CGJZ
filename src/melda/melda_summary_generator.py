@@ -45,6 +45,7 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
     def compress_sentences(self):
         sentences = []
         for sentence in self.content_selector.selected_content:
+            print("sentence: " + sentence.raw_sentence)
             compressed = []
             ignore = []
             remove_punct = remove_that = False
@@ -122,10 +123,10 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
                 pp = [t for t in token.subtree]
                 descendants = [c for c in token.children]
                 descendants.extend([g for c in token.children for g in c.children])
-                deps = [c.dep_ for c in descendants]
+                nummod = [c.dep_ for c in descendants if c.dep_ == 'nummod' and not c.is_alpha]
                 pp_ent_types = [t.ent_type_ for t in pp]
                 temporal_types = ['TIME', 'DATE']
-                has_temporal = set(pp_ent_types) & set(temporal_types) or 'nummod' in deps
+                has_temporal = set(pp_ent_types) & set(temporal_types) or nummod
                 if token.dep_ == 'prep' and has_temporal:
                     pp_indicies = [t.i for t in pp]
                     ignore.extend(pp_indicies)
