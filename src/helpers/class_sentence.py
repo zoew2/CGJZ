@@ -65,7 +65,7 @@ class Sentence:
         :return: integer
         """
         ct = 0
-        for w in self.raw_sentence.split(" "):
+        for w in self.compressed.split(" "):
             if w not in string.punctuation:
                 ct += 1
         return ct
