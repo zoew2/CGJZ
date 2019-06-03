@@ -66,7 +66,8 @@ def get_output_filename(topic_id, args):
     topic_id1 = topic_id[:-1]
     topic_id2 = topic_id[-1]
     output_file = args.output_dir + topic_id1 + '-A.M.100.' + topic_id2 + '.' + args.version + '-' + args.corpus + \
-                  '-' + args.c_threshold + '-' + str(args.w_c) + str(args.w_p) + str(args.w_f)
+                  '-' + args.c_threshold + '-' + str(args.w_c) + str(args.w_p) + str(args.w_f) + \
+                  '-' + str(args.lda_topics) + str(args.n) + '-' + str(args.first_method)
     return output_file
 
 
@@ -74,7 +75,7 @@ def parse_args(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('topic_file')
     parser.add_argument('version', choices=['test', 'lead', 'mead', 'melda'])
-    parser.add_argument('--output_dir', default='../outputs/D3/')
+    parser.add_argument('--output_dir', default='../outputs/D4_devtest/')
     parser.add_argument('--corpus', choices=['B', 'R'], default='B')
     parser.add_argument('--w_c', type=float, default=1)
     parser.add_argument('--w_p', type=float, default=1)
@@ -82,6 +83,7 @@ def parse_args(args):
     parser.add_argument('--c_threshold', choices=['max', 'mean', 'min', 'zero'], default='max')
     parser.add_argument('--lda_topics', type=int, default=3)
     parser.add_argument('--n', type=int, default=5)
+    parser.add_argument('--first_method', choices=['mead', 'first_sentence'], default='mead')
     return parser.parse_args(args)
 
 

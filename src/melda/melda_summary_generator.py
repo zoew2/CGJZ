@@ -1,10 +1,10 @@
 from src.mead.mead_summary_generator import MeadSummaryGenerator
-from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.melda.melda_info_ordering import MeldaInfoOrdering
+from src.melda.melda_content_realizer import MeldaContentRealizer
 
 class MeldaSummaryGenerator(MeadSummaryGenerator):
     """
-    Summarize documents using MEAD
+    Summarize documents using MELDA
     """
 
     def pre_process(self, documents):
@@ -29,17 +29,19 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
         :param last_sentence: the last sentence selected for the summary
         :return: next Sentence
         """
-        return BaseSummaryGenerator(self.documents, self.content_selector,
-                                    self.args).get_next_sentence(last_sentence)
+        return super(MeadSummaryGenerator, self).get_next_sentence(last_sentence)
 
     def order_information(self):
         """
         Call MeldaInfoOrdering class to perform cohesion gradient adjustment
         :param:
         """
-        self.content_selector.selected_content = \
-            MeldaInfoOrdering(self.args, self.content_selector.selected_content
-                              ).run_cohesion_gradient(self.documents)
+        info_ordering = MeldaInfoOrdering(self.args, self.content_selector.selected_content)
+        self.content_selector.selected_content = info_ordering.run_cohesion_gradient(self.documents)
+
+    def realize_content(self):
+        MeldaContentRealizer().compress_sentences(self.content_selector.selected_content)
+        return super(MeldaSummaryGenerator, self).realize_content()
 
     def generate_summary(self, idf_array=None):
         """

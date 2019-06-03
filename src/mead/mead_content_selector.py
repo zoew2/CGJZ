@@ -106,9 +106,11 @@ class MeadContentSelector(BaseContentSelector):
         for word in sentence.tokens:
             id = WordMap.id_of(word)
             centroid_score += centroid[id] if id is not None else 0
+
+        # return centroid_score/(sentence.word_count() + 1)
         return centroid_score
 
-    def apply_redundancy_penalty(self, selected_sentence):
+    def apply_redundancy_penalty(self, selected_sentence, sentences):
         """
         Apply a redundancy penalty to all sentences based on the given selected sentence
         :param selected_sentence: the selected sentence
@@ -116,7 +118,7 @@ class MeadContentSelector(BaseContentSelector):
         """
         selected_vector = selected_sentence.vector
 
-        for sentence in self.selected_content:
+        for sentence in sentences:
             overlap = csr_matrix.sum((selected_vector != 0).multiply(sentence.vector != 0))
             counts = selected_vector.sum() + sentence.vector.sum()
             sentence.mead_score = sentence.mead_score - (overlap/counts)

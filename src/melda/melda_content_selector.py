@@ -29,7 +29,7 @@ class MeldaContentSelector(MeadContentSelector):
             for num in range(0, n):
                 sentence = sentences.pop()
                 self.selected_content.append(sentence)
-                self.apply_redundancy_penalty(sentence)
+                self.apply_redundancy_penalty(sentence, sentences)
                 sentences = self.calculate_melda_scores(sentences)
                 sentences.sort()
 

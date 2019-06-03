@@ -29,6 +29,16 @@ class MeadContentSelectorTests(unittest.TestCase):
              'loads', 'bunch', 'get', 'playing',
              'they', 'like', 'tail', 'run', 'there'}
 
+    w_map = {'he':1, 'owner':2, 'i':3, 'play':4, 'big':5,
+             'chase':6, 'fetch':7, 'park':8, 'dog':9, 'fun':10,
+             'toy':11, 'tongue':12, 'take':13, 'ran':14,
+             'in':15, 'sun':16, 'love':17, 'somewhere':18,
+             'many':19, 'together':20, 'around':21, 'puppy':22,
+             'today':23, 'load':24, 'fight':25, 'small':26,
+             "n't":27, '-PRON-':28, 'wag':29, 'hang':30,
+             'loads':31, 'bunch':32, 'get':33, 'playing':34,
+             'they':35, 'like':36, 'tail':37, 'run':38, 'there':39}
+
     idf = [4.032940937780854, 2.420157081061118, 1.3730247377110034,
            2.8868129021026157, 2.7776684326775474, 3.7319109421168726,
            3.25478968739721, 2.7107216430469343, 3.7319109421168726,
@@ -42,6 +52,10 @@ class MeadContentSelectorTests(unittest.TestCase):
            3.5558196830611912, 3.5558196830611912, 4.032940937780854,
            1.734087861371147, 3.0786984283415286, 0.9055121599292547,
            3.5558196830611912, 3.5558196830611912, 1.9876179589941962]
+
+    # idf = [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    #        1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+    #        1, 2, 3]
 
     args = parse_args(['test_data/test_topics.xml', 'test'])
     args.c_threshold = 'min'
@@ -64,26 +78,28 @@ class MeadContentSelectorTests(unittest.TestCase):
     def test_get_cluster_centroid(self):
         selector = MeadContentSelector()
         WordMap.word_set = self.w_set
-        WordMap.create_mapping()
+        WordMap.word_to_id = self.w_map
         Vectors().create_freq_vectors(self.topics)
+
         centroid = selector.get_cluster_centroid(self.doc_list, self.idf, self.args.c_threshold)
 
         actual_non_zero = np.count_nonzero(centroid)
-        should_be_non_zero = 28
+        should_be_non_zero = 29
 
         self.assertEqual(actual_non_zero, should_be_non_zero)
 
     def test_get_centroid_score(self):
         selector = MeadContentSelector()
         sent_1 = Sentence("Puppies love playing fetch.", 0)
+        self.args.c_threshold = 'mean'
 
         WordMap.word_set = self.w_set
-        WordMap.create_mapping()
+        WordMap.word_to_id = self.w_map
         Vectors().create_freq_vectors(self.topics)
 
         centroid = selector.get_cluster_centroid(self.doc_list, self.idf, self.args.c_threshold)
 
-        expected_centroid_score = 6.1
+        expected_centroid_score = 6.3
         c_score = selector.get_centroid_score(sent_1, centroid)
 
         self.assertAlmostEqual(expected_centroid_score, c_score, 1)
@@ -100,7 +116,7 @@ class MeadContentSelectorTests(unittest.TestCase):
         Vectors().create_freq_vectors(self.topics)
 
         selected = selector.select_content(self.doc_list, self.args, self.idf)
-        selector.apply_redundancy_penalty(selected[0])
+        selector.apply_redundancy_penalty(selected[0], selector.selected_content)
         scores = [s.mead_score for s in selector.selected_content]
         expected_scores = [1.9003829413846463, 1.6243717975775935, 0.6522065176000799,
                            2.3571461578060453, 1.532600545620478, 1.7661796758000055]
