@@ -92,13 +92,6 @@ class MeldaSummaryGeneratorTests(unittest.TestCase):
         self.assertEqual(summarizer.ifvalid_sent_reg(raw_sent6),1)
 
 
-    def test_strip_beginning(self):
-        for topic_id, documents in self.topics.items():
-            summarizer = MeldaSummaryGenerator(documents, MeldaContentSelector(), self.args)
-            break
-        raw_sent1 = "SHENZHEN, December 26 (Xinhua) -- Hong Kong has cat."
-        self.assertEqual(summarizer.strip_beginning(raw_sent1), "Hong Kong has cat.")
-
 
 if __name__ == '__main__':
     unittest.main()
