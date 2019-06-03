@@ -20,22 +20,19 @@ class Preprocessor:
 
     @staticmethod
     def get_processed_sentence(raw_sentence):
-        # return raw_sentence
         return Preprocessor.spacynlp(raw_sentence)
 
     @staticmethod
     def get_processed_tokens(processed):
         # entities = [e.text.lower().split() for e in processed.ents]
         # entities = list(itertools.chain.from_iterable(entities))
-        processed = nltk.tokenize.word_tokenize(processed)
 
         processed_tokens = []
         # processed_tokens.extend([e.text for e in processed.ents])
         all_entities = True
         for w in processed:
             # w = w.lemma_.lower()
-            # w = w.text.lower()
-            w = w.lower()
+            w = w.text.lower()
             if w == '-pron-' or not w.rstrip():
                 continue
 
