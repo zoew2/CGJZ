@@ -55,3 +55,10 @@ class Preprocessor:
         newlines = re.findall(r"([^\n]*\n){3,}", raw_sentence)
         numbers = re.findall(r"([^\d]*\d){10,}", raw_sentence)
         return bool(dashes) or bool(newlines) or bool(numbers)
+
+    @staticmethod
+    def strip_beginning(raw_sentence):
+        matches = re.finditer(r"^[A-Z].*(-{2}|_)", raw_sentence)
+        indicies = [m.end() for m in matches]
+        new_start_idx = indicies[0] if indicies else -1
+        return raw_sentence[new_start_idx+1:]

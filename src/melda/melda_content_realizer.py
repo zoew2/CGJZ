@@ -1,19 +1,20 @@
 """
-
+Compress sentences for content realization component of MELDA
 """
 
-import re
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 
 class MeldaContentRealizer:
-    """
-
-    """
 
     ATTRIBUTIVES = ['said', 'claimed', 'reported']
     TEMPORAL_TYPES = ['TIME', 'DATE']
 
     def compress_sentences(self, selected_sentences):
+        """
+        Compress all of the given sentences
+        :param selected_sentences: list of Sentence objects
+        :return: the compressed sentences
+        """
         sentences = []
         for sentence in selected_sentences:
             print("sentence:", sentence.raw_sentence)
@@ -25,25 +26,29 @@ class MeldaContentRealizer:
             print("melda:", sentence.melda_scores)
             print("tokens:", sentence.tokens)
             print("spacy tokens:", [t.text for t in sentence.processed])
-            compressed = self.compress_sentence(sentence)
+            compressed = self.compress_sentence(sentence.processed)
 
             # fix capitalization, detokenize and strip any bad beginnings
             if not compressed:
                 continue
             compressed[0] = compressed[0].capitalize()
             new_sentence = TreebankWordDetokenizer().detokenize(compressed)
-            sentence_text = self.strip_beginning(new_sentence)
 
             # set compressed sentence on sentence object
-            sentence.compressed = sentence_text
+            sentence.compressed = new_sentence
             sentences.append(sentence)
 
         return sentences
 
     def compress_sentence(self, sentence):
+        """
+        Compress the given sentence
+        :param sentence: the spacy output for the sentence
+        :return: the compressed sentence string
+        """
         compressed, ignore = [], []
         remove_punct = remove_that = False
-        for token in sentence.processed:
+        for token in sentence:
 
             if token.i in ignore or not token.text.rstrip():
                 continue
@@ -62,13 +67,12 @@ class MeldaContentRealizer:
 
             # remove punctuation following removed adv or initial conj unless it's sentence final
             if remove_punct:
+                remove_punct = False
                 if token.is_punct and token.i < len(token.doc) - 1:
                     continue
-                else:
-                    remove_punct = False
 
             # remove attributive words
-            should_remove, indicies = self.remove_attribution(token)
+            should_remove, indicies = self.get_attribution_indicies(token)
             if should_remove:
                 ignore.extend(indicies)
                 remove_that = True
@@ -76,29 +80,29 @@ class MeldaContentRealizer:
 
             # remove 'that' if it's the start of a relative clause after an attributive word
             if remove_that:
+                remove_that = False
                 if token.dep_ is 'mark':
                     continue
-                else:
-                    remove_that = False
 
             # remove appositives and parenthesized info
-            should_remove, indicies = self.remove_appositives(token)
+            should_remove, indicies = self.get_appositive_indicies(token)
             if should_remove:
                 ignore.extend(indicies)
                 remove_punct = True
 
             # remove the subject of an attribution
-            should_remove, indicies = self.remove_attribution_subj(token)
+            should_remove, indicies = self.get_attribution_subj_indicies(token)
             if should_remove:
                 ignore.extend(indicies)
                 continue
 
             # remove temporal modifiers
-            should_remove, indicies = self.remove_temporal_modifiers(token)
+            should_remove, indicies = self.get_temporal_modifier_indicies(token)
             if should_remove:
                 ignore.extend(indicies)
                 continue
 
+            # don't start the compressed sentence with punctuation
             if not compressed and token.is_punct:
                 continue
 
@@ -106,7 +110,12 @@ class MeldaContentRealizer:
 
         return compressed
 
-    def remove_attribution(self, token):
+    def get_attribution_indicies(self, token):
+        """
+        Determine if we should remove an attribution and get indicies
+        :param token: the token to consider
+        :return: bool, list of indicies
+        """
         should_remove = token.text in self.ATTRIBUTIVES
 
         prep_indicies = [t.i for pp in token.children for t in pp.subtree if pp.dep_ is 'prep']
@@ -117,7 +126,12 @@ class MeldaContentRealizer:
 
         return should_remove, prep_indicies
 
-    def remove_appositives(self, token):
+    def get_appositive_indicies(self, token):
+        """
+        Determine if we should remove an appositive and get indicies
+        :param token: the token to consider
+        :return: bool, list of indicies
+        """
         children = [child for child in token.children]
         child_deps = [child.dep_ for child in children]
         should_remove = len(child_deps) > 2 and 'appos' in child_deps
@@ -130,7 +144,12 @@ class MeldaContentRealizer:
 
         return should_remove, appos_indicies
 
-    def remove_attribution_subj(self, token):
+    def get_attribution_subj_indicies(self, token):
+        """
+        Determine if we should remove an attribution subject and get indicies
+        :param token: the token to consider
+        :return: bool, list of indicies
+        """
         attributive_ancestors = [a for a in token.ancestors if a.text in self.ATTRIBUTIVES]
         attributive_children = [c for a in attributive_ancestors for c in a.children if c.dep_ is 'nsubj']
         attribution_subj = [t.text for c in attributive_children for t in c.subtree]
@@ -142,7 +161,12 @@ class MeldaContentRealizer:
 
         return should_remove, [t.i for c in attributive_children for t in c.subtree]
 
-    def remove_temporal_modifiers(self, token):
+    def get_temporal_modifier_indicies(self, token):
+        """
+        Determine if we should remove a temporal modifier and get indicies
+        :param token: the token to consider
+        :return: bool, list of indicies
+        """
         pp = [t for t in token.subtree]
         descendants = [c for c in token.children]
         descendants.extend([g for c in token.children for g in c.children])
@@ -155,9 +179,3 @@ class MeldaContentRealizer:
             print("removing temp mod: " + " ".join([t.text for t in pp]))
 
         return should_remove, [t.i for t in pp]
-
-    def strip_beginning(self, raw_sentence):
-        matches = re.finditer(r"^[A-Z].*(-{2}|_)", raw_sentence)
-        indicies = [m.end() for m in matches]
-        new_start_idx = indicies[0] if indicies else -1
-        return raw_sentence[new_start_idx+1:]
