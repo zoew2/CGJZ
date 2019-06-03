@@ -1,6 +1,8 @@
 from nltk import tokenize
 from .class_sentence import Sentence
 import warnings
+import gzip
+from io import TextIOWrapper as tw
 
 """
 This is a module file of Document class.
@@ -35,14 +37,16 @@ class Document:
         self.art_id = ids[1]  # .0001
 
         if self.src == 'TST':
-            self.path = '../tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
-
+            self.path = 'tests/test_data/' + self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
             self.docid_inxml = self.docid
-        elif int(self.year) > 2000:  # get path, if date belongs to 2004+
+        elif int(self.date) >= 20060400:  # Gigaword
+            self.path = "/corpora/LDC/LDC11T07/data/" + self.src.lower() + self.lang.lower() + "/" + \
+                        self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".gz"
+            self.docid_inxml = self.docid
+        elif int(self.year) > 2000:
             self.path = "/corpora/LDC/LDC08T25/data/" + self.src.lower() + self.lang.lower() + "/" + \
                         self.src.lower() + self.lang.lower() + "_" + self.date[:-2] + ".xml"
             self.docid_inxml = self.docid
-
         else:
             self.path = "/corpora/LDC/LDC02T31/" + self.src.lower() + "/" + self.year + "/" + \
                         self.date + "_" + self.src2 + self.lang
@@ -65,29 +69,30 @@ class Document:
         """
         headline = ''
         text = ''
-        with open(path) as f:
+        if path.endswith('.gz'):
+            f = tw(gzip.open(path))  # read lines from .gz files as strings, not bytes
+        else:
+            f = open(path)
+        line = f.readline()
+        while id_xml not in line:
             line = f.readline()
-            while id_xml not in line:
-                line = f.readline()
-            while "<HEADLINE>" not in line:
-                line = f.readline()
-            if "</HEADLINE>" in line:
-                headline += line[10:-12].strip()
-            else:
-                line = f.readline()
-            while "</HEADLINE>" not in line:
-                headline += line.strip()
-                line = f.readline()
-            while "<TEXT>" not in line:
-                line = f.readline()
-            line = f.readline().strip('\n').replace("\t", "\n")
-            while "</TEXT>" not in line:
-                if "<P>" not in line and "</P>" not in line:
-                    text += line + ' '
-                else:
-                    text += '\n'  # separate paragraphs
-                line = f.readline().strip('\n').replace("\t", "\n")
-
+        while "<HEADLINE>" not in line:
+            line = f.readline()
+        if "</HEADLINE>" in line:
+            headline += line[10:-12].strip()
+        else:
+            line = f.readline()
+        while "</HEADLINE>" not in line:
+            headline += line.strip()
+            line = f.readline()
+        while "<TEXT>" not in line:
+            line = f.readline()
+        line = f.readline().strip().replace("\n", "")
+        while "</TEXT>" not in line:
+            if "<P>" not in line and "</P>" not in line:
+                text += line + ' '
+            line = f.readline().strip().replace("\n", " ")
+        f.close()
         return headline, text
 
     def tok_toSens(self, text):
