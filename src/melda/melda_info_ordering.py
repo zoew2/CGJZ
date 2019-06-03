@@ -6,7 +6,7 @@ Uses a cohesion gradient for sentence topics
 from collections import defaultdict as dd
 import numpy as np
 
-class MeldaInfoOrdering():
+class MeldaInfoOrdering:
     """
     Implement LDA topic-based sentence ordering after sentences have been selected
     """
@@ -19,8 +19,9 @@ class MeldaInfoOrdering():
         self.topic_vectors = None
         self.idx2sentence = {}
         self.ordered_sentences = []
+        self.first_method = args.first_method
 
-    def pick_first_topic(self, method='mead', documents=None):
+    def pick_first_topic(self, method, documents):
         if method == 'mead':
             return self.__get_top_mead_score()
         elif method == 'first_sentence':
@@ -50,7 +51,7 @@ class MeldaInfoOrdering():
 
         for doc in documents:
             sentence = doc.get_sen_bypos(0)
-            topics = sentence.lda_scores
+            topics = sentence.melda_scores
             max_topic = np.argmax(topics)
             first_sent_topics[max_topic] += 1
 
@@ -68,7 +69,7 @@ class MeldaInfoOrdering():
         # Fill array with topic values for each topic & make lookup dictionaries
         for index, sentence in enumerate(self.selected_content):
             self.idx2sentence[index] = sentence
-            self.topic_vectors[index] = sentence.lda_scores
+            self.topic_vectors[index] = sentence.melda_scores
 
     def reorder_content(self):
         """
@@ -92,11 +93,11 @@ class MeldaInfoOrdering():
             if this_sentence_max != curr_topic:
                 curr_topic = this_sentence_max
 
-            # Remove sentence vector from numpy array & replace with zeros so that
+            # Remove sentence vector from numpy array & replace with -1 so that
             # the same sentence doesn't get added to summary repeatedly
             self.topic_vectors[sent_index] = np.full(self.num_topics, -1)
 
-    def run_cohesion_gradient(self, documents=None):
+    def run_cohesion_gradient(self, documents):
         """
         order the sentences in selected_content 1) by
         first sentence topic overlap, then 2) by adding sentences
@@ -104,7 +105,7 @@ class MeldaInfoOrdering():
         :param documents: list of documents to pass into pick_first_topic function
         :return: int of top topic among first sentences of document
         """
-        self.pick_first_topic(method='mead', documents=documents)
+        self.pick_first_topic(self.first_method, documents)
         self.fill_topic_array()
         self.reorder_content()
         return self.ordered_sentences

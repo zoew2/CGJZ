@@ -1,7 +1,8 @@
 import spacy
 import string
 from nltk.corpus import stopwords
-import numpy as np
+import re
+import nltk
 
 class Preprocessor:
     """
@@ -18,39 +19,31 @@ class Preprocessor:
         Preprocessor.stop_words.extend(['edu'])  # if we want to add any new words to stopwords
 
     @staticmethod
-    def sent_preprocessing(raw_sentence):
-        """
-        first rule out wierd sentences
-        then find all name entities
-        then lemmatize all the words that are not in an name entity
-        then get rid of stopwords and punt
-        :return: new_toks, type: list of string,
-                            e.g, ['New York', 'be', 'looking', 'buy', 'U.K.', 'startup', '$1 billion']
-                            ['-PRON-', 'take', '-PRON-', 'small', 'puppy', 'dog', 'park', 'today']
-                None, if not a proper sentence
-        """
-        # rule out weird sentences
-        # ct_dash = 0
-        # ct_nl = 0
-        # ct_d = 0
-        #
-        #
-        # for cha in raw_sentence:x
-        #     if cha == '-':
-        #         ct_dash += 1
-        #         if ct_dash > 3:
-        #             return None
-        #     elif cha == '\n':
-        #         ct_nl += 1
-        #         if ct_nl > 3:
-        #             return None
-        #     elif cha.isdigit():
-        #         ct_d += 1
-        #         if ct_d > 10:
-        #             return None
+    def get_processed_sentence(raw_sentence):
+        # return raw_sentence
+        return Preprocessor.spacynlp(raw_sentence)
 
-        # process sen
-        sen = Preprocessor.spacynlp(raw_sentence)
+    @staticmethod
+    def get_processed_tokens(processed):
+        # entities = [e.text.lower().split() for e in processed.ents]
+        # entities = list(itertools.chain.from_iterable(entities))
+        processed = nltk.tokenize.word_tokenize(processed)
+
+        processed_tokens = []
+        # processed_tokens.extend([e.text for e in processed.ents])
+        all_entities = True
+        for w in processed:
+            # w = w.lemma_.lower()
+            # w = w.text.lower()
+            w = w.lower()
+            if w == '-pron-' or not w.rstrip():
+                continue
+
+            if w not in string.punctuation and w not in Preprocessor.stop_words: # and w not in entities:
+                all_entities = False
+                processed_tokens.append(w)
+
+        return [] if all_entities else processed_tokens
 
     @staticmethod
     def is_bad_sentence(raw_sentence):

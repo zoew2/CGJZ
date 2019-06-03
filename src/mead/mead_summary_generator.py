@@ -52,7 +52,7 @@ class MeadSummaryGenerator(BaseSummaryGenerator):
             words_in_doc = set()
             for s in sentences:
                 s = ' '.join(s)
-                proc_s = Preprocessor().sent_preprocessing(s)
+                proc_s = Preprocessor.get_processed_tokens(Preprocessor.get_processed_sentence(s))
                 if proc_s:
                     words_in_doc = words_in_doc.union(proc_s)
             for word in words_in_doc:

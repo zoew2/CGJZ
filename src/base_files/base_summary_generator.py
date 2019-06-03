@@ -55,7 +55,7 @@ class BaseSummaryGenerator:
                 next_sent = self.get_next_sentence(next_sent)
                 continue
             if token_total + next_sent_len < 100:
-                output_content.append(next_sent.raw_sentence)
+                output_content.append(next_sent.compressed)
                 token_total += next_sent_len
             else:
                 if token_total == 0:

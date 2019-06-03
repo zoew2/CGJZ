@@ -23,15 +23,14 @@ class Sentence:
         self.tokens = []
 
         self.processed = Preprocessor.get_processed_sentence(self.raw_sentence)
-        self.__tokenize_sentence(self.processed)  # try tokenize first, if not a proper sentence just throw exception don't bother
+        self.__tokenize_sentence(self.processed)
 
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
         self.vector = []  # placeholder
         self.order_by = self.sent_pos
         self.c_score = self.p_score = self.f_score = self.mead_score = self.lda_scores = self.melda_scores = None
-
-
+        self.compressed = self.raw_sentence
 
         # update global mapping of words to indices
         WordMap.add_words(self.tokens)  # make sure self.tokens is the right thing here
@@ -93,16 +92,13 @@ class Sentence:
         """
         return self.mead_score
 
-    def __tokenize_sentence(self):
+    def __tokenize_sentence(self, processed):
         """
         tokenize sentence and remove sentence-level punctuation,
         such as comma (,) but not dash (-) in, e.g. 'morning-after'
         function only for internal usage
         """
-        self.tokens = Preprocessor.sent_preprocessing(self.raw_sentence)  # NER and Stemming and striping stopwords and punc
-
-        # if not self.tokens:
-        #     raise ValueError('not a sentence: ' + self.raw_sentence)
+        self.tokens = Preprocessor.get_processed_tokens(processed)
 
     def set_vector(self, vector):
         """
