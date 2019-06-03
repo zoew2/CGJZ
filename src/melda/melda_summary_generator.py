@@ -1,7 +1,6 @@
 from src.mead.mead_summary_generator import MeadSummaryGenerator
-from src.base_files.base_summary_generator import BaseSummaryGenerator
 from src.melda.melda_info_ordering import MeldaInfoOrdering
-import re
+from src.melda.melda_content_realizer import MeldaContentRealizer
 
 class MeldaSummaryGenerator(MeadSummaryGenerator):
     """
@@ -30,17 +29,19 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
         :param last_sentence: the last sentence selected for the summary
         :return: next Sentence
         """
-        return BaseSummaryGenerator(self.documents, self.content_selector,
-                                    self.args).get_next_sentence(last_sentence)
+        return super(MeadSummaryGenerator, self).get_next_sentence(last_sentence)
 
     def order_information(self):
         """
         Call MeldaInfoOrdering class to perform cohesion gradient adjustment
         :param:
         """
-        self.content_selector.selected_content = \
-            MeldaInfoOrdering(self.args, self.content_selector.selected_content
-                              ).run_cohesion_gradient(self.documents)
+        info_ordering = MeldaInfoOrdering(self.args, self.content_selector.selected_content)
+        self.content_selector.selected_content = info_ordering.run_cohesion_gradient(self.documents)
+
+    def realize_content(self):
+        MeldaContentRealizer().compress_sentences(self.content_selector.selected_content)
+        return super(MeldaSummaryGenerator, self).realize_content()
 
     def generate_summary(self, idf_array=None):
         """
@@ -50,29 +51,3 @@ class MeldaSummaryGenerator(MeadSummaryGenerator):
         self.select_content(idf_array)
         self.order_information()
         return self.realize_content()
-
-    def process_selected_content(self, selected_content):
-        processed_content = []
-        next_sent = self.get_next_sentence()
-        while next_sent:
-            raw_sen = next_sent.raw_sentence
-            if_sen_valid = self.ifvalid_sent_reg(raw_sen)
-            if if_sen_valid:
-                processed_content.append(next_sent)
-            next_sent = self.get_next_sentence(next_sent)
-        return processed_content
-
-    def ifvalid_sent_reg(self, raw_sen):
-        pattern1 = re.compile("([\-])\\1\\1")
-        pattern2 = re.compile("(.*\n){3,}")
-        pattern3 = re.compile("(.*\d){11,}")
-
-        return not (pattern1.match(raw_sen) or pattern2.match(raw_sen) or pattern3.match(raw_sen))
-
-    def strip_beginning(self,raw_sen):
-        toks = raw_sen.split()
-        if toks[0].isupper():
-            for ind,t in enumerate(toks):
-                 if t == "--" or t == '_':
-                    return ' '.join(toks[ind+1:])
-        return raw_sen

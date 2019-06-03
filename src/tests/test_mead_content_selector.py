@@ -116,7 +116,7 @@ class MeadContentSelectorTests(unittest.TestCase):
         Vectors().create_freq_vectors(self.topics)
 
         selected = selector.select_content(self.doc_list, self.args, self.idf)
-        selector.apply_redundancy_penalty(selected[0])
+        selector.apply_redundancy_penalty(selected[0], selector.selected_content)
         scores = [s.mead_score for s in selector.selected_content]
         expected_scores = [1.9003829413846463, 1.6243717975775935, 0.6522065176000799,
                            2.3571461578060453, 1.532600545620478, 1.7661796758000055]
