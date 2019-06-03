@@ -19,6 +19,7 @@ class Sentence:
         :param sent_pos:
         """
         self.raw_sentence = ' '.join(raw_sentence.rstrip().split())
+        self.raw_sentence = Preprocessor.strip_beginning(self.raw_sentence)
         self.tokens = []
 
         self.processed = Preprocessor.get_processed_sentence(self.raw_sentence)

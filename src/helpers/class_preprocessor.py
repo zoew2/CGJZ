@@ -35,7 +35,7 @@ class Preprocessor:
         # ct_d = 0
         #
         #
-        # for cha in raw_sentence:
+        # for cha in raw_sentence:x
         #     if cha == '-':
         #         ct_dash += 1
         #         if ct_dash > 3:
@@ -52,46 +52,19 @@ class Preprocessor:
         # process sen
         sen = Preprocessor.spacynlp(raw_sentence)
 
-        entity_ind = [0] * len(sen)
-        ind = 1
+    @staticmethod
+    def is_bad_sentence(raw_sentence):
+        # bad_patterns = re.findall(r"(-{3,} | \n[^\n*]{3,} | \d{10,})", raw_sentence)
+        # return bool(bad_patterns)
 
-        for ent in sen.ents:
-            for i in range(ent.start, ent.end):
-                entity_ind[i] = ind
-            ind += 1
+        dashes = re.findall(r"-{3,}", raw_sentence)
+        newlines = re.findall(r"([^\n]*\n){3,}", raw_sentence)
+        numbers = re.findall(r"([^\d]*\d){10,}", raw_sentence)
+        return bool(dashes) or bool(newlines) or bool(numbers)
 
-        # [1, 1, 0, 0, 0, 2, 0, 0, 3, 3, 3] # index > 0 are NEs
-
-        if np.prod(entity_ind) != 0: # if every word is a NE, not a sentence.
-            return []
-
-
-        # linking NE
-        new_toks = []
-        ent_ind = 0  # pointer to entities
-        for i in range(len(entity_ind)):
-            
-            if_ent = entity_ind[i]
-            if if_ent > 0:  # if token is in an entity, just add to the new_toks, if not add stemmed word
-                if i == 0:
-                    new_toks.append(sen.ents[0].text)
-                    ent_ind += 1
-                elif entity_ind[i - 1] == 0:  # the tok before is not in a NE
-                    new_toks.append(sen.ents[ent_ind].text)
-                    ent_ind += 1
-                elif entity_ind[i - 1] < if_ent:  # another NE follow right after it
-                    new_toks.append(sen.ents[ent_ind].text)
-                    ent_ind += 1
-            else:
-
-                w = sen[i].lemma_
-                if w != '-PRON-':  # if w is not a NE, lowercase it
-                    w = w.lower()
-                else:
-                    # w = sen[i].text
-                    continue
-                if w not in string.punctuation and w not in Preprocessor.stop_words:  # Strip punctuation and stopwords from sentence tokens
-
-                    new_toks.append(w)
-
-        return new_toks
+    @staticmethod
+    def strip_beginning(raw_sentence):
+        matches = re.finditer(r"^[A-Z].*(-{2}|_)", raw_sentence)
+        indicies = [m.end() for m in matches]
+        new_start_idx = indicies[0] if indicies else -1
+        return raw_sentence[new_start_idx+1:]
