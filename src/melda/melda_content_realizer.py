@@ -118,10 +118,10 @@ class MeldaContentRealizer:
         """
         should_remove = token.text in self.ATTRIBUTIVES
 
-        prep_indicies = [t.i for pp in token.children for t in pp.subtree if pp.dep_ is 'prep']
+        prep_indicies = [t.i for pp in token.children for t in pp.subtree if pp.dep_ in ('prep', 'npadvmod')]
 
         if should_remove:
-            pp = [t.text for pp in token.children for t in pp.subtree if pp.dep_ is 'prep']
+            pp = [t.text for pp in token.children for t in pp.subtree if pp.dep_ in ('prep', 'npadvmod')]
             print("removing attribution and preps: " + token.text + " " + " ".join(pp))
 
         return should_remove, prep_indicies
