@@ -54,7 +54,7 @@ class Preprocessor:
 
     @staticmethod
     def strip_beginning(raw_sentence):
-        matches = re.finditer(r"^[A-Z].*(-{2}|_)", raw_sentence)
+        matches = re.finditer(r"^[^a-z0-9].*(-{2}|_)", raw_sentence)
         indicies = [m.end() for m in matches]
         new_start_idx = indicies[0] if indicies else -1
         return raw_sentence[new_start_idx+1:]
