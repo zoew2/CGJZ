@@ -1,0 +1,102 @@
+---------------------------------------------
+melda-B-max-111-35-mead ROUGE-1 Average_R: 0.19096 (95%-conf.int. 0.17146 - 0.20829)
+melda-B-max-111-35-mead ROUGE-1 Average_P: 0.23853 (95%-conf.int. 0.21615 - 0.25999)
+melda-B-max-111-35-mead ROUGE-1 Average_F: 0.21092 (95%-conf.int. 0.19141 - 0.22969)
+.............................................
+melda-B-max-111-35-mead ROUGE-1 Eval D1001-A.M.100.A.melda-B-max-111-35-mead R:0.22222 P:0.40909 F:0.28800
+melda-B-max-111-35-mead ROUGE-1 Eval D1002-A.M.100.A.melda-B-max-111-35-mead R:0.15481 P:0.21023 F:0.17831
+melda-B-max-111-35-mead ROUGE-1 Eval D1003-A.M.100.A.melda-B-max-111-35-mead R:0.24675 P:0.26887 F:0.25734
+melda-B-max-111-35-mead ROUGE-1 Eval D1004-A.M.100.A.melda-B-max-111-35-mead R:0.25620 P:0.28182 F:0.26840
+melda-B-max-111-35-mead ROUGE-1 Eval D1005-A.M.100.A.melda-B-max-111-35-mead R:0.15164 P:0.23125 F:0.18317
+melda-B-max-111-35-mead ROUGE-1 Eval D1006-A.M.100.A.melda-B-max-111-35-mead R:0.16092 P:0.21000 F:0.18221
+melda-B-max-111-35-mead ROUGE-1 Eval D1007-A.M.100.B.melda-B-max-111-35-mead R:0.24000 P:0.30000 F:0.26667
+melda-B-max-111-35-mead ROUGE-1 Eval D1008-A.M.100.B.melda-B-max-111-35-mead R:0.11290 P:0.14000 F:0.12500
+melda-B-max-111-35-mead ROUGE-1 Eval D1009-A.M.100.B.melda-B-max-111-35-mead R:0.19469 P:0.22449 F:0.20853
+melda-B-max-111-35-mead ROUGE-1 Eval D1010-A.M.100.B.melda-B-max-111-35-mead R:0.19200 P:0.27907 F:0.22749
+melda-B-max-111-35-mead ROUGE-1 Eval D1011-A.M.100.C.melda-B-max-111-35-mead R:0.07328 P:0.08019 F:0.07658
+melda-B-max-111-35-mead ROUGE-1 Eval D1012-A.M.100.C.melda-B-max-111-35-mead R:0.21545 P:0.22458 F:0.21992
+melda-B-max-111-35-mead ROUGE-1 Eval D1013-A.M.100.C.melda-B-max-111-35-mead R:0.10442 P:0.13830 F:0.11900
+melda-B-max-111-35-mead ROUGE-1 Eval D1014-A.M.100.C.melda-B-max-111-35-mead R:0.10042 P:0.13953 F:0.11679
+melda-B-max-111-35-mead ROUGE-1 Eval D1015-A.M.100.C.melda-B-max-111-35-mead R:0.08679 P:0.11979 F:0.10065
+melda-B-max-111-35-mead ROUGE-1 Eval D1016-A.M.100.C.melda-B-max-111-35-mead R:0.17489 P:0.23214 F:0.19949
+melda-B-max-111-35-mead ROUGE-1 Eval D1017-A.M.100.D.melda-B-max-111-35-mead R:0.26122 P:0.28070 F:0.27061
+melda-B-max-111-35-mead ROUGE-1 Eval D1018-A.M.100.D.melda-B-max-111-35-mead R:0.15063 P:0.20000 F:0.17184
+melda-B-max-111-35-mead ROUGE-1 Eval D1019-A.M.100.D.melda-B-max-111-35-mead R:0.22083 P:0.31548 F:0.25980
+melda-B-max-111-35-mead ROUGE-1 Eval D1020-A.M.100.D.melda-B-max-111-35-mead R:0.13223 P:0.18605 F:0.15459
+melda-B-max-111-35-mead ROUGE-1 Eval D1021-A.M.100.D.melda-B-max-111-35-mead R:0.23305 P:0.29255 F:0.25943
+melda-B-max-111-35-mead ROUGE-1 Eval D1022-A.M.100.D.melda-B-max-111-35-mead R:0.25941 P:0.31000 F:0.28246
+melda-B-max-111-35-mead ROUGE-1 Eval D1023-A.M.100.E.melda-B-max-111-35-mead R:0.16529 P:0.26316 F:0.20305
+melda-B-max-111-35-mead ROUGE-1 Eval D1024-A.M.100.E.melda-B-max-111-35-mead R:0.16667 P:0.23256 F:0.19418
+melda-B-max-111-35-mead ROUGE-1 Eval D1025-A.M.100.E.melda-B-max-111-35-mead R:0.25664 P:0.30851 F:0.28019
+melda-B-max-111-35-mead ROUGE-1 Eval D1026-A.M.100.E.melda-B-max-111-35-mead R:0.07265 P:0.07589 F:0.07423
+melda-B-max-111-35-mead ROUGE-1 Eval D1027-A.M.100.E.melda-B-max-111-35-mead R:0.13492 P:0.17347 F:0.15179
+melda-B-max-111-35-mead ROUGE-1 Eval D1028-A.M.100.E.melda-B-max-111-35-mead R:0.30417 P:0.33796 F:0.32018
+melda-B-max-111-35-mead ROUGE-1 Eval D1029-A.M.100.F.melda-B-max-111-35-mead R:0.20000 P:0.30000 F:0.24000
+melda-B-max-111-35-mead ROUGE-1 Eval D1030-A.M.100.F.melda-B-max-111-35-mead R:0.13095 P:0.15566 F:0.14224
+melda-B-max-111-35-mead ROUGE-1 Eval D1031-A.M.100.F.melda-B-max-111-35-mead R:0.04082 P:0.05814 F:0.04796
+melda-B-max-111-35-mead ROUGE-1 Eval D1032-A.M.100.F.melda-B-max-111-35-mead R:0.28244 P:0.42045 F:0.33790
+melda-B-max-111-35-mead ROUGE-1 Eval D1033-A.M.100.F.melda-B-max-111-35-mead R:0.22727 P:0.23305 F:0.23012
+melda-B-max-111-35-mead ROUGE-1 Eval D1034-A.M.100.F.melda-B-max-111-35-mead R:0.10700 P:0.15116 F:0.12530
+melda-B-max-111-35-mead ROUGE-1 Eval D1035-A.M.100.G.melda-B-max-111-35-mead R:0.25610 P:0.29717 F:0.27511
+melda-B-max-111-35-mead ROUGE-1 Eval D1036-A.M.100.G.melda-B-max-111-35-mead R:0.27347 P:0.30455 F:0.28817
+melda-B-max-111-35-mead ROUGE-1 Eval D1037-A.M.100.G.melda-B-max-111-35-mead R:0.25926 P:0.23333 F:0.24561
+melda-B-max-111-35-mead ROUGE-1 Eval D1038-A.M.100.G.melda-B-max-111-35-mead R:0.19216 P:0.26630 F:0.22324
+melda-B-max-111-35-mead ROUGE-1 Eval D1039-A.M.100.G.melda-B-max-111-35-mead R:0.24490 P:0.29412 F:0.26726
+melda-B-max-111-35-mead ROUGE-1 Eval D1040-A.M.100.G.melda-B-max-111-35-mead R:0.20851 P:0.29878 F:0.24561
+melda-B-max-111-35-mead ROUGE-1 Eval D1041-A.M.100.H.melda-B-max-111-35-mead R:0.14567 P:0.21023 F:0.17209
+melda-B-max-111-35-mead ROUGE-1 Eval D1042-A.M.100.H.melda-B-max-111-35-mead R:0.23767 P:0.25481 F:0.24594
+melda-B-max-111-35-mead ROUGE-1 Eval D1043-A.M.100.H.melda-B-max-111-35-mead R:0.12712 P:0.18293 F:0.15000
+melda-B-max-111-35-mead ROUGE-1 Eval D1044-A.M.100.H.melda-B-max-111-35-mead R:0.26582 P:0.30288 F:0.28314
+melda-B-max-111-35-mead ROUGE-1 Eval D1045-A.M.100.H.melda-B-max-111-35-mead R:0.27165 P:0.29237 F:0.28163
+melda-B-max-111-35-mead ROUGE-1 Eval D1046-A.M.100.H.melda-B-max-111-35-mead R:0.26378 P:0.25379 F:0.25869
+---------------------------------------------
+melda-B-max-111-35-mead ROUGE-2 Average_R: 0.04011 (95%-conf.int. 0.03290 - 0.04805)
+melda-B-max-111-35-mead ROUGE-2 Average_P: 0.05046 (95%-conf.int. 0.04130 - 0.06002)
+melda-B-max-111-35-mead ROUGE-2 Average_F: 0.04443 (95%-conf.int. 0.03654 - 0.05296)
+.............................................
+melda-B-max-111-35-mead ROUGE-2 Eval D1001-A.M.100.A.melda-B-max-111-35-mead R:0.06276 P:0.11719 F:0.08174
+melda-B-max-111-35-mead ROUGE-2 Eval D1002-A.M.100.A.melda-B-max-111-35-mead R:0.02979 P:0.04070 F:0.03440
+melda-B-max-111-35-mead ROUGE-2 Eval D1003-A.M.100.A.melda-B-max-111-35-mead R:0.05286 P:0.05769 F:0.05517
+melda-B-max-111-35-mead ROUGE-2 Eval D1004-A.M.100.A.melda-B-max-111-35-mead R:0.05882 P:0.06481 F:0.06167
+melda-B-max-111-35-mead ROUGE-2 Eval D1005-A.M.100.A.melda-B-max-111-35-mead R:0.01250 P:0.01923 F:0.01515
+melda-B-max-111-35-mead ROUGE-2 Eval D1006-A.M.100.A.melda-B-max-111-35-mead R:0.02724 P:0.03571 F:0.03091
+melda-B-max-111-35-mead ROUGE-2 Eval D1007-A.M.100.B.melda-B-max-111-35-mead R:0.04977 P:0.06250 F:0.05541
+melda-B-max-111-35-mead ROUGE-2 Eval D1008-A.M.100.B.melda-B-max-111-35-mead R:0.01639 P:0.02041 F:0.01818
+melda-B-max-111-35-mead ROUGE-2 Eval D1009-A.M.100.B.melda-B-max-111-35-mead R:0.03153 P:0.03646 F:0.03382
+melda-B-max-111-35-mead ROUGE-2 Eval D1010-A.M.100.B.melda-B-max-111-35-mead R:0.03659 P:0.05357 F:0.04348
+melda-B-max-111-35-mead ROUGE-2 Eval D1011-A.M.100.C.melda-B-max-111-35-mead R:0.01754 P:0.01923 F:0.01835
+melda-B-max-111-35-mead ROUGE-2 Eval D1012-A.M.100.C.melda-B-max-111-35-mead R:0.03719 P:0.03879 F:0.03797
+melda-B-max-111-35-mead ROUGE-2 Eval D1013-A.M.100.C.melda-B-max-111-35-mead R:0.01224 P:0.01630 F:0.01398
+melda-B-max-111-35-mead ROUGE-2 Eval D1014-A.M.100.C.melda-B-max-111-35-mead R:0.00851 P:0.01190 F:0.00992
+melda-B-max-111-35-mead ROUGE-2 Eval D1015-A.M.100.C.melda-B-max-111-35-mead R:0.01533 P:0.02128 F:0.01782
+melda-B-max-111-35-mead ROUGE-2 Eval D1016-A.M.100.C.melda-B-max-111-35-mead R:0.04110 P:0.05488 F:0.04700
+melda-B-max-111-35-mead ROUGE-2 Eval D1017-A.M.100.D.melda-B-max-111-35-mead R:0.03320 P:0.03571 F:0.03441
+melda-B-max-111-35-mead ROUGE-2 Eval D1018-A.M.100.D.melda-B-max-111-35-mead R:0.03404 P:0.04545 F:0.03893
+melda-B-max-111-35-mead ROUGE-2 Eval D1019-A.M.100.D.melda-B-max-111-35-mead R:0.02119 P:0.03049 F:0.02500
+melda-B-max-111-35-mead ROUGE-2 Eval D1020-A.M.100.D.melda-B-max-111-35-mead R:0.01261 P:0.01786 F:0.01478
+melda-B-max-111-35-mead ROUGE-2 Eval D1021-A.M.100.D.melda-B-max-111-35-mead R:0.06034 P:0.07609 F:0.06731
+melda-B-max-111-35-mead ROUGE-2 Eval D1022-A.M.100.D.melda-B-max-111-35-mead R:0.05532 P:0.06633 F:0.06033
+melda-B-max-111-35-mead ROUGE-2 Eval D1023-A.M.100.E.melda-B-max-111-35-mead R:0.02101 P:0.03378 F:0.02591
+melda-B-max-111-35-mead ROUGE-2 Eval D1024-A.M.100.E.melda-B-max-111-35-mead R:0.04237 P:0.05952 F:0.04950
+melda-B-max-111-35-mead ROUGE-2 Eval D1025-A.M.100.E.melda-B-max-111-35-mead R:0.11261 P:0.13587 F:0.12315
+melda-B-max-111-35-mead ROUGE-2 Eval D1026-A.M.100.E.melda-B-max-111-35-mead R:0.00000 P:0.00000 F:0.00000
+melda-B-max-111-35-mead ROUGE-2 Eval D1027-A.M.100.E.melda-B-max-111-35-mead R:0.02823 P:0.03646 F:0.03182
+melda-B-max-111-35-mead ROUGE-2 Eval D1028-A.M.100.E.melda-B-max-111-35-mead R:0.10169 P:0.11321 F:0.10714
+melda-B-max-111-35-mead ROUGE-2 Eval D1029-A.M.100.F.melda-B-max-111-35-mead R:0.04661 P:0.07051 F:0.05612
+melda-B-max-111-35-mead ROUGE-2 Eval D1030-A.M.100.F.melda-B-max-111-35-mead R:0.00403 P:0.00481 F:0.00439
+melda-B-max-111-35-mead ROUGE-2 Eval D1031-A.M.100.F.melda-B-max-111-35-mead R:0.01245 P:0.01786 F:0.01467
+melda-B-max-111-35-mead ROUGE-2 Eval D1032-A.M.100.F.melda-B-max-111-35-mead R:0.08140 P:0.12209 F:0.09768
+melda-B-max-111-35-mead ROUGE-2 Eval D1033-A.M.100.F.melda-B-max-111-35-mead R:0.10084 P:0.10345 F:0.10213
+melda-B-max-111-35-mead ROUGE-2 Eval D1034-A.M.100.F.melda-B-max-111-35-mead R:0.00837 P:0.01190 F:0.00983
+melda-B-max-111-35-mead ROUGE-2 Eval D1035-A.M.100.G.melda-B-max-111-35-mead R:0.05372 P:0.06250 F:0.05778
+melda-B-max-111-35-mead ROUGE-2 Eval D1036-A.M.100.G.melda-B-max-111-35-mead R:0.03320 P:0.03704 F:0.03502
+melda-B-max-111-35-mead ROUGE-2 Eval D1037-A.M.100.G.melda-B-max-111-35-mead R:0.03774 P:0.03390 F:0.03572
+melda-B-max-111-35-mead ROUGE-2 Eval D1038-A.M.100.G.melda-B-max-111-35-mead R:0.07171 P:0.10000 F:0.08352
+melda-B-max-111-35-mead ROUGE-2 Eval D1039-A.M.100.G.melda-B-max-111-35-mead R:0.05809 P:0.07000 F:0.06349
+melda-B-max-111-35-mead ROUGE-2 Eval D1040-A.M.100.G.melda-B-max-111-35-mead R:0.04329 P:0.06250 F:0.05115
+melda-B-max-111-35-mead ROUGE-2 Eval D1041-A.M.100.H.melda-B-max-111-35-mead R:0.05200 P:0.07558 F:0.06161
+melda-B-max-111-35-mead ROUGE-2 Eval D1042-A.M.100.H.melda-B-max-111-35-mead R:0.05936 P:0.06373 F:0.06147
+melda-B-max-111-35-mead ROUGE-2 Eval D1043-A.M.100.H.melda-B-max-111-35-mead R:0.02155 P:0.03125 F:0.02551
+melda-B-max-111-35-mead ROUGE-2 Eval D1044-A.M.100.H.melda-B-max-111-35-mead R:0.03004 P:0.03431 F:0.03203
+melda-B-max-111-35-mead ROUGE-2 Eval D1045-A.M.100.H.melda-B-max-111-35-mead R:0.06000 P:0.06466 F:0.06224
+melda-B-max-111-35-mead ROUGE-2 Eval D1046-A.M.100.H.melda-B-max-111-35-mead R:0.04400 P:0.04231 F:0.04314

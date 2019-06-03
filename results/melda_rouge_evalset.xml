@@ -769,7 +769,7 @@
 <INPUT-FORMAT TYPE="SPL">
 </INPUT-FORMAT>
 <PEERS>
-melda-B-max-111-35-meadD1141-A.M.100.H.melda-B-max-111-35-mead</P>
+<P ID="melda-B-max-111-35-mead">D1141-A.M.100.H.melda-B-max-111-35-mead</P>
 </PEERS>
 <MODELS>
 <M ID="D">D1141-A.M.100.H.D</M>
