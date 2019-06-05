@@ -100,6 +100,15 @@ class MeldaSentenceCompressionTests(unittest.TestCase):
         expected = "The park was full of puppies."
         self.assertEqual(summary, expected)
 
+    def test_remove_double_punct(self):
+        s = Sentence("The park was full of puppies,.", 1)
+
+        sentences = self.realizer.compress_sentences([s])
+        summary = "\n".join([s.compressed for s in sentences])
+
+        expected = "The park was full of puppies."
+        self.assertEqual(summary, expected)
+
     def test_bad(self):
         s = Sentence("Heilongjiang Provincial Bureau of Environmental Protection said in a press release that by 6 a.m. on Saturday, concentration of nitrobenzene monitored at Sujiatun upstream Sifangtai, one major water intake spot of Harbin, capital of northeast China's Heilongjiang Province, fell to 0.0793 mg per liter, but above the state safety standard of 0.017 mg per liter, but the density of benzene stood at 0.0011 mg per liter, which is within   the state safety benchmark.", 1)
 

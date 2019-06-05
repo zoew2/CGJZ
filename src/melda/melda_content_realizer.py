@@ -3,6 +3,7 @@ Compress sentences for content realization component of MELDA
 """
 
 from nltk.tokenize.treebank import TreebankWordDetokenizer
+from string import punctuation
 
 class MeldaContentRealizer:
 
@@ -32,7 +33,12 @@ class MeldaContentRealizer:
             if not compressed:
                 continue
             compressed[0] = compressed[0].capitalize()
+
+            while len(compressed) > 1 and compressed[-2] in punctuation:
+                compressed.pop(-2)
             new_sentence = TreebankWordDetokenizer().detokenize(compressed)
+            if len(compressed) < 2:
+                print("TOO SHORT", new_sentence)
 
             # set compressed sentence on sentence object
             sentence.compressed = new_sentence
@@ -50,7 +56,7 @@ class MeldaContentRealizer:
         remove_punct = remove_that = False
         for token in sentence:
 
-            if token.i in ignore or not token.text.rstrip():
+            if token.i in ignore or not token.text.rstrip() or token.text == '(':
                 continue
 
             # remove all adverbs
@@ -137,6 +143,10 @@ class MeldaContentRealizer:
         should_remove = len(child_deps) > 2 and 'appos' in child_deps
 
         appos_indicies = [t.i for c in children for t in c.subtree if c.dep_ == 'appos']
+        last_idx = appos_indicies[-1] if appos_indicies else 0
+        last_idx = last_idx if last_idx+1 < len(token.doc) else 0
+        if last_idx and token.doc[last_idx+1].is_punct:
+            appos_indicies.append(last_idx+1)
 
         if should_remove:
             appos = [t.text for c in children for t in c.subtree if c.dep_ == 'appos']
@@ -171,7 +181,7 @@ class MeldaContentRealizer:
         descendants = [c for c in token.children]
         descendants.extend([g for c in token.children for g in c.children])
 
-        nummod = [c.dep_ for c in token.children if c.dep_ == 'nummod' and not c.is_alpha]
+        nummod = [c for c in descendants if c.dep_ == 'nummod' and not c.is_alpha]
         has_temporal = set([t.ent_type_ for t in pp]) & set(self.TEMPORAL_TYPES) or nummod
         should_remove = token.dep_ == 'prep' and has_temporal
 
