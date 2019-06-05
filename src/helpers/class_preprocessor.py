@@ -24,15 +24,17 @@ class Preprocessor:
 
     @staticmethod
     def get_processed_tokens(processed):
-        entities = set(processed.ents)
-        entity_tokens = set([token for ent in entities for token in ent])
-        unprocessed = set(processed) - entity_tokens
+        # entities = set(processed.ents)
+        # entity_tokens = set([token for ent in entities for token in ent])
+        # unprocessed = set(processed) - entity_tokens
+        unprocessed = nltk.word_tokenize(processed)
 
         processed_tokens = []
-        processed_tokens.extend([e.text for e in processed.ents])
+        # processed_tokens.extend([e.text for e in processed.ents])
         all_entities = True
         for w in unprocessed:
-            w = w.lemma_.lower()
+            # w = w.lemma_.lower()
+            w = w.lower()
             if w == '-pron-' or not w.rstrip():
                 continue
 

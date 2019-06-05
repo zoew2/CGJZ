@@ -23,7 +23,7 @@ class Sentence:
         self.tokens = []
 
         self.processed = Preprocessor.get_processed_sentence(self.raw_sentence)
-        self.__tokenize_sentence(self.processed)
+        self.__tokenize_sentence(self.raw_sentence)
 
         self.sent_pos = int(sent_pos)  # position of sentence in document
         self.doc_id = doc_id
